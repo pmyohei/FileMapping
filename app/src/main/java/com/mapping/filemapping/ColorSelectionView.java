@@ -53,11 +53,9 @@ public class ColorSelectionView extends LinearLayout {
     public ColorSelectionView(Context context) {
         this(context, null);
     }
-
     public ColorSelectionView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
-
     public ColorSelectionView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
@@ -122,11 +120,13 @@ public class ColorSelectionView extends LinearLayout {
 
         int baseColor;
         switch (part) {
+            //変更対象がマップ色
             case COLOR_MAP:
             case COLOR_MAP_GRADATION:
                 baseColor = getBaseColorOfMap(part);
                 break;
 
+            //変更対象がノード色
             default:
                 baseColor = getBaseColorOfNode();
                 break;
@@ -156,9 +156,9 @@ public class ColorSelectionView extends LinearLayout {
             return Color.parseColor(rootNodeColor);
         }
 
-        //---------------------------------------------------------
-        // マップ色がグラデーションとメインで同じであれば、ルートノードの色を返す
-        //---------------------------------------------------------
+        //-------------------------------------------------------------
+        // マップ色がグラデーションとメインで異なれば、それぞれの色をベースカラーとする
+        //-------------------------------------------------------------
         if (part == COLOR_MAP) {
             return mapGradationColor;
         } else {

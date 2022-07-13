@@ -19,7 +19,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/transparent_50_black"/>
+        android:background="@color/icon_base_color"/>
 
     <GridView
         android:id="@+id/gv_thumbnail"

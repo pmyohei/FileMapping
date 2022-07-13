@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -236,11 +237,11 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
             Color.colorToHSV(baseColor, baseColorHSV);
             float[] matchingHSV = ColorGenerater.createMatchingHSV( baseColorHSV );
             int matchingColor = Color.HSVToColor( matchingHSV );
+            //Log.i("色の自動生成チェック", "色相=" + matchingHSV[0]);
 
             //色設定
             applyGenerateColor( baseColor, matchingColor );
         }
-
 
         /*
          * ベースカラーの取得

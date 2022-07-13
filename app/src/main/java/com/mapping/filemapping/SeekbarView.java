@@ -32,18 +32,16 @@ public class SeekbarView extends LinearLayout {
     }
     public SeekbarView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(context);
+        init();
     }
 
     /*
-     *
+     * 初期処理
      */
-    private void init( Context context ) {
-
+    private void init() {
         //レイアウト生成
         LayoutInflater inflater = LayoutInflater.from(getContext());
         inflater.inflate(R.layout.size_seekbar, this, true);
-
     }
 
     /*
