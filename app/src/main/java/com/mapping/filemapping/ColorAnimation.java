@@ -10,6 +10,9 @@ import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 
+/*
+ * 色遷移アニメーション用メソッドを実装
+ */
 public class ColorAnimation {
 
     /*
