@@ -1,5 +1,6 @@
 package com.mapping.filemapping;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
@@ -8,6 +9,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.View;
 
 /*
@@ -49,7 +51,7 @@ public class ColorAnimation {
      * 　 para4：開始色
      * 　 para5：終了色
      */
-    static public void startTranceShadowColorAnimation( final Context context, final Object object, final float radius,
+    static public void startTranceShadowColorAnimation( final Context context, final View view, final Object object, final float radius,
                                                         final int startColor, final int endColor) {
         //アニメーション時間
         int duration = context.getResources().getInteger(R.integer.color_trance_animation_duration);
@@ -64,12 +66,12 @@ public class ColorAnimation {
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //現在の進行度
+                //現在の進行度から変化中の色を取得し、影レイヤーに設定
                 float fraction = valueAnimator.getAnimatedFraction();
-                //設定色（変化中の色）
                 int color = (int)argb.evaluate( fraction, startColor, endColor );
-                //影レイヤーに適用
                 ((Paint)object).setShadowLayer(radius, 0, 0, color);
+                //再描画
+                view.invalidate();
             }
         });
         animator.start();

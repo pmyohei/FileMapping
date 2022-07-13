@@ -332,10 +332,13 @@ public class BaseNode extends FrameLayout {
      * ノード影色の設定
      */
     public void setShadowColor( String color ) {
-        //現在の影の有無
+        //色更新
+        mPreShadowColor = mShadowColor;
+        mShadowColor = Color.parseColor(color);
+
+        //色の変更を反映
         boolean isShadow = mNode.isShadow();
-        //影色を設定
-        setLayerShadowColor(Color.parseColor(color), isShadow );
+        setLayerShadowOnOff( isShadow );
 
         mNode.setShadowColor( color );
     }
@@ -357,26 +360,6 @@ public class BaseNode extends FrameLayout {
     }
 
     /*
-     * 影色の設定
-     */
-    public void setLayerShadowColor(int colorHex, boolean isShadow) {
-
-        //ペイント未生成なら生成
-        if( mPaint == null ){
-            initPaint();
-        }
-
-        //色更新
-        mPreShadowColor = mShadowColor;
-        mShadowColor = colorHex;
-
-        //影設定ありなら、設定色で描画
-        if( isShadow ){
-            setLayerShadowOnOff( true );
-        }
-    }
-
-    /*
      * ノード影の有無を切替
      */
     public void switchShadow() {
@@ -388,34 +371,32 @@ public class BaseNode extends FrameLayout {
     /*
      * 影の有無を設定
      */
-    public void setLayerShadowOnOff(boolean isShadow ) {
+    private void setLayerShadowOnOff(boolean isShadow ) {
 
         //ペイント未生成なら生成
         if( mPaint == null ){
             initPaint();
         }
 
-        if( isShadow ){
-            float nodeRadius = getNodeBodyWidth() / 8f;
-
-            //最大最小チェック
-            //※最小限のサイズと最大サイズを設定
-            if( nodeRadius < MIN_RADIUS ){
-                nodeRadius = MIN_RADIUS;
-            } else if( nodeRadius > MAX_RADIUS ){
-                nodeRadius = MAX_RADIUS;
-            }
-
-            //影の設定
-            //mPaint.setShadowLayer(nodeRadius, 0, 0, mShadowColor);
-            ColorAnimation.startTranceShadowColorAnimation( getContext(), mPaint, nodeRadius, mPreShadowColor, mShadowColor );
-        } else {
-            //影を削除
+        //影OFF指定なら、影レイヤーをクリアして終了
+        if( !isShadow ){
             mPaint.clearShadowLayer();
+            invalidate();
+            return;
         }
 
-        //再描画
-        invalidate();
+        //影レイヤーの半径
+        //※最小限のサイズと最大サイズを設定
+        float shadowRadius = getNodeBodyWidth() / 8f;
+        if( shadowRadius < MIN_RADIUS ){
+            shadowRadius = MIN_RADIUS;
+        } else if( shadowRadius > MAX_RADIUS ){
+            shadowRadius = MAX_RADIUS;
+        }
+
+        //影の設定
+        ColorAnimation.startTranceShadowColorAnimation( getContext(), this, mPaint, shadowRadius, mPreShadowColor, mShadowColor );
+        //mPaint.setShadowLayer(shadowRadius, 0, 0, mShadowColor);
     }
 
     /*

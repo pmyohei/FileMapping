@@ -6,7 +6,7 @@ import android.util.Log;
 import java.util.Random;
 
 /*
- * カラー生成
+ * 自動カラー生成を行う
  */
 public class ColorGenerater {
 
@@ -72,117 +72,6 @@ public class ColorGenerater {
 
         //Log.i("補色", "色相=" + pairHsv[0] + " 彩度=" + pairHsv[1] + " 明度=" + pairHsv[2]);
         return pairHsv;
-    }
-
-    /*
-     * 指定されたHSV値に対する補色を取得
-     */
-    private int getComplementaryColor(float[] hsv) {
-        //範囲上限
-        final int RANGE_S = 61;     //0.00 - 0.50
-        final int RANGE_V = 21;     //0.80 - 1.00  ※最小値加算した場合
-        //最小値
-        final float MIN_V = 0.8f;
-        //色相・彩度・明度
-        float[] pairHsv = new float[3];
-
-        //補色の色相を取得
-        final float COMPLEMENTARY = 180f;
-        if (hsv[0] + COMPLEMENTARY > 360f) {
-            pairHsv[0] = hsv[0] - COMPLEMENTARY;
-        } else {
-            pairHsv[0] = hsv[0] + COMPLEMENTARY;
-        }
-
-        //彩度／明度はランダム
-        Random random = new Random();
-        pairHsv[1] = (random.nextInt(RANGE_S) / 100f);
-        pairHsv[2] = (random.nextInt(RANGE_V) / 100f) + MIN_V;
-
-        //Log.i("補色", "色相=" + pairHsv[0] + " 彩度=" + pairHsv[1] + " 明度=" + pairHsv[2]);
-
-        return Color.HSVToColor(pairHsv);
-    }
-
-    /*
-     * 指定されたHSV値に対する15度隣の色を取得
-     */
-    private int getAnalogyColor(float[] hsv ){
-        //範囲上限
-        final int RANGE_S = 51;     //0.00 - 0.50
-        final int RANGE_V = 21;     //0.80 - 1.00  ※最小値加算した場合
-        //最小値
-        final float MIN_V = 0.8f;
-        //色相・彩度・明度
-        float[] pairHsv = new float[3];
-
-        //どっち側の色相取るか
-        Random random = new Random();
-        int dir = random.nextInt(2);
-        final float ANGLE = 15f;
-        pairHsv[0] = getAnglePositionColor( hsv[0], ANGLE, dir );
-
-        //彩度／明度はランダム
-        pairHsv[1] = random.nextInt(RANGE_S) / 100f;
-        pairHsv[2] = (random.nextInt(RANGE_V) / 100f) + MIN_V;
-
-        //Log.i("15度の隣", "色相=" + pairHsv[0] + " 彩度=" + pairHsv[1] + " 明度=" + pairHsv[2]);
-
-        return Color.HSVToColor(pairHsv);
-    }
-
-    /*
-     * 指定されたHSV値に対する4等分した時の隣の色を取得
-     */
-    private int getIntermediateColor(float[] hsv ){
-        //範囲上限
-        final int RANGE_S = 51;     //0.00 - 0.50
-        final int RANGE_V = 21;     //0.80 - 1.00  ※最小値加算した場合
-        //最小値
-        final float MIN_V = 0.8f;
-        //色相・彩度・明度
-        float[] pairHsv = new float[3];
-
-        //どっち側の色相取るか
-        Random random = new Random();
-        int dir = random.nextInt(2);
-        final float ANGLE = 45f;
-        pairHsv[0] = getAnglePositionColor( hsv[0], ANGLE, dir );
-
-        //彩度／明度はランダム
-        pairHsv[1] = (random.nextInt(RANGE_S) / 100f);
-        pairHsv[2] = (random.nextInt(RANGE_V) / 100f) + MIN_V;
-
-        //Log.i("4分割の隣", "色相=" + pairHsv[0] + " 彩度=" + pairHsv[1] + " 明度=" + pairHsv[2]);
-
-        return Color.HSVToColor(pairHsv);
-    }
-
-    /*
-     * 指定されたHSV値に対する3等分した時の隣の色を取得
-     */
-    private int getOpornentColor(float[] hsv ){
-        //範囲上限
-        final int RANGE_S = 51;     //0.00 - 0.50
-        final int RANGE_V = 21;     //0.80 - 1.00  ※最小値加算した場合
-        //最小値
-        final float MIN_V = 0.8f;
-        //色相・彩度・明度
-        float[] pairHsv = new float[3];
-
-        //どちら側の色相取るか
-        Random random = new Random();
-        int dir = random.nextInt(2);
-        final float ANGLE = 120f;
-        pairHsv[0] = getAnglePositionColor( hsv[0], ANGLE, dir );
-
-        //彩度／明度はランダム
-        pairHsv[1] = random.nextInt(RANGE_S) / 100f;
-        pairHsv[2] = (random.nextInt(RANGE_V) / 100f) + MIN_V;
-
-        //Log.i("3分割の隣", "色相=" + pairHsv[0] + " 彩度=" + pairHsv[1] + " 明度=" + pairHsv[2]);
-
-        return Color.HSVToColor(pairHsv);
     }
 
     /*
