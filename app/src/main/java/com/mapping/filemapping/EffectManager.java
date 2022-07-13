@@ -5,7 +5,9 @@ import android.animation.AnimatorSet;
 import android.graphics.Paint;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 
 import java.util.Random;
 
@@ -297,6 +299,9 @@ public class EffectManager {
         //animation.setStartOffset(delay);
         animation.setRepeatCount(Animation.INFINITE);
         animation.setRepeatMode(Animation.RESTART);
+        animation.setInterpolator(new LinearInterpolator());    //※本設定をしないと2週目でapplyTransformationのinterpolatedTimeが1を超えた値をとる
+        animation.setFillEnabled(true);                         //※同上
+        animation.setFillAfter(true);                           //※同上
         animationTarget.startAnimation(animation);
     }
 

@@ -1,6 +1,6 @@
 package com.mapping.filemapping;
 
-import android.view.View;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
@@ -22,9 +22,9 @@ public class EffectAnimation extends Animation {
      */
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation transformation) {
-        //グラデーションを設定
-        mEffectView.setStrokeGradationEffect( interpolatedTime );
-        mEffectView.invalidate();
-    }
+        //枠線グラデーションの描画
+        mEffectView.drawStrokeGradationEffect( interpolatedTime );
 
+        //Log.i("グラデーション枠アニメ（apply）", "interpolatedTime=" + interpolatedTime);
+    }
 }

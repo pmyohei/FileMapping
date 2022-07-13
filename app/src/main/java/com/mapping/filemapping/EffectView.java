@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -140,7 +141,6 @@ public class EffectView extends View {
         setRandomSize();
         setRandomColor();
     }
-
 
     /*
      * サイズのランダム設定
@@ -722,7 +722,6 @@ public class EffectView extends View {
         //斜め十字（細め）
         Path sparcleDiagonalPath = getCrossShinSparkle(-45, halfSize / 2, halfSize * 0.06f);
 
-
         //Pathリストに設定
         ArrayList<Path> pathes = new ArrayList<>();
         pathes.add(circlePath);
@@ -898,6 +897,7 @@ public class EffectView extends View {
         //円形
         Path path = new Path();
         path.addCircle( halfSize, halfSize, halfSize, Path.Direction.CW );
+        //path.addCircle( getWidth()/2, getHeight()/2, halfSize/2, Path.Direction.CW );
 
         //Pathリストに設定
         ArrayList<Path> pathes = new ArrayList<>();
@@ -1274,7 +1274,7 @@ public class EffectView extends View {
      *   ！特記事項！
      * 　　　本メソッドはAnimationクラスの「applyTransformation」からコールされる
      */
-    public void setStrokeGradationEffect(float process) {
+    public void drawStrokeGradationEffect(float process) {
 
         //----------------------------------------
         // 進行度に応じたグラデーション座標を計算
@@ -1304,6 +1304,10 @@ public class EffectView extends View {
         }
         Paint paint = mPaint.get(0);
         paint.setShader(gradient);
+
+        invalidate();
+
+        //Log.i("グラデーション枠アニメ", "process=" + process);
     }
 
 
@@ -1331,7 +1335,9 @@ public class EffectView extends View {
 
         //設定サイズを保持していれば、反映する
         if (mSize > 0) {
-            setMeasuredDimension(mSize, mSize);
+            int setSize = (int)(mSize * 10f);
+            setMeasuredDimension(setSize, setSize);
+            //setMeasuredDimension(mSize, mSize);
         }
     }
 

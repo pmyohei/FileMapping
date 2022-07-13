@@ -321,7 +321,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                 @Override
                 public void onClick(View view) {
                     effectManager.setEffectAttr( MapTable.HEART_INFLATED, Paint.Style.STROKE, MapTable.STROKE_GRADATION_ROTATE);
-                    effectManager.setEffectVolume( 20 );
+                    effectManager.setEffectVolume( 1 );
                     effectManager.restartEffect();
                 }
             });
