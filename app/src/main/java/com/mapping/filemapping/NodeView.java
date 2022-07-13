@@ -70,7 +70,7 @@ public class NodeView extends ChildNode implements Serializable {
         int srcColor = Color.parseColor( mNode.getNodeColor() );
         int dstColor = Color.parseColor( color );
         //設定メソッドは、「CardViewのsetCardBackgroundColor()」
-        startTranceColorAnimation(getContext(), cv_node, "cardBackgroundColor", srcColor, dstColor);
+        ColorAnimation.startTranceColorAnimation(getContext(), cv_node, "cardBackgroundColor", srcColor, dstColor);
 
 /*        //アニメーション時間
         int duration = getResources().getInteger(R.integer.color_trance_animation_duration);
@@ -104,7 +104,7 @@ public class NodeView extends ChildNode implements Serializable {
         int srcColor = Color.parseColor( mNode.getTextColor() );
         int dstColor = Color.parseColor( color );
         //設定メソッドは、「TextViewのsetTextColor」
-        startTranceColorAnimation(getContext(), tv_node, "textColor", srcColor, dstColor);
+        ColorAnimation.startTranceColorAnimation(getContext(), tv_node, "textColor", srcColor, dstColor);
 
         mNode.setTextColor( color );
     }
@@ -165,7 +165,7 @@ public class NodeView extends ChildNode implements Serializable {
         int srcColor = Color.parseColor( mNode.getBorderColor() );
         int dstColor = Color.parseColor( color );
         //設定メソッドは、「MaterialCardViewのsetStrokeColor」
-        startTranceColorAnimation(getContext(), cv_node, "strokeColor", srcColor, dstColor);
+        ColorAnimation.startTranceColorAnimation(getContext(), cv_node, "strokeColor", srcColor, dstColor);
 
 
         mNode.setBorderColor( color );

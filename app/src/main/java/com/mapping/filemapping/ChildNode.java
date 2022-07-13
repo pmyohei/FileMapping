@@ -149,7 +149,7 @@ public class ChildNode extends BaseNode {
         int srcColor = Color.parseColor( mNode.getLineColor() );
         int dstColor = Color.parseColor( color );
         //設定メソッドは、「LineViewのsetPaintColor」
-        startTranceColorAnimation(getContext(), mLineView, "paintColor", srcColor, dstColor);
+        ColorAnimation.startTranceColorAnimation(getContext(), mLineView, "paintColor", srcColor, dstColor);
 
         //テーブル側も更新
         mNode.setLineColor( color );

@@ -9,7 +9,6 @@ public class EffectAnimation extends Animation {
     //アニメーション適用対象エフェクトビュー
     final private EffectView mEffectView;
 
-
     /*
      * コンストラクタ
      */
@@ -19,7 +18,7 @@ public class EffectAnimation extends Animation {
 
     /*
      * 本メソッド
-     *   アニメーションデータを設定する
+     *   アニメーションデータとして、指定されたエフェクトビューの枠線をグラデーションとして設定する
      */
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation transformation) {

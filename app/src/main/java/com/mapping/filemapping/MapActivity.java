@@ -361,13 +361,13 @@ public class MapActivity extends AppCompatActivity {
         //--------------------------------------------
         //※設定メソッド：「ViewのsetBackgroundColor()」
         FrameLayout fl_screenMap = findViewById(R.id.fl_screenMap);
-        BaseNode.startTranceGradationColorAnimation(this, fl_screenMap, colors[0], colors[1], colors[2], colors[3], orientation);
+        ColorAnimation.startTranceGradationColorAnimation(this, fl_screenMap, colors[0], colors[1], colors[2], colors[3], orientation);
 
         //--------------------------------------------
         // アニメーション付きでシステムバーの色を変更
         //--------------------------------------------
         //※設定メソッド：「WindowのsetStatusBarColor()」
-        BaseNode.startTranceColorAnimation(this, getWindow(), "statusBarColor", colors[0], colors[1]);
+        ColorAnimation.startTranceColorAnimation(this, getWindow(), "statusBarColor", colors[0], colors[1]);
 
         //--------------------------------------------
         // テーブル更新

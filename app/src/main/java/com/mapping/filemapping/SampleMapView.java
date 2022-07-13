@@ -402,7 +402,7 @@ public class SampleMapView extends FrameLayout {
         FrameLayout fl_map = findViewById(R.id.fl_map);
         int srcColor = ((ColorDrawable)fl_map.getBackground()).getColor();
         //設定メソッドは、「ViewのsetBackgroundColor」
-        BaseNode.startTranceColorAnimation(fl_map.getContext(), fl_map, "backgroundColor", srcColor, dstColor);
+        ColorAnimation.startTranceColorAnimation(fl_map.getContext(), fl_map, "backgroundColor", srcColor, dstColor);
     }
 
 
