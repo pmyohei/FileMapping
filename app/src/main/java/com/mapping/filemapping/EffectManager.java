@@ -1,11 +1,14 @@
 package com.mapping.filemapping;
 
+import android.animation.Animator;
 import android.animation.AnimatorInflater;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.Paint;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 
@@ -103,50 +106,45 @@ public class EffectManager {
     /*
      * エフェクト生成
      */
-    private void createEffects() {
+    public void createEffects() {
 
-        //レイアウト確定待ち
-        mAddDistView.post(() -> {
-            //中央座標を取得
-            int centerX = mAddDistView.getWidth() / 2;
-            int centerY = mAddDistView.getHeight() / 2;
+        //中央座標を取得
+        int centerX = mAddDistView.getWidth() / 2;
+        int centerY = mAddDistView.getHeight() / 2;
+
+        int rangeX = (int)(mAddDistView.getWidth() * 0.4f);
+        int rangeY = (int)(mAddDistView.getHeight() * 0.4f);
+        int absRangeX = rangeX / 2;
+        int absRangeY = rangeY / 2;
+
+        //---------------------------------
+        //エフェクトビューの生成
+        //---------------------------------
+        for (int i = 0; i < mEffectVolume; i++) {
 
             //---------------------------------
-            //エフェクトビューの生成
+            // エフェクトビュー生成・レイアウトへ追加
             //---------------------------------
-            for (int i = 0; i < mEffectVolume; i++) {
+            EffectView effectView = new EffectView(mAddDistView.getContext(), mEffectShape, mPaintStyle);
+            mAddDistView.addView(effectView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-                //---------------------------------
-                // エフェクトビュー生成・レイアウトへ追加
-                //---------------------------------
-                EffectView effectView = new EffectView(mAddDistView.getContext(), mEffectShape, mPaintStyle);
-                mAddDistView.addView(effectView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            //---------------------------------
+            // 生成座標の設定
+            //---------------------------------
+            //座標offsetをランダムに設定
+            Random random = new Random();
+            int offsetX = random.nextInt( rangeX ) - absRangeX;
+            int offsetY = random.nextInt( rangeY ) - absRangeY;
 
-                //---------------------------------
-                // 生成座標の設定
-                //---------------------------------
-                //座標offsetをランダムに設定
-                Random random = new Random();
-                int offsetX = random.nextInt(centerX / 4 + 1);
-                int offsetY = random.nextInt(centerY / 4 + 1);
-                //座標をばらけさせる（半分の割合を逆の座標へ）
-                if ((offsetX % 2) == 0) {
-                    offsetX *= -1;
-                }
-                if ((offsetY % 2) == 0) {
-                    offsetY *= -1;
-                }
+            //位置設定
+            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) effectView.getLayoutParams();
+            mlp.setMargins(centerX + offsetX, centerY + offsetY, mlp.rightMargin, mlp.bottomMargin);
 
-                //位置設定
-                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) effectView.getLayoutParams();
-                mlp.setMargins(centerX + offsetX, centerY + offsetY, mlp.rightMargin, mlp.bottomMargin);
-
-                //---------------------------------
-                //　アニメーションの適用
-                //---------------------------------
-                applyEffectAnimation( effectView );
-            }
-        });
+            //---------------------------------
+            //　アニメーションの適用
+            //---------------------------------
+            applyEffectAnimation( effectView );
+        }
     }
 
     /*
@@ -196,6 +194,13 @@ public class EffectManager {
                 break;
 
             //------------------------
+            // 場所を変えながら明滅
+            //------------------------
+            case MapTable.BLINK_MOVE:
+                applyBlinkMoveEffectAnimation(animationTarget);
+                break;
+
+            //------------------------
             // 回転
             //------------------------
             case MapTable.SPIN:
@@ -221,6 +226,13 @@ public class EffectManager {
             //------------------------
             case MapTable.STROKE_GRADATION_ROTATE:
                 applyStrokeGradationRotateEffectAnimation(animationTarget);
+                break;
+
+            //------------------------
+            // 拡大と縮小
+            //------------------------
+            case MapTable.SCALE_UP:
+                applyScaleupEffectAnimation(animationTarget);
                 break;
 
             //------------------------
@@ -252,6 +264,89 @@ public class EffectManager {
         tmpSet.setDuration( duration );
         //tmpSet.setStartDelay( delay );
         tmpSet.start();
+    }
+
+    /*
+     * エフェクトアニメーション
+     * 　　明滅：移動あり
+     */
+    private void applyBlinkMoveEffectAnimation( View animationTarget ) {
+
+        //------------------------
+        // 乱数値
+        //------------------------
+        Random random = new Random();
+        int duration = random.nextInt( 2501 ) + 1000;
+
+        //
+        int centerX = mAddDistView.getWidth() / 2;
+        int centerY = mAddDistView.getHeight() / 2;
+        int rangeX = (int)(mAddDistView.getWidth() * 0.4f);
+        int rangeY = (int)(mAddDistView.getHeight() * 0.4f);
+        int absRangeX = rangeX / 2;
+        int absRangeY = rangeY / 2;
+
+        //------------------------
+        // アニメーションの適用
+        //------------------------
+/*        ValueAnimator blinkAnim = ObjectAnimator.ofFloat(animationTarget, "alpha", 0f, 1f);
+        blinkAnim.setDuration( 6000 );
+        blinkAnim.setRepeatMode( ValueAnimator.REVERSE );
+        blinkAnim.setRepeatCount( ValueAnimator.INFINITE );
+        blinkAnim.addListener(new AnimatorListenerAdapter() {
+            public void onAnimationRepeat(Animator animation) {
+                //座標offsetをランダムに設定
+                Random random = new Random();
+                int offsetX = random.nextInt( rangeX ) - absRangeX;
+                int offsetY = random.nextInt( rangeY ) - absRangeY;
+
+                //位置設定
+                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) animationTarget.getLayoutParams();
+                //mlp.setMargins(centerX + offsetX, centerY + offsetY, mlp.rightMargin, mlp.bottomMargin);
+
+                animationTarget.setTranslationX( offsetX );
+                animationTarget.setTranslationY( offsetY );
+
+                Log.i("アニメーション開始", "コールチェック　リピート offsetX" + offsetX);
+            }}
+        );
+        blinkAnim.start();*/
+        ValueAnimator blinkAnim = ObjectAnimator.ofFloat(animationTarget, "alpha", 0f, 1f);
+        blinkAnim.setDuration( duration );
+        blinkAnim.setRepeatMode( ValueAnimator.REVERSE );
+        blinkAnim.setRepeatCount( ValueAnimator.INFINITE );
+        blinkAnim.addListener( new TrancelationListener( animationTarget ) );
+        blinkAnim.start();
+
+/*        ValueAnimator blinkOnAnim = ObjectAnimator.ofFloat(animationTarget, "alpha", 0f, 1f);
+        blinkOnAnim.setDuration( 2000 );
+        ValueAnimator blinkOffAnim = ObjectAnimator.ofFloat(animationTarget, "alpha", 1f, 0f);
+        blinkOffAnim.setDuration( 2000 );
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(blinkOffAnim).before(blinkOnAnim);
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            public void onAnimationStart(Animator animation) {
+                Log.i("アニメーション開始", "コールチェック　開始");
+            }
+            public void onAnimationRepeat(Animator animation) {
+                //座標offsetをランダムに設定
+                Random random = new Random();
+                int offsetX = random.nextInt( rangeX ) - absRangeX;
+                int offsetY = random.nextInt( rangeY ) - absRangeY;
+
+                //位置設定
+                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) animationTarget.getLayoutParams();
+                //mlp.setMargins(centerX + offsetX, centerY + offsetY, mlp.rightMargin, mlp.bottomMargin);
+
+                animationTarget.setTranslationX( offsetX );
+                animationTarget.setTranslationY( offsetY );
+
+                Log.i("アニメーション開始", "コールチェック　リピート offsetX" + offsetX);
+            }}
+        );
+
+        animatorSet.start();*/
     }
 
     /*
@@ -304,5 +399,79 @@ public class EffectManager {
         animation.setFillAfter(true);                           //※同上
         animationTarget.startAnimation(animation);
     }
+
+    /*
+     * エフェクトアニメーション
+     * 　　拡大と縮小を繰り返す
+     */
+    private void applyScaleupEffectAnimation( View animationTarget ) {
+
+        //------------------------
+        // 乱数値
+        //------------------------
+        Random random = new Random();
+        int duration = random.nextInt( 4001 ) + 4000;
+        int delay    = random.nextInt( 1001 );
+
+        //------------------------
+        // アニメーションの適用
+        //------------------------
+        ValueAnimator blinkAnim = ObjectAnimator.ofFloat(animationTarget, "scaleAlpha", 0f, 1f);
+        blinkAnim.setDuration( duration );
+        blinkAnim.setRepeatMode( ValueAnimator.REVERSE );
+        blinkAnim.setRepeatCount( ValueAnimator.INFINITE );
+        blinkAnim.addListener( new TrancelationListener( animationTarget ) );
+        blinkAnim.start();
+    }
+
+
+
+    /*
+     * リピートアニメーションリスナー
+     */
+    private class TrancelationListener extends AnimatorListenerAdapter {
+
+        private final View mAnimationView;
+        private boolean mTrancelateStart;
+
+        public TrancelationListener( View animationView ){
+            mTrancelateStart = false;
+            mAnimationView = animationView;
+        }
+
+        /*
+         * アニメーションリピートリスナー
+         *
+         *   前提
+         *     setRepeatMode()にて、REVERSEが設定されていること。
+         *     アニメーションが往復して完全に開始の状態まで戻った時に、
+         *     本処理が実行される形となっている。
+         */
+        public void onAnimationRepeat(Animator animation) {
+            //--------------------------------
+            // リピート処理は交互に行う
+            //--------------------------------
+            if( !mTrancelateStart) {
+                mTrancelateStart = true;
+                return;
+            }
+            mTrancelateStart = false;
+
+            //--------------------------------
+            // 移動量をランダム生成し、配置を移動
+            //--------------------------------
+            Random random = new Random();
+            final int RANGE = 800;
+            final int ABS_RANGE = RANGE / 2;
+            int offsetX = random.nextInt(RANGE) - ABS_RANGE;
+            int offsetY = random.nextInt(RANGE) - ABS_RANGE;
+
+            mAnimationView.setTranslationX( offsetX );
+            mAnimationView.setTranslationY( offsetY );
+            //Log.i("アニメーション開始", "コールチェック　リピート offsetX" + offsetX);
+        }
+    }
+
+
 
 }

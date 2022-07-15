@@ -19,6 +19,8 @@
     <color name="gray">#FFEAEAEA</color>
 
     <!-- エフェクトランダムカラー -->
+    <color name="effect_white">#FFFFFF</color>
+    <color name="effect_right_white">#FDFFFF</color>
     <color name="effect_yellow">#FFEB3B</color>
     <color name="effect_right_yellow">#FDFBE8</color>
     <color name="effect_red">#FF3838</color>

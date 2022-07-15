@@ -197,6 +197,11 @@ public class EffectView extends View {
                 break;
         }
 
+        //固定
+        color = getResources().getColor(R.color.effect_right_white);
+        shadowColor = getResources().getColor(R.color.effect_white);
+        //固定
+
         //色情報の保持
         mColor = color;
         mShadowColor = shadowColor;
@@ -279,6 +284,8 @@ public class EffectView extends View {
             case MapTable.SPARCLE_CENTRAL_CIRCLE:
             case MapTable.FLOWER:
             case MapTable.SAKURA:
+                return 100;
+
             case MapTable.CIRCLE:
                 return 100;
 
@@ -312,8 +319,10 @@ public class EffectView extends View {
             case MapTable.SPARCLE_CENTRAL_CIRCLE:
             case MapTable.FLOWER:
             case MapTable.SAKURA:
-            case MapTable.CIRCLE:
                 return 100;
+
+            case MapTable.CIRCLE:
+                return 20;
 
             case MapTable.DOT:
             case MapTable.TRIANGLE:
@@ -453,15 +462,33 @@ public class EffectView extends View {
     private ArrayList<Path> createHeartNormal() {
         //ビューサイズの半分の値
         final float halfSize = mSize / 2f;
+        final float quarterSize = halfSize / 2f;
 
         Path path = new Path();
 
-        path.moveTo(halfSize, mSize);
-        path.lineTo(0, halfSize);
-        path.cubicTo(0, 0, halfSize, 0, halfSize, halfSize);
-        path.cubicTo(halfSize, 0, mSize, 0, mSize, halfSize);
-        path.lineTo(halfSize, mSize);
+        //指定座標
+        float cx = getWidth() / 2f;
+        float cy = getHeight() / 2f;
+        float x_m50 = cx - mSize;
+        float x_25 = cx - quarterSize;
+        float x_50 = cx;
+        float x_75 = cx + quarterSize;
+        float x_100 = cx + halfSize;
+        float y_0 = cy - halfSize;
+        float y_30 = cy - (halfSize / 3f);
+        float y_50 = cy;
+        float y_100 = cy + halfSize;
+
+        path.moveTo(x_50, y_100);
+        path.cubicTo(x_m50, y_50, x_25, y_0, x_50, y_30);
+        path.cubicTo(x_75, y_0, x_100 + halfSize, y_50, x_50, y_100);
         path.close();
+        /*
+        path.moveTo(mHalfSize, mSize);
+        path.cubicTo(-mHalfSize, mHalfSize, mHalfSize / 2, 0, mHalfSize, mHalfSize / 1.5f);
+        path.cubicTo(mHalfSize + (mHalfSize / 2), 0, mSize + mHalfSize, mHalfSize, mHalfSize, mSize);
+        path.close();
+        */
 
         //Pathリストに設定
         ArrayList<Path> pathes = new ArrayList<>();
@@ -736,29 +763,37 @@ public class EffectView extends View {
      *   花びら
      */
     private ArrayList<Path> createFlower() {
-        //ビューサイズの半分の値
-        float halfSize = mSize / 2f;
+        //花びら１片の長さ
+        float petalLen = mSize / 2f;
+        float qSize = petalLen / 2f;
+        //描画中心
+        float centerX  = getWidth() / 2f;
+        float centerY  = getHeight() / 2f;
 
         //各軸の位置（割合）
-        float x_25 = mSize * 0.25f;
-        float x_75 = mSize * 0.75f;
-        float y_25 = mSize * 0.25f;
-        float y_75 = mSize * 0.75f;
+        float x_0 = centerX - petalLen;
+        float x_25 = centerX - qSize;
+        float x_75 = centerX + qSize;
+        float x_100 = centerX + petalLen;
+        float y_0 = centerY - petalLen;
+        float y_25 = centerY - qSize;
+        float y_75 = centerY + qSize;
+        float y_100 = centerY + petalLen;
 
         Path path = new Path();
-        path.moveTo(halfSize, halfSize);
+        path.moveTo(centerX, centerY);
         //上の花びら
-        path.quadTo(x_25, y_25, halfSize, 0);       //左
-        path.quadTo(x_75, y_25, halfSize, halfSize);    //右
+        path.quadTo(x_25, y_25, centerX, y_0);       //左
+        path.quadTo(x_75, y_25, centerX, centerY);    //右
         //左の花びら
-        path.quadTo(x_25, y_25, 0, halfSize);       //上
-        path.quadTo(x_25, y_75, halfSize, halfSize);    //下
+        path.quadTo(x_25, y_25, x_0, centerY);       //上
+        path.quadTo(x_25, y_75, centerX, centerY);    //下
         //下の花びら
-        path.quadTo(x_25, y_75, halfSize, mSize);      //左
-        path.quadTo(x_75, y_75, halfSize, halfSize);    //右
+        path.quadTo(x_25, y_75, centerX, y_100);      //左
+        path.quadTo(x_75, y_75, centerX, centerY);    //右
         //右の花びら
-        path.quadTo(x_75, y_75, mSize, halfSize);      //下
-        path.quadTo(x_75, y_25, halfSize, halfSize);    //上
+        path.quadTo(x_75, y_75, x_100, centerY);      //下
+        path.quadTo(x_75, y_25, centerX, centerY);    //上
 
         path.close();
 
@@ -896,8 +931,7 @@ public class EffectView extends View {
 
         //円形
         Path path = new Path();
-        path.addCircle( halfSize, halfSize, halfSize, Path.Direction.CW );
-        //path.addCircle( getWidth()/2, getHeight()/2, halfSize/2, Path.Direction.CW );
+        path.addCircle( getWidth() / 2f, getHeight() / 2f, halfSize, Path.Direction.CW );
 
         //Pathリストに設定
         ArrayList<Path> pathes = new ArrayList<>();
@@ -917,10 +951,9 @@ public class EffectView extends View {
     private Path getSparklePath(int points, float startAngle, float outerDist, float innerDist) {
 
         //ビューサイズの半分の値
-        final float halfSize = mSize / 2f;
         //中心座標
-        final float centerX = halfSize;
-        final float centerY = halfSize;
+        final float centerX = getWidth() / 2f;
+        final float centerY = getHeight() / 2f;
         //頂点の角度間隔
         final float oneAngle = 360f / points;
         //円の半径
@@ -1136,7 +1169,7 @@ public class EffectView extends View {
 
         //Paintの色情報設定
         setPaintColor(paint);
-        paint.setAlpha(0xFF);   //※色設定後に行う必要がある
+        paint.setAlpha(0x55);   //※色設定後に行う必要がある
 
         //----------------------------------------
         // Paint.Styleの適用
@@ -1265,6 +1298,29 @@ public class EffectView extends View {
         setRotation(rotate);
     }
 
+    /*
+     * エフェクトアニメーションプロパティ
+     * 　拡大　android:propertyName="scale"
+     */
+    public void setScale(float value) {
+        setScaleX( value );
+        setScaleY( value );
+    }
+
+    /*
+     * エフェクトアニメーションプロパティ
+     * 　拡大と透過　android:propertyName="scaleAlpha"
+     */
+    public void setScaleAlpha(float value) {
+        this.setScale( value );
+
+        //透明制御
+        float alpha = 0.0f;
+        if( value >= 0.2f ){
+            alpha = value;
+        }
+        setAlpha( alpha );
+    }
 
     /*
      * エフェクトアニメーション
@@ -1335,9 +1391,7 @@ public class EffectView extends View {
 
         //設定サイズを保持していれば、反映する
         if (mSize > 0) {
-            int setSize = (int)(mSize * 10f);
-            setMeasuredDimension(setSize, setSize);
-            //setMeasuredDimension(mSize, mSize);
+            setMeasuredDimension(mSize*10, mSize*10);
         }
     }
 
