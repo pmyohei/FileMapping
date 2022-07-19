@@ -16,6 +16,9 @@ import java.util.Random;
 
 public class EffectManager {
 
+    //透明度
+    public static final int DEFAULT_ALPHA = 0x55;
+
     //エフェクトビュー追加先レイアウト
     final private ViewGroup mAddDistView;
     //エフェクトの形状
@@ -24,6 +27,16 @@ public class EffectManager {
     private int mEffectAnimation;
     //エフェクトのPaintStyle
     private Paint.Style mPaintStyle;
+    //エフェクトサイズ範囲
+    private int mEffectRangeSize;
+    //エフェクト最小サイズ
+    private int mEffectMinSize;
+    //エフェクト色パターン（固定(デフォルト)、ランダム）
+    private int mEffectColorPtn;
+    //エフェクト透明度
+    private int mEffectAlpha;
+    //傾けの有無
+    private boolean mIsTilt;
     //エフェクト量
     private int mEffectVolume;
 
@@ -83,24 +96,63 @@ public class EffectManager {
     /*
      * エフェクト情報の設定
      *   para1：エフェクト形状
-     *   para2：エフェクトアニメーション
+     *   para2：Paintスタイル
+     *   para3：エフェクトアニメーション
      */
     public void setEffectAttr(int shape, Paint.Style paintStyle, int animation) {
-        mEffectShape = shape;
-        mPaintStyle = paintStyle;
-        mEffectAnimation = animation;
-
-        //初期値
-        mEffectVolume = 20;
+        setEffectAttr(shape, paintStyle, animation, false);
     }
 
     /*
      * エフェクト情報の設定
      *   para1：エフェクト形状
-     *   para2：エフェクトアニメーション
+     *   para2：Paintスタイル
+     *   para3：エフェクトアニメーション
+     *   para4：傾けの有無
+     */
+    public void setEffectAttr(int shape, Paint.Style paintStyle, int animation, boolean isTilt) {
+        mEffectShape = shape;
+        mPaintStyle = paintStyle;
+        mEffectAnimation = animation;
+        mIsTilt = isTilt;
+
+        //初期値
+        mEffectVolume = 20;
+        mEffectAlpha = DEFAULT_ALPHA;
+    }
+
+    /*
+     * エフェクト量の設定
+     *   para1：生成するエフェクト数
      */
     public void setEffectVolume(int volume) {
         mEffectVolume = volume;
+    }
+
+    /*
+     * エフェクトサイズの設定
+     *   para1：エフェクトのサイズ幅
+     *   para2：エフェクトの最小サイズ
+     */
+    public void setEffectSize(int rangeSize, int minSize) {
+        mEffectRangeSize = rangeSize;
+        mEffectMinSize = minSize;
+    }
+
+    /*
+     * エフェクト色パターンの設定
+     *   para1：エフェクトの色パターン
+     */
+    public void setEffectColorPtn(int pattern) {
+        mEffectColorPtn = pattern;
+    }
+
+    /*
+     * エフェクト透明度の設定
+     *   para1：透明度
+     */
+    public void setEffectAlpha(int alpha) {
+        mEffectAlpha = alpha;
     }
 
     /*
@@ -112,8 +164,8 @@ public class EffectManager {
         int centerX = mAddDistView.getWidth() / 2;
         int centerY = mAddDistView.getHeight() / 2;
 
-        int rangeX = (int)(mAddDistView.getWidth() * 0.4f);
-        int rangeY = (int)(mAddDistView.getHeight() * 0.4f);
+        int rangeX = (int) (mAddDistView.getWidth() * 0.3f);
+        int rangeY = (int) (mAddDistView.getHeight() * 0.3f);
         int absRangeX = rangeX / 2;
         int absRangeY = rangeY / 2;
 
@@ -125,7 +177,12 @@ public class EffectManager {
             //---------------------------------
             // エフェクトビュー生成・レイアウトへ追加
             //---------------------------------
-            EffectView effectView = new EffectView(mAddDistView.getContext(), mEffectShape, mPaintStyle);
+            EffectView effectView = new EffectView(mAddDistView.getContext(), mEffectShape, mPaintStyle, mEffectRangeSize, mEffectMinSize, mEffectColorPtn, mIsTilt);
+            effectView.setEffectShape( mEffectShape, mPaintStyle );
+            effectView.setEffectSize( mEffectRangeSize, mEffectMinSize );
+            effectView.setEffectColorPattern( mEffectColorPtn );
+            effectView.setEffectTilt( mIsTilt );
+            effectView.setEffectAlpha( mEffectAlpha );
             mAddDistView.addView(effectView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
             //---------------------------------
@@ -133,8 +190,8 @@ public class EffectManager {
             //---------------------------------
             //座標offsetをランダムに設定
             Random random = new Random();
-            int offsetX = random.nextInt( rangeX ) - absRangeX;
-            int offsetY = random.nextInt( rangeY ) - absRangeY;
+            int offsetX = random.nextInt(rangeX) - absRangeX;
+            int offsetY = random.nextInt(rangeY) - absRangeY;
 
             //位置設定
             ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) effectView.getLayoutParams();
@@ -143,7 +200,7 @@ public class EffectManager {
             //---------------------------------
             //　アニメーションの適用
             //---------------------------------
-            applyEffectAnimation( effectView );
+            applyEffectAnimation(effectView);
         }
     }
 
@@ -157,11 +214,11 @@ public class EffectManager {
         //------------------------------------
         // 最後尾から削除チェック
         //------------------------------------
-        for( int i = childNum - 1; i >= 0; i--){
+        for (int i = childNum - 1; i >= 0; i--) {
             //エフェクトビューならレイアウトから除外
             View view = mAddDistView.getChildAt(i);
-            if( view instanceof EffectView ){
-                mAddDistView.removeView( view );
+            if (view instanceof EffectView) {
+                mAddDistView.removeView(view);
             }
         }
     }
@@ -218,7 +275,14 @@ public class EffectManager {
             // ゆっくりと浮き上がる
             //------------------------
             case MapTable.SLOW_FLOAT:
+                applyFloatEffectAnimation(animationTarget);
+                break;
 
+            //------------------------
+            // ゆっくり落ちる
+            //------------------------
+            case MapTable.SLOW_FALL:
+                applyFallEffectAnimation(animationTarget);
                 break;
 
             //------------------------
@@ -245,44 +309,44 @@ public class EffectManager {
 
     /*
      * エフェクトアニメーション
-     * 　　明滅
+     * 　　明滅。場所は固定
      */
-    private void applyBlinkEffectAnimation( View animationTarget ) {
+    private void applyBlinkEffectAnimation(View animationTarget) {
 
         //------------------------
         // 乱数値
         //------------------------
         Random random = new Random();
-        int duration = random.nextInt( 2501 ) + 1000;
-        int delay    = random.nextInt( 1001 );
+        int duration = random.nextInt(2501) + 1000;
+        int delay = random.nextInt(1001);
 
         //------------------------
         // アニメーションの適用
         //------------------------
         AnimatorSet tmpSet = (AnimatorSet) AnimatorInflater.loadAnimator(animationTarget.getContext(), R.animator.effect_blink);
         tmpSet.setTarget(animationTarget);
-        tmpSet.setDuration( duration );
+        tmpSet.setDuration(duration);
         //tmpSet.setStartDelay( delay );
         tmpSet.start();
     }
 
     /*
      * エフェクトアニメーション
-     * 　　明滅：移動あり
+     * 　　明滅、消滅後は別の座標に移動して明滅を再開
      */
-    private void applyBlinkMoveEffectAnimation( View animationTarget ) {
+    private void applyBlinkMoveEffectAnimation(View animationTarget) {
 
         //------------------------
         // 乱数値
         //------------------------
         Random random = new Random();
-        int duration = random.nextInt( 2501 ) + 1000;
+        int duration = random.nextInt(2501) + 1000;
 
         //
         int centerX = mAddDistView.getWidth() / 2;
         int centerY = mAddDistView.getHeight() / 2;
-        int rangeX = (int)(mAddDistView.getWidth() * 0.4f);
-        int rangeY = (int)(mAddDistView.getHeight() * 0.4f);
+        int rangeX = (int) (mAddDistView.getWidth() * 0.4f);
+        int rangeY = (int) (mAddDistView.getHeight() * 0.4f);
         int absRangeX = rangeX / 2;
         int absRangeY = rangeY / 2;
 
@@ -312,10 +376,10 @@ public class EffectManager {
         );
         blinkAnim.start();*/
         ValueAnimator blinkAnim = ObjectAnimator.ofFloat(animationTarget, "alpha", 0f, 1f);
-        blinkAnim.setDuration( duration );
-        blinkAnim.setRepeatMode( ValueAnimator.REVERSE );
-        blinkAnim.setRepeatCount( ValueAnimator.INFINITE );
-        blinkAnim.addListener( new TrancelationListener( animationTarget ) );
+        blinkAnim.setDuration(duration);
+        blinkAnim.setRepeatMode(ValueAnimator.REVERSE);
+        blinkAnim.setRepeatCount(ValueAnimator.INFINITE);
+        blinkAnim.addListener(new TrancelationReverseListener(animationTarget));
         blinkAnim.start();
 
 /*        ValueAnimator blinkOnAnim = ObjectAnimator.ofFloat(animationTarget, "alpha", 0f, 1f);
@@ -353,23 +417,69 @@ public class EffectManager {
      * エフェクトアニメーション
      * 　　回転
      */
-    private void applySpinEffectAnimation( View animationTarget ) {
+    private void applySpinEffectAnimation(View animationTarget) {
 
         //------------------------
         // 乱数値
         //------------------------
         Random random = new Random();
-        int duration = random.nextInt( 8001 ) + 8000;
-        int delay    = random.nextInt( 1001 );
+        int duration = random.nextInt(8001) + 8000;
+        int delay = random.nextInt(1001);
 
         //------------------------
         // アニメーションの適用
         //------------------------
         AnimatorSet tmpSet = (AnimatorSet) AnimatorInflater.loadAnimator(animationTarget.getContext(), R.animator.effect_spin);
         tmpSet.setTarget(animationTarget);
-        tmpSet.setDuration( duration );
+        tmpSet.setDuration(duration);
         //tmpSet.setStartDelay( delay );
         tmpSet.start();
+    }
+
+    /*
+     * エフェクトアニメーション
+     * 　　浮き上がり
+     */
+    private void applyFloatEffectAnimation( View animationTarget ) {
+        //------------------------
+        // 乱数値
+        //------------------------
+        Random random = new Random();
+        int duration = random.nextInt( 4001 ) + 5000;
+        int delay    = random.nextInt( 1001 );
+
+        //------------------------
+        // アニメーションの適用
+        //------------------------
+        ValueAnimator floatAlphaAnim = ObjectAnimator.ofFloat(animationTarget, "floatAlpha", 0f, 1f);
+        floatAlphaAnim.setDuration( duration );
+        floatAlphaAnim.setRepeatMode( ValueAnimator.RESTART );
+        floatAlphaAnim.setRepeatCount( ValueAnimator.INFINITE );
+        floatAlphaAnim.addListener( new TrancelationRestartListener( animationTarget ) );
+        floatAlphaAnim.start();
+    }
+
+    /*
+     * エフェクトアニメーション
+     * 　　ゆっくり落ちる
+     */
+    private void applyFallEffectAnimation( View animationTarget ) {
+        //------------------------
+        // 乱数値
+        //------------------------
+        Random random = new Random();
+        int duration = random.nextInt( 5001 ) + 10000;
+        int delay    = random.nextInt( 1001 );
+
+        //------------------------
+        // アニメーションの適用
+        //------------------------
+        ValueAnimator floatAlphaAnim = ObjectAnimator.ofFloat(animationTarget, "fallAlpha", 0f, 1f);
+        floatAlphaAnim.setDuration( duration );
+        floatAlphaAnim.setRepeatMode( ValueAnimator.RESTART );
+        floatAlphaAnim.setRepeatCount( ValueAnimator.INFINITE );
+        floatAlphaAnim.addListener( new TrancelationRestartListener( animationTarget ) );
+        floatAlphaAnim.start();
     }
 
 
@@ -420,20 +530,20 @@ public class EffectManager {
         scaleAlphaAnim.setDuration( duration );
         scaleAlphaAnim.setRepeatMode( ValueAnimator.REVERSE );
         scaleAlphaAnim.setRepeatCount( ValueAnimator.INFINITE );
-        scaleAlphaAnim.addListener( new TrancelationListener( animationTarget ) );
+        scaleAlphaAnim.addListener( new TrancelationReverseListener( animationTarget ) );
         scaleAlphaAnim.start();
     }
 
 
     /*
-     * リピートアニメーションリスナー
+     * リピートアニメーションリスナー（REVERSE）
      */
-    private class TrancelationListener extends AnimatorListenerAdapter {
+    private class TrancelationReverseListener extends AnimatorListenerAdapter {
 
         private final View mAnimationView;
         private boolean mTrancelateStart;
 
-        public TrancelationListener( View animationView ){
+        public TrancelationReverseListener(View animationView ){
             mTrancelateStart = false;
             mAnimationView = animationView;
         }
@@ -471,6 +581,38 @@ public class EffectManager {
         }
     }
 
+    /*
+     * リピートアニメーションリスナー（RESTART）
+     */
+    private class TrancelationRestartListener extends AnimatorListenerAdapter {
 
+        private final View mAnimationView;
+
+        public TrancelationRestartListener(View animationView ){
+            mAnimationView = animationView;
+        }
+
+        /*
+         * アニメーションリピートリスナー
+         *
+         *   前提
+         *     setRepeatMode()にて、RESTARTが設定されていること。
+         */
+        public void onAnimationRepeat(Animator animation) {
+
+            //--------------------------------
+            // 移動量をランダム生成し、配置を移動
+            //--------------------------------
+            Random random = new Random();
+            final int RANGE = 800;
+            final int ABS_RANGE = RANGE / 2;
+            int offsetX = random.nextInt(RANGE) - ABS_RANGE;
+            int offsetY = random.nextInt(RANGE) - ABS_RANGE;
+
+            mAnimationView.setTranslationX( offsetX );
+            mAnimationView.setTranslationY( offsetY );
+            //Log.i("アニメーション開始", "コールチェック　リピート offsetX" + offsetX);
+        }
+    }
 
 }

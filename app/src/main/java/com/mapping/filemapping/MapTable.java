@@ -91,6 +91,7 @@ public class MapTable implements Serializable {
     //円
     static public final int DOT = 0x50;
     static public final int CIRCLE = 0x51;
+    static public final int SNOW = 0x52;
 
     public static enum EffectShape {
         FILL(0),
@@ -106,13 +107,15 @@ public class MapTable implements Serializable {
     }
 
     //エフェクトアニメーション
+    static public final int NO_ANIM = -1;                      //なし
     static public final int BLINK = 0x00;                      //明滅
     static public final int BLINK_MOVE = 0x01;                 //明滅（移動あり）
     static public final int SPIN = 0x10;                       //回転
     static public final int SLOW_MOVE = 0x20;                  //ゆっくり移動
     static public final int SLOW_FLOAT = 0x30;                 //ゆっくり浮き上がる
-    static public final int STROKE_GRADATION_ROTATE = 0x40;    //枠線のグラデーションの回転
-    static public final int SCALE_UP = 0x50;                   //拡大と縮小
+    static public final int SLOW_FALL = 0x40;                  //ゆっくり落ちる
+    static public final int STROKE_GRADATION_ROTATE = 0x50;    //枠線のグラデーションの回転
+    static public final int SCALE_UP = 0x60;                   //拡大と縮小
 
     //グラデーション方向
     static public final int GRNDIR_KEEPING = -1;            //※現状維持指定用

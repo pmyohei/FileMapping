@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ public class EffectView extends View {
         /*
          * コンストラクタ
          */
-        public GradationCoordinate( int width, int height){
+        public GradationCoordinate(int width, int height) {
             this.width = width;
             this.height = height;
         }
@@ -55,7 +54,7 @@ public class EffectView extends View {
         /*
          * 進行度に応じた座標設定
          */
-        public void setGradationCoordinate(float process){
+        public void setGradationCoordinate(float process) {
 
             if (process <= SHIFT_RIGHT) {
                 //-- 開始座標 --//
@@ -102,12 +101,22 @@ public class EffectView extends View {
     }
 
 
+    //未設定
+    final int UNSPECIFIED = -1;
+    //色パターン
+    public static final int COLOR_PTN_DEFAULT = 0;
+    public static final int COLOR_PTN_RANDOM = 1;
+
     //エフェクト形状
     private int mEffectShape;
     //エフェクトのPaintStyle
     private Paint.Style mPaintStyle;
+    //エフェクトサイズ範囲、最小サイズ
+    private int mEffectRangeSize;
+    private int mEffectMinSize;
     //ビュー関連
     private int mSize = 0;
+    private int mAlpha;
     private int mColor = 0;
     private int mShadowColor;// = getResources().getColor(R.color.yellow);
     private ArrayList<Path> mPath = new ArrayList<>();
@@ -125,86 +134,262 @@ public class EffectView extends View {
     /*
      *　コードから生成時用
      */
-    public EffectView(Context context, int shape, Paint.Style paintStyle) {
+    public EffectView(
+            Context context,
+            int shape,
+            Paint.Style paintStyle,
+            int rangeSize,
+            int minSize,
+            int colorKind,
+            boolean isTilt) {
+
         super(context);
-        init(shape, paintStyle);
+        //init(shape, paintStyle, rangeSize, minSize, colorKind, isTilt);
     }
 
     /*
      * 初期設定
      */
-    private void init(int shape, Paint.Style paintStyle) {
+    private void init(int shape, Paint.Style paintStyle, int rangeSize, int minSize, int colorKind, boolean isTilt) {
         //エフェクト形状の設定
-        setEffectInfo(shape, paintStyle);
+        setEffectShape(shape, paintStyle);
 
         //ランダム設定
-        setRandomSize();
-        setRandomColor();
+        setRandomSize(rangeSize, minSize);
+        setEffectColor(colorKind);
+
+        if (isTilt) {
+            //傾き指定ありなら、初期角度を傾ける
+            setRandomAngle();
+        }
+    }
+
+    /*
+     * 初期設定
+     */
+    public void apply() {
+        //エフェクト形状の設定
+        //setEffectShape(0x00, Paint.Style.FILL);
+
+        //ランダム設定
+        //setRandomSize(mEffectRangeSize, mEffectMinSize);
+        //setEffectColor(0);
+
+        if (false) {
+            //傾き指定ありなら、初期角度を傾ける
+            //setRandomAngle();
+        }
+    }
+
+    /*
+     * エフェクトの形状設定
+     */
+    public void setEffectShape(int effectShape, Paint.Style paintStyle) {
+        //エフェクト情報
+        mEffectShape = effectShape;
+        mPaintStyle = paintStyle;
+        //描画情報クリア
+        mPath.clear();
+        mPaint.clear();
+    }
+
+    /*
+     * エフェクトサイズの設定
+     *   para1：エフェクトのサイズ幅
+     *   para2：エフェクトの最小サイズ
+     */
+    public void setEffectSize(int rangeSize, int minSize) {
+        mEffectRangeSize = rangeSize;
+        mEffectMinSize = minSize;
+
+        setRandomSize(mEffectRangeSize, mEffectMinSize);
+    }
+
+    /*
+     * エフェクト色パターンの設定
+     *   para1：エフェクト色パターン
+     */
+    public void setEffectColorPattern(int pattern) {
+        setEffectColor(pattern);
+    }
+
+    /*
+     * エフェクト透明度の設定
+     *   para1：透明度
+     */
+    public void setEffectAlpha(int alpha) {
+        mAlpha = alpha;
+    }
+
+    /*
+     * エフェクトの傾き
+     */
+    public void setEffectTilt(boolean isTilt) {
+        if( isTilt ){
+            setRandomAngle();
+        }
     }
 
     /*
      * サイズのランダム設定
      */
-    private void setRandomSize() {
+    private void setRandomSize(int rangeSize, int minSize) {
         //サイズ範囲
-        final int MAX_RANGE = getEffectRangeSize() + 1;
-        final int MIN_SIZE = getEffectMinSize();
+        final int MAX_RANGE = rangeSize + 1;
 
         //ランダムな値をサイズに適用
         Random random = new Random();
         int offset = random.nextInt(MAX_RANGE);
-        mSize = MIN_SIZE + offset;
+        mSize = minSize + offset;
     }
 
     /*
      * 色のランダム設定
      */
-    private void setRandomColor() {
+    private void setEffectColor(int colorKind) {
 
-        int color;
-        int shadowColor;
+        int[] colors;
+        if( colorKind == COLOR_PTN_DEFAULT ){
+            colors = getDefaultColor();
+        } else {
+            colors = getRandomColor();
+        }
+
+        //色情報の保持
+        mColor = colors[0];
+        mShadowColor = colors[1];
+    }
+
+    /*
+     * デフォルト色の取得
+     */
+    private int[] getDefaultColor() {
+
+        //------------------------------------
+        // エフェクト形状に応じたデフォルト色を取得
+        //------------------------------------
+        int colorRID;
+        int shadowColorRID;
+
+        switch (mEffectShape) {
+            case MapTable.HEART_NORMAL:
+            case MapTable.HEART_THIN:
+            case MapTable.HEART_INFLATED:
+                colorRID = R.color.effect_right_red;
+                shadowColorRID = R.color.effect_red;
+                break;
+
+            case MapTable.STAR:
+            case MapTable.DOT:
+            case MapTable.TRIANGLE:
+            case MapTable.DIA:
+                colorRID = R.color.effect_right_yellow;
+                shadowColorRID = R.color.effect_yellow;
+                break;
+
+            case MapTable.SPARKLE_SHORT:
+            case MapTable.SPARKLE_SHIN:
+            case MapTable.SPARKLE_LONG:
+            case MapTable.SPARKLE_RANDOM:
+            case MapTable.SPARCLE_CENTRAL_CIRCLE:
+                colorRID = R.color.effect_right_white;
+                shadowColorRID = R.color.effect_white;
+                break;
+
+            case MapTable.FLOWER:
+            case MapTable.SAKURA:
+                colorRID = R.color.effect_right_pink;
+                shadowColorRID = R.color.effect_pink;
+                break;
+
+            case MapTable.CIRCLE:
+            case MapTable.SNOW:
+                colorRID = R.color.effect_right_white;
+                shadowColorRID = R.color.effect_white;
+                break;
+
+            default:
+                colorRID = R.color.effect_right_white;
+                shadowColorRID = R.color.effect_white;
+                break;
+        }
+
+        //-----------------------------
+        // カラーリソースIDを色に変換
+        //-----------------------------
+        int[] colors = new int[2];
+        colors[0] = getResources().getColor(colorRID);
+        colors[1] = getResources().getColor(shadowColorRID);
+
+        return colors;
+    }
+
+
+    /*
+     * ランダムに色を取得
+     */
+    private int[] getRandomColor() {
+
+        //-----------------------------
+        // ランダムにカラーリソースIDを取得
+        //-----------------------------
+        int colorRID;
+        int shadowColorRID;
 
         Random random = new Random();
         int i = random.nextInt(6);
         switch (i) {
             case 0:
-                color = getResources().getColor(R.color.effect_right_yellow);
-                shadowColor = getResources().getColor(R.color.effect_yellow);
+                colorRID = R.color.effect_right_yellow;
+                shadowColorRID = R.color.effect_yellow;
                 break;
             case 1:
-                color = getResources().getColor(R.color.effect_right_red);
-                shadowColor = getResources().getColor(R.color.effect_red);
+                colorRID = R.color.effect_right_red;
+                shadowColorRID = R.color.effect_red;
                 break;
             case 2:
-                color = getResources().getColor(R.color.effect_right_blue);
-                shadowColor = getResources().getColor(R.color.effect_blue);
+                colorRID = R.color.effect_right_blue;
+                shadowColorRID = R.color.effect_blue;
                 break;
             case 3:
-                color = getResources().getColor(R.color.effect_right_green);
-                shadowColor = getResources().getColor(R.color.effect_green);
+                colorRID = R.color.effect_right_green;
+                shadowColorRID = R.color.effect_green;
                 break;
             case 4:
-                color = getResources().getColor(R.color.effect_right_pink);
-                shadowColor = getResources().getColor(R.color.effect_pink);
+                colorRID = R.color.effect_right_pink;
+                shadowColorRID = R.color.effect_pink;
                 break;
             case 5:
-                color = getResources().getColor(R.color.effect_right_purple);
-                shadowColor = getResources().getColor(R.color.effect_purple);
+                colorRID = R.color.effect_right_purple;
+                shadowColorRID = R.color.effect_purple;
                 break;
             default:
-                color = getResources().getColor(R.color.effect_right_yellow);
-                shadowColor = getResources().getColor(R.color.effect_yellow);
+                colorRID = R.color.effect_right_yellow;
+                shadowColorRID = R.color.effect_yellow;
                 break;
         }
 
-        //固定
-        color = getResources().getColor(R.color.effect_right_white);
-        shadowColor = getResources().getColor(R.color.effect_white);
-        //固定
+        //-----------------------------
+        // カラーリソースIDを色に変換
+        //-----------------------------
+        int[] colors = new int[2];
+        colors[0] = getResources().getColor(colorRID);
+        colors[1] = getResources().getColor(shadowColorRID);
 
-        //色情報の保持
-        mColor = color;
-        mShadowColor = shadowColor;
+        return colors;
+    }
+
+    /*
+     * 角度のランダム設定
+     */
+    private void setRandomAngle() {
+        //傾け最大角度
+        final int MAX_TILT = 31;
+
+        //ランダムに角度をずらす
+        Random random = new Random();
+        int tiltAngle = random.nextInt(MAX_TILT) - 15;
+        setRotation( tiltAngle );
     }
 
     /*
@@ -253,18 +438,6 @@ public class EffectView extends View {
     }
 
     /*
-     * エフェクトの形状設定
-     */
-    public void setEffectInfo(int effectShape, Paint.Style paintStyle) {
-        //エフェクト情報
-        mEffectShape = effectShape;
-        mPaintStyle = paintStyle;
-        //描画情報クリア
-        mPath.clear();
-        mPaint.clear();
-    }
-
-    /*
      * 最小サイズに加算するランダム最大値の取得
      */
     private int getEffectRangeSize() {
@@ -288,6 +461,9 @@ public class EffectView extends View {
 
             case MapTable.CIRCLE:
                 return 100;
+
+            case MapTable.SNOW:
+                return 20;
 
             case MapTable.DOT:
             case MapTable.TRIANGLE:
@@ -322,6 +498,9 @@ public class EffectView extends View {
                 return 100;
 
             case MapTable.CIRCLE:
+                return 20;
+
+            case MapTable.SNOW:
                 return 20;
 
             case MapTable.DOT:
@@ -402,6 +581,7 @@ public class EffectView extends View {
 
             case MapTable.CIRCLE:
             case MapTable.DOT:
+            case MapTable.SNOW:
                 mPath = createCircle();
                 break;
 
@@ -1169,7 +1349,7 @@ public class EffectView extends View {
 
         //Paintの色情報設定
         setPaintColor(paint);
-        paint.setAlpha(0x55);   //※色設定後に行う必要がある
+        paint.setAlpha(mAlpha);   //※色設定後に行う必要がある
 
         //----------------------------------------
         // Paint.Styleの適用
@@ -1330,6 +1510,64 @@ public class EffectView extends View {
         }
         setAlpha( alpha );
     }
+
+    /*
+     * エフェクトアニメーションプロパティ
+     * 　上昇と透過　android:propertyName="floatAlpha"
+     *   透明の制御は、引数の値と「表示折り返し値」を元に行う
+     */
+    public void setFloatAlpha(float value) {
+        //上昇（負の値：上へ移動）
+        this.setTranslationY( (value * 400) * -1 );
+
+        //---------------------------
+        // 透明制御
+        //---------------------------
+        final float WRAP_ALPHA = 0.5f;
+        final float MAX_ALPHA = 1.0f;
+        float alpha = getWrapValue( value, WRAP_ALPHA, MAX_ALPHA );
+        setAlpha( alpha );
+    }
+
+    /*
+     * エフェクトアニメーションプロパティ
+     * 　下降と透過　android:propertyName="fallAlpha"
+     *   透明の制御は、引数の値と「表示折り返し値」を元に行う
+     */
+    public void setFallAlpha(float value) {
+        //下降（正の値：下へ移動）
+        this.setTranslationY( value * 500 );
+
+        //---------------------------
+        // 透明制御
+        //---------------------------
+        final float WRAP_ALPHA = 0.5f;
+        final float MAX_ALPHA = 1.0f;
+        float alpha = getWrapValue( value, WRAP_ALPHA, MAX_ALPHA );
+        setAlpha( alpha );
+    }
+
+    /*
+     * 折り返し込みの値を取得
+     *   para1：変換値
+     *   para2：折り返し値
+     *   para3：変換後最大値
+     */
+    private float getWrapValue( final float org, final float wrapValue, final float max ){
+
+        float converted;
+        if( org <= wrapValue ){
+            //0.0f ～ 「折り返し値」→ 0.0f ～ max
+            converted = org / (max - wrapValue);
+        } else {
+            //「折り返し値」～ 0.0f → 1.0f ～ max
+            float sub = (org - wrapValue) / wrapValue;
+            converted = max - sub;
+        }
+
+        return converted;
+    }
+
 
     /*
      * エフェクトアニメーション
