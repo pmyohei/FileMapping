@@ -346,7 +346,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                     @Override
                     public void onClick(View view) {
                         effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.FILL, MapTable.SCALE_UP);
-                        effectManager.setEffectVolume( 20 );
+                        effectManager.setEffectVolume( 40 );
                         effectManager.restartEffect();
                     }
                 });

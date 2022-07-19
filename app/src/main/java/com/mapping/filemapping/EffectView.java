@@ -1314,10 +1314,19 @@ public class EffectView extends View {
     public void setScaleAlpha(float value) {
         this.setScale( value );
 
-        //透明制御
+        //表示開始値
+        final float START_ALPHA = 0.6f;
+
+        //透明度設定値の算出
         float alpha = 0.0f;
-        if( value >= 0.2f ){
-            alpha = value;
+        if( value >= START_ALPHA ){
+            //----------------------------------
+            // 例）表示開始値：0.2f
+            //     value - 0.2f
+            //   ーーーーーーーーーーー * 1.0 + 0.0f
+            //   0.8f(＝1.0f - 0.2f)
+            //----------------------------------
+            alpha = (value - START_ALPHA) / (1.0f - START_ALPHA);
         }
         setAlpha( alpha );
     }

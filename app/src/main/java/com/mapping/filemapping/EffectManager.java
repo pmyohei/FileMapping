@@ -410,20 +410,19 @@ public class EffectManager {
         // 乱数値
         //------------------------
         Random random = new Random();
-        int duration = random.nextInt( 4001 ) + 4000;
+        int duration = random.nextInt( 2001 ) + 2000;
         int delay    = random.nextInt( 1001 );
 
         //------------------------
         // アニメーションの適用
         //------------------------
-        ValueAnimator blinkAnim = ObjectAnimator.ofFloat(animationTarget, "scaleAlpha", 0f, 1f);
-        blinkAnim.setDuration( duration );
-        blinkAnim.setRepeatMode( ValueAnimator.REVERSE );
-        blinkAnim.setRepeatCount( ValueAnimator.INFINITE );
-        blinkAnim.addListener( new TrancelationListener( animationTarget ) );
-        blinkAnim.start();
+        ValueAnimator scaleAlphaAnim = ObjectAnimator.ofFloat(animationTarget, "scaleAlpha", 0f, 1f);
+        scaleAlphaAnim.setDuration( duration );
+        scaleAlphaAnim.setRepeatMode( ValueAnimator.REVERSE );
+        scaleAlphaAnim.setRepeatCount( ValueAnimator.INFINITE );
+        scaleAlphaAnim.addListener( new TrancelationListener( animationTarget ) );
+        scaleAlphaAnim.start();
     }
-
 
 
     /*
