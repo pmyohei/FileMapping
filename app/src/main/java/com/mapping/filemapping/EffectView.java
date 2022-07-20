@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -280,6 +281,7 @@ public class EffectView extends View {
                 break;
 
             case MapTable.STAR:
+            case MapTable.MOON:
             case MapTable.DOT:
             case MapTable.TRIANGLE:
             case MapTable.DIA:
@@ -290,6 +292,7 @@ public class EffectView extends View {
             case MapTable.SPARKLE_SHORT:
             case MapTable.SPARKLE_SHIN:
             case MapTable.SPARKLE_LONG:
+            case MapTable.SPARKLE_VERY_LONG:
             case MapTable.SPARKLE_RANDOM:
             case MapTable.SPARCLE_CENTRAL_CIRCLE:
                 colorRID = R.color.effect_right_white;
@@ -453,6 +456,7 @@ public class EffectView extends View {
             case MapTable.SPARKLE_SHORT:
             case MapTable.SPARKLE_SHIN:
             case MapTable.SPARKLE_LONG:
+            case MapTable.SPARKLE_VERY_LONG:
             case MapTable.SPARKLE_RANDOM:
             case MapTable.SPARCLE_CENTRAL_CIRCLE:
             case MapTable.FLOWER:
@@ -491,6 +495,7 @@ public class EffectView extends View {
             case MapTable.SPARKLE_SHORT:
             case MapTable.SPARKLE_SHIN:
             case MapTable.SPARKLE_LONG:
+            case MapTable.SPARKLE_VERY_LONG:
             case MapTable.SPARKLE_RANDOM:
             case MapTable.SPARCLE_CENTRAL_CIRCLE:
             case MapTable.FLOWER:
@@ -551,6 +556,10 @@ public class EffectView extends View {
                 mPath = createStar();
                 break;
 
+            case MapTable.MOON:
+                mPath = createMoon();
+                break;
+
             case MapTable.SPARKLE_SHORT:
                 mPath = createSparkleShort();
                 break;
@@ -563,12 +572,16 @@ public class EffectView extends View {
                 mPath = createSparkleLong();
                 break;
 
+            case MapTable.SPARKLE_VERY_LONG:
+                mPath = createSparkleVeryLong();
+                break;
+
             case MapTable.SPARKLE_RANDOM:
                 mPath = createSparkleRandom();
                 break;
 
             case MapTable.SPARCLE_CENTRAL_CIRCLE:
-                mPath = createCenterCircleSparkle(canvas);
+                mPath = createCenterCircleSparkle();
                 break;
 
             case MapTable.FLOWER:
@@ -620,6 +633,12 @@ public class EffectView extends View {
             case MapTable.CIRCLE:
                 //Paint単体生成
                 mPaint = createCommonPaint();
+                break;
+
+            case MapTable.SPARKLE_VERY_LONG:
+                //スパークル(かなり長い)用Paintの生成
+                //mPaint = createCommonPaint();
+                mPaint = createVeryLongSparklePaint();
                 break;
 
             case MapTable.SPARCLE_CENTRAL_CIRCLE:
@@ -802,6 +821,51 @@ public class EffectView extends View {
         return pathes;
     }
 
+    /*
+     * Path生成
+     *  月
+     */
+    private ArrayList<Path> createMoon() {
+        //ビューサイズの半分の値
+        float halfSize = mSize / 2f;
+        float qSize = halfSize / 2f;
+
+        //描画中心
+        float centerX  = getWidth() / 2f;
+        float centerY  = getHeight() / 2f;
+
+        //各軸の位置（割合）
+        float x_25 = centerX - qSize;
+        float x_60 = centerX + halfSize*0.2f;
+        float x_75 = centerX + qSize;
+        //float x_75 = centerX;
+        float x_80 = centerX + halfSize*0.8f;
+        float x_90 = centerX + halfSize*0.9f;
+        float x_100 = centerX + halfSize;
+        //float x_100 = centerX + halfSize * 0.75f;
+        float y_0 = centerY - halfSize;
+        float y_10 = centerY - halfSize*0.9f;
+        float y_25 = centerY - qSize;
+        float y_40 = centerY - halfSize*0.2f;
+        float y_60 = centerY + halfSize*0.2f;
+        float y_75 = centerY + qSize;
+        float y_90 = centerY + halfSize*0.9f;
+        float y_100 = centerY + halfSize;;
+
+        Path path = new Path();
+
+        path.moveTo(x_25, y_25);
+        path.cubicTo(x_60, y_25, x_60, y_75, x_25, y_75);
+        path.cubicTo(x_80, y_90, x_80, y_10, x_25, y_25);
+        path.close();
+
+        //Pathリストに設定
+        ArrayList<Path> pathes = new ArrayList<>();
+        pathes.add(path);
+
+        return pathes;
+    }
+
 
     /*
      * Path生成
@@ -912,9 +976,70 @@ public class EffectView extends View {
 
     /*
      * Path生成
+     *  スパークル：かなり長め
+     */
+    private ArrayList<Path> createSparkleVeryLong() {
+
+        //--------------------------------------------
+        // サイズ関連
+        //--------------------------------------------
+        //円半径
+        final int CENTER_CIRCLE_RADIUS = mSize / 40;
+        //十字の根元の幅
+        final int POS_DIFF = (int)(CENTER_CIRCLE_RADIUS / 2.5f);
+        //中心座標
+        final float centerX = getWidth() / 2f;
+        final float centerY = getHeight() / 2f;
+
+        //--------------------------------------------
+        // 中央円
+        //--------------------------------------------
+        Path circlePath = new Path();
+        circlePath.addCircle(centerX, centerY, CENTER_CIRCLE_RADIUS, Path.Direction.CW);
+
+        //--------------------------------------------
+        // 十字
+        //--------------------------------------------
+        //頂点座標
+        final float sparcleLen = getWidth() / 2f;
+        final float x_0 = centerX - sparcleLen;
+        final float x_100 = centerX + sparcleLen;
+        final float y_0 = centerY - sparcleLen;
+        final float y_100 = centerY + sparcleLen;
+
+        Path sparcleCrossPath = new Path();
+        //上
+        sparcleCrossPath.moveTo(centerX - POS_DIFF, centerY);
+        sparcleCrossPath.lineTo(centerX, y_0);
+        sparcleCrossPath.lineTo(centerX + POS_DIFF, centerY);
+        //下
+        sparcleCrossPath.lineTo(centerX, y_100);
+        sparcleCrossPath.lineTo(centerX - POS_DIFF, centerY);
+        sparcleCrossPath.close();
+        //左
+        sparcleCrossPath.moveTo(centerX, centerY + POS_DIFF);
+        sparcleCrossPath.lineTo(x_0, centerY);
+        sparcleCrossPath.lineTo(centerX, centerY - POS_DIFF);
+        //右
+        sparcleCrossPath.lineTo(x_100, centerY);
+        sparcleCrossPath.lineTo(centerX, centerY + POS_DIFF);
+        sparcleCrossPath.close();
+
+        //--------------------------------------------
+        // Pathリストに追加
+        //--------------------------------------------
+        ArrayList<Path> pathes = new ArrayList<>();
+        pathes.add(circlePath);
+        pathes.add(sparcleCrossPath);
+
+        return pathes;
+    }
+
+    /*
+     * Path生成
      *  スパークル：中央に円。十字／斜め十字。
      */
-    private ArrayList<Path> createCenterCircleSparkle(Canvas canvas) {
+    private ArrayList<Path> createCenterCircleSparkle() {
         //ビューサイズの半分の値
         float halfSize = mSize / 2f;
 
@@ -1366,6 +1491,68 @@ public class EffectView extends View {
         return paints;
     }
 
+    /*
+     * Paint生成
+     *  　スパークル(かなり長め)Paint生成
+     */
+    private ArrayList<Paint> createVeryLongSparklePaint() {
+
+        //ビューサイズの半分の値
+        final float halfSize = mSize / 2f;
+
+        //描画中心
+        float centerX  = getWidth() / 2f;
+        float centerY  = getHeight() / 2f;
+
+        //--------------------------------------------
+        // グラデーションの生成
+        //--------------------------------------------
+        //中心円のグラデーション
+        Shader circleGradient = new RadialGradient(
+                centerX, centerY,         //中心座標
+                halfSize / 3,         //半径
+                //getResources().getColor(R.color.transparent_50_white), Color.TRANSPARENT,
+                Color.WHITE, getResources().getColor(R.color.transparent_50_white),
+                Shader.TileMode.CLAMP);
+
+        //十字のグラデーション
+        Shader sparkleGradient = new RadialGradient(
+                centerX, centerY,         //中心座標
+                halfSize,                   //半径
+                Color.WHITE, Color.TRANSPARENT,
+                Shader.TileMode.CLAMP);
+
+        //--------------------------------------------
+        // Paint情報生成
+        //--------------------------------------------
+        //中心円
+        Paint CirclePaint = new Paint();
+        CirclePaint.setAntiAlias(true);
+        CirclePaint.setAlpha(0xFF);
+        CirclePaint.setStyle(Paint.Style.FILL);
+        CirclePaint.setShadowLayer(mSize / 8f, 0, 0, Color.WHITE);
+        CirclePaint.setShader(circleGradient);
+        //setPaintColor(CirclePaint);
+
+        //十字
+        Paint sparklePaint = new Paint();
+        sparklePaint.setAntiAlias(true);
+        sparklePaint.setAlpha(0xFF);
+        sparklePaint.setStyle(Paint.Style.FILL);
+        sparklePaint.setShadowLayer(mSize / 8f, 0, 0, Color.WHITE);
+        sparklePaint.setShader(sparkleGradient);
+        //setPaintColor(sparklePaint);
+
+        //--------------------------------------------
+        // Paintリストに追加
+        //--------------------------------------------
+        ArrayList<Paint> paints = new ArrayList<>();
+        paints.add(CirclePaint);         //中心円
+        //paints.add(CirclePaint);        //十字
+        paints.add(sparklePaint);        //十字
+
+        return paints;
+    }
 
     /*
      * Paint生成
@@ -1465,7 +1652,6 @@ public class EffectView extends View {
         }
         //保存したPathを全て復元
         canvas.restore();
-
     }
 
 
@@ -1638,7 +1824,11 @@ public class EffectView extends View {
 
         //設定サイズを保持していれば、反映する
         if (mSize > 0) {
-            setMeasuredDimension(mSize*10, mSize*10);
+            if( mEffectShape == MapTable.SPARKLE_VERY_LONG ){
+                setMeasuredDimension(mSize*20, mSize*20);
+            } else {
+                setMeasuredDimension(mSize*10, mSize*10);
+            }
         }
     }
 

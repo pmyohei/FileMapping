@@ -79,12 +79,14 @@ public class MapTable implements Serializable {
     static public final int DIA = 0x11;
     //星
     static public final int STAR = 0x20;
+    static public final int MOON = 0x21;
     //スパークル
     static public final int SPARKLE_SHORT = 0x30;
     static public final int SPARKLE_SHIN = 0x31;
     static public final int SPARKLE_LONG = 0x32;
-    static public final int SPARKLE_RANDOM = 0x33;
-    static public final int SPARCLE_CENTRAL_CIRCLE = 0x34;
+    static public final int SPARKLE_VERY_LONG = 0x33;
+    static public final int SPARKLE_RANDOM = 0x34;
+    static public final int SPARCLE_CENTRAL_CIRCLE = 0x35;
     //花
     static public final int FLOWER = 0x40;
     static public final int SAKURA = 0x41;

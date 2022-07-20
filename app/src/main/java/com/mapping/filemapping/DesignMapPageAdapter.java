@@ -56,6 +56,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
         private TextView tv_flower;
         private TextView tv_sakura;
         private TextView tv_spakcle;
+        private TextView tv_spakcleVeryLong;
         private TextView tv_dia;
         private TextView tv_dot;
         private TextView tv_circle;
@@ -63,6 +64,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
         private TextView tv_normal_heart;
         private TextView tv_normal_float_heart;
         private TextView tv_snow;
+        private TextView tv_moon;
         //ノードデザイン
         private ColorSelectionView csv_background;
         private ColorSelectionView csv_text;
@@ -118,6 +120,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                     tv_flower = itemView.findViewById(R.id.tv_flower);
                     tv_sakura = itemView.findViewById(R.id.tv_sakura);
                     tv_spakcle = itemView.findViewById(R.id.tv_spakcle);
+                    tv_spakcleVeryLong = itemView.findViewById(R.id.tv_spakcleVeryLong);
                     tv_dia = itemView.findViewById(R.id.tv_dia);
                     tv_dot = itemView.findViewById(R.id.tv_dot);
                     tv_circle = itemView.findViewById(R.id.tv_circle);
@@ -125,6 +128,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                     tv_normal_heart = itemView.findViewById(R.id.tv_normal_heart);
                     tv_normal_float_heart = itemView.findViewById(R.id.tv_normal_float_heart);
                     tv_snow = itemView.findViewById(R.id.tv_snow);
+                    tv_moon = itemView.findViewById(R.id.tv_moon);
                     break;
 
                 case 2:
@@ -317,6 +321,17 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                     }
                 });
 
+                tv_spakcleVeryLong.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        effectManager.setEffectAttr( MapTable.SPARKLE_VERY_LONG, Paint.Style.FILL, MapTable.NO_ANIM);
+                        effectManager.setEffectVolume( 10 );
+                        effectManager.setEffectSize( 100, 200 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_DEFAULT );
+                        effectManager.restartEffect();
+                    }
+                });
+
                 tv_dia.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -406,6 +421,26 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                         effectManager.createEffects();
                     }
                 });
+
+                tv_moon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        effectManager.setEffectAttr( MapTable.MOON, Paint.Style.FILL, MapTable.NO_ANIM);
+                        effectManager.setEffectVolume( 10 );
+                        effectManager.setEffectSize( 100, 400 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_DEFAULT );
+                        effectManager.setEffectAlpha( 0xFF );
+                        effectManager.restartEffect();
+
+/*                        effectManager.setEffectAttr( MapTable.SNOW, Paint.Style.FILL, MapTable.SLOW_FALL);
+                        effectManager.setEffectVolume( 120 );
+                        effectManager.setEffectSize( 100, 200 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_DEFAULT );
+                        effectManager.setEffectAlpha( 0x22 );
+                        effectManager.createEffects();*/
+                    }
+                });
+
             });
         }
 

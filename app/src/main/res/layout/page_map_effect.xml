@@ -84,7 +84,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_gravity="center"
-                android:text="スパークル"
+                android:text="スパークル(円と十字)"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_spakcleVeryLong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="スパークル(かなり長め)"
                 android:textSize="18sp"
                 android:textColor="@color/black" />
 
@@ -155,6 +165,16 @@
                 android:layout_marginTop="12dp"
                 android:layout_gravity="center"
                 android:text="雪"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_moon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="月"
                 android:textSize="18sp"
                 android:textColor="@color/black" />
 
