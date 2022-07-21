@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 
@@ -101,12 +102,12 @@ public class EffectView extends View {
         }
     }
 
-
     //未設定
     final int UNSPECIFIED = -1;
     //色パターン
     public static final int COLOR_PTN_DEFAULT = 0;
     public static final int COLOR_PTN_RANDOM = 1;
+    public static final int COLOR_PTN_SPECIFY = 2;
 
     //エフェクト形状
     private int mEffectShape;
@@ -120,6 +121,7 @@ public class EffectView extends View {
     private int mAlpha;
     private int mColor = 0;
     private int mShadowColor;// = getResources().getColor(R.color.yellow);
+    private boolean mIsGradation;
     private ArrayList<Path> mPath = new ArrayList<>();
     private ArrayList<Paint> mPaint = new ArrayList<>();
     //グラデーション座標
@@ -145,6 +147,10 @@ public class EffectView extends View {
             boolean isTilt) {
 
         super(context);
+
+
+        mIsGradation = false;
+
         //init(shape, paintStyle, rangeSize, minSize, colorKind, isTilt);
     }
 
@@ -157,7 +163,7 @@ public class EffectView extends View {
 
         //ランダム設定
         setRandomSize(rangeSize, minSize);
-        setEffectColor(colorKind);
+        setEffectColor(colorKind, 0);
 
         if (isTilt) {
             //傾き指定ありなら、初期角度を傾ける
@@ -210,8 +216,8 @@ public class EffectView extends View {
      * エフェクト色パターンの設定
      *   para1：エフェクト色パターン
      */
-    public void setEffectColorPattern(int pattern) {
-        setEffectColor(pattern);
+    public void setEffectColorPattern(int pattern, int color) {
+        setEffectColor(pattern, color);
     }
 
     /*
@@ -226,9 +232,16 @@ public class EffectView extends View {
      * エフェクトの傾き
      */
     public void setEffectTilt(boolean isTilt) {
-        if( isTilt ){
+        if (isTilt) {
             setRandomAngle();
         }
+    }
+
+    /*
+     * Paintにグラデーションを付与するかどうか
+     */
+    public void setGradation(boolean isGradation) {
+        mIsGradation = isGradation;
     }
 
     /*
@@ -247,13 +260,17 @@ public class EffectView extends View {
     /*
      * 色のランダム設定
      */
-    private void setEffectColor(int colorKind) {
+    private void setEffectColor(int colorKind, int color) {
 
         int[] colors;
-        if( colorKind == COLOR_PTN_DEFAULT ){
+        if (colorKind == COLOR_PTN_DEFAULT) {
             colors = getDefaultColor();
-        } else {
+        } else if (colorKind == COLOR_PTN_RANDOM) {
             colors = getRandomColor();
+        } else {
+            mColor = color;
+            mShadowColor = color;
+            return;
         }
 
         //色情報の保持
@@ -285,6 +302,7 @@ public class EffectView extends View {
             case MapTable.DOT:
             case MapTable.TRIANGLE:
             case MapTable.DIA:
+            case MapTable.SPARKLE_VERY_LONG:
                 colorRID = R.color.effect_right_yellow;
                 shadowColorRID = R.color.effect_yellow;
                 break;
@@ -292,7 +310,6 @@ public class EffectView extends View {
             case MapTable.SPARKLE_SHORT:
             case MapTable.SPARKLE_SHIN:
             case MapTable.SPARKLE_LONG:
-            case MapTable.SPARKLE_VERY_LONG:
             case MapTable.SPARKLE_RANDOM:
             case MapTable.SPARCLE_CENTRAL_CIRCLE:
                 colorRID = R.color.effect_right_white;
@@ -392,7 +409,7 @@ public class EffectView extends View {
         //ランダムに角度をずらす
         Random random = new Random();
         int tiltAngle = random.nextInt(MAX_TILT) - 15;
-        setRotation( tiltAngle );
+        setRotation(tiltAngle);
     }
 
     /*
@@ -602,6 +619,31 @@ public class EffectView extends View {
                 mPath = createSakura();
                 break;
         }
+
+        //API28以下は、影の見切れを防ぐために線だけのPathを描画しておく
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            //Shadowレイヤによる影描画エリアの確保
+            secureShadowArea();
+        }
+    }
+
+    /*
+     * 影描画エリアの確保
+     */
+    private void secureShadowArea() {
+        Path path = mPath.get(0);
+
+        //描画中心
+        float centerX = getWidth() / 2f;
+        float centerY = getHeight() / 2f;
+        //横線
+        path.moveTo(centerX - mSize, centerY);
+        path.lineTo(centerX + mSize, centerY);
+        path.close();
+        //縦線
+        path.moveTo(centerX, centerY - mSize);
+        path.lineTo(centerX, centerY + mSize);
+        path.close();
     }
 
     /*
@@ -630,14 +672,17 @@ public class EffectView extends View {
             case MapTable.SPARKLE_RANDOM:
             case MapTable.FLOWER:
             case MapTable.SAKURA:
-            case MapTable.CIRCLE:
                 //Paint単体生成
                 mPaint = createCommonPaint();
                 break;
 
+            case MapTable.CIRCLE:
+                //Paint単体生成
+                mPaint = createpaintGtest();
+                break;
+
             case MapTable.SPARKLE_VERY_LONG:
                 //スパークル(かなり長い)用Paintの生成
-                //mPaint = createCommonPaint();
                 mPaint = createVeryLongSparklePaint();
                 break;
 
@@ -831,26 +876,27 @@ public class EffectView extends View {
         float qSize = halfSize / 2f;
 
         //描画中心
-        float centerX  = getWidth() / 2f;
-        float centerY  = getHeight() / 2f;
+        float centerX = getWidth() / 2f;
+        float centerY = getHeight() / 2f;
 
         //各軸の位置（割合）
         float x_25 = centerX - qSize;
-        float x_60 = centerX + halfSize*0.2f;
+        float x_60 = centerX + halfSize * 0.2f;
         float x_75 = centerX + qSize;
         //float x_75 = centerX;
-        float x_80 = centerX + halfSize*0.8f;
-        float x_90 = centerX + halfSize*0.9f;
+        float x_80 = centerX + halfSize * 0.8f;
+        float x_90 = centerX + halfSize * 0.9f;
         float x_100 = centerX + halfSize;
         //float x_100 = centerX + halfSize * 0.75f;
         float y_0 = centerY - halfSize;
-        float y_10 = centerY - halfSize*0.9f;
+        float y_10 = centerY - halfSize * 0.9f;
         float y_25 = centerY - qSize;
-        float y_40 = centerY - halfSize*0.2f;
-        float y_60 = centerY + halfSize*0.2f;
+        float y_40 = centerY - halfSize * 0.2f;
+        float y_60 = centerY + halfSize * 0.2f;
         float y_75 = centerY + qSize;
-        float y_90 = centerY + halfSize*0.9f;
-        float y_100 = centerY + halfSize;;
+        float y_90 = centerY + halfSize * 0.9f;
+        float y_100 = centerY + halfSize;
+        ;
 
         Path path = new Path();
 
@@ -984,9 +1030,9 @@ public class EffectView extends View {
         // サイズ関連
         //--------------------------------------------
         //円半径
-        final int CENTER_CIRCLE_RADIUS = mSize / 40;
+        final int CENTER_CIRCLE_RADIUS = mSize / 20;
         //十字の根元の幅
-        final int POS_DIFF = (int)(CENTER_CIRCLE_RADIUS / 2.5f);
+        final int POS_DIFF = (int) (CENTER_CIRCLE_RADIUS / 4f);
         //中心座標
         final float centerX = getWidth() / 2f;
         final float centerY = getHeight() / 2f;
@@ -1072,8 +1118,8 @@ public class EffectView extends View {
         float petalLen = mSize / 2f;
         float qSize = petalLen / 2f;
         //描画中心
-        float centerX  = getWidth() / 2f;
-        float centerY  = getHeight() / 2f;
+        float centerX = getWidth() / 2f;
+        float centerY = getHeight() / 2f;
 
         //各軸の位置（割合）
         float x_0 = centerX - petalLen;
@@ -1236,7 +1282,7 @@ public class EffectView extends View {
 
         //円形
         Path path = new Path();
-        path.addCircle( getWidth() / 2f, getHeight() / 2f, halfSize, Path.Direction.CW );
+        path.addCircle(getWidth() / 2f, getHeight() / 2f, halfSize, Path.Direction.CW);
 
         //Pathリストに設定
         ArrayList<Path> pathes = new ArrayList<>();
@@ -1479,11 +1525,16 @@ public class EffectView extends View {
         //----------------------------------------
         // Paint.Styleの適用
         //----------------------------------------
-        if( mPaintStyle == Paint.Style.FILL ){
+        if (mPaintStyle == Paint.Style.FILL) {
             paint.setStyle(Paint.Style.FILL);
         } else {
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(4);
+        }
+
+        //グラデーションの付与
+        if (mIsGradation) {
+            addGradation(paint);
         }
 
         ArrayList<Paint> paints = new ArrayList<>();
@@ -1492,10 +1543,44 @@ public class EffectView extends View {
     }
 
     /*
-     * Paint生成
-     *  　スパークル(かなり長め)Paint生成
+     * Paintにグラデーションを付与
+     *  　
      */
-    private ArrayList<Paint> createVeryLongSparklePaint() {
+    private void addGradation( Paint paint ) {
+        //ビューサイズの半分の値
+        final float halfSize = mSize / 2f;
+        //描画中心
+        float centerX  = getWidth() / 2f;
+        float centerY  = getHeight() / 2f;
+
+        int[] colors = new int[] {
+                mColor,
+                Color.TRANSPARENT,
+        };
+
+        float[] stops = new float[] {
+                0.0f,
+                0.7f,
+                1.0f,
+        };
+
+        //中心円のグラデーション
+        Shader circleGradient = new RadialGradient(
+                centerX, centerY,
+                halfSize,
+                colors,
+                //stops,
+                null,
+                Shader.TileMode.CLAMP);
+
+        paint.setShader(circleGradient);
+    }
+
+    /*
+     * Paint生成
+     *  　test
+     */
+    private ArrayList<Paint> createpaintGtest() {
 
         //ビューサイズの半分の値
         final float halfSize = mSize / 2f;
@@ -1504,22 +1589,100 @@ public class EffectView extends View {
         float centerX  = getWidth() / 2f;
         float centerY  = getHeight() / 2f;
 
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setShadowLayer(mSize / 8f, 0, 0, mShadowColor);
+
+        //Paintの色情報設定
+        setPaintColor(paint);
+        paint.setAlpha(mAlpha);   //※色設定後に行う必要がある
+
+        //----------------------------------------
+        // Paint.Styleの適用
+        //----------------------------------------
+        paint.setStyle(Paint.Style.FILL);
+
+        int[] colors = new int[] {
+                Color.RED,
+                Color.GREEN,
+                Color.BLUE,
+        };
+
+        float[] stops = new float[] {
+            0.0f,
+            0.7f,
+            1.0f,
+        };
+
+        //中心円のグラデーション
+        Shader circleGradient = new RadialGradient(
+                centerX, centerY,         //中心座標
+                halfSize,                 //半径
+                colors,
+                stops,
+                //null,
+                Shader.TileMode.CLAMP);
+
+        paint.setShader(circleGradient);
+
+        ArrayList<Paint> paints = new ArrayList<>();
+        paints.add(paint);
+        return paints;
+    }
+
+
+
+    /*
+     * Paint生成
+     *  　スパークル(かなり長め)Paint生成
+     */
+    private ArrayList<Paint> createVeryLongSparklePaint() {
+
+        //描画中心
+        float centerX  = getWidth() / 2f;
+        float centerY  = getHeight() / 2f;
+        //円半径
+        final int CENTER_CIRCLE_RADIUS = mSize / 20;
+
+        //グラデーション色：中心円
+        int[] colors = new int[] {
+                Color.WHITE,
+                Color.TRANSPARENT,
+        };
+        float[] stops = new float[] {
+                0.5f,
+                1.0f,
+        };
+
+        //グラデーション色：十字
+        int[] spklColors = new int[] {
+                Color.WHITE,
+                mShadowColor,
+                Color.TRANSPARENT,
+        };
+        float[] spklStops = new float[] {
+                0.0f,
+                0.5f,
+                0.9f,
+        };
+
         //--------------------------------------------
         // グラデーションの生成
         //--------------------------------------------
         //中心円のグラデーション
         Shader circleGradient = new RadialGradient(
                 centerX, centerY,         //中心座標
-                halfSize / 3,         //半径
-                //getResources().getColor(R.color.transparent_50_white), Color.TRANSPARENT,
-                Color.WHITE, getResources().getColor(R.color.transparent_50_white),
+                CENTER_CIRCLE_RADIUS,
+                colors,
+                stops,
                 Shader.TileMode.CLAMP);
 
         //十字のグラデーション
         Shader sparkleGradient = new RadialGradient(
                 centerX, centerY,         //中心座標
-                halfSize,                   //半径
-                Color.WHITE, Color.TRANSPARENT,
+                getWidth() / 2f,                   //半径
+                spklColors,
+                spklStops,
                 Shader.TileMode.CLAMP);
 
         //--------------------------------------------
@@ -1532,7 +1695,6 @@ public class EffectView extends View {
         CirclePaint.setStyle(Paint.Style.FILL);
         CirclePaint.setShadowLayer(mSize / 8f, 0, 0, Color.WHITE);
         CirclePaint.setShader(circleGradient);
-        //setPaintColor(CirclePaint);
 
         //十字
         Paint sparklePaint = new Paint();
@@ -1541,14 +1703,12 @@ public class EffectView extends View {
         sparklePaint.setStyle(Paint.Style.FILL);
         sparklePaint.setShadowLayer(mSize / 8f, 0, 0, Color.WHITE);
         sparklePaint.setShader(sparkleGradient);
-        //setPaintColor(sparklePaint);
 
         //--------------------------------------------
         // Paintリストに追加
         //--------------------------------------------
         ArrayList<Paint> paints = new ArrayList<>();
         paints.add(CirclePaint);         //中心円
-        //paints.add(CirclePaint);        //十字
         paints.add(sparklePaint);        //十字
 
         return paints;
@@ -1824,11 +1984,13 @@ public class EffectView extends View {
 
         //設定サイズを保持していれば、反映する
         if (mSize > 0) {
-            if( mEffectShape == MapTable.SPARKLE_VERY_LONG ){
+            setMeasuredDimension(mSize * 2, mSize * 2 );
+            //setMeasuredDimension(mSize, mSize);
+            /*if( mEffectShape == MapTable.SPARKLE_VERY_LONG ){
                 setMeasuredDimension(mSize*20, mSize*20);
             } else {
                 setMeasuredDimension(mSize*10, mSize*10);
-            }
+            }*/
         }
     }
 

@@ -31,12 +31,16 @@ public class EffectManager {
     private int mEffectRangeSize;
     //エフェクト最小サイズ
     private int mEffectMinSize;
+    //エフェクト色
+    private int mEffectColor;
     //エフェクト色パターン（固定(デフォルト)、ランダム）
     private int mEffectColorPtn;
     //エフェクト透明度
     private int mEffectAlpha;
     //傾けの有無
     private boolean mIsTilt;
+    //グラデーションの有無
+    private boolean mIsGradation;
     //エフェクト量
     private int mEffectVolume;
 
@@ -119,6 +123,7 @@ public class EffectManager {
         //初期値
         mEffectVolume = 20;
         mEffectAlpha = DEFAULT_ALPHA;
+        mIsGradation = false;
     }
 
     /*
@@ -145,6 +150,17 @@ public class EffectManager {
      */
     public void setEffectColorPtn(int pattern) {
         mEffectColorPtn = pattern;
+    }
+    public void setEffectColorPtn(int pattern, int color) {
+        setEffectColorPtn( pattern );
+        mEffectColor = color;
+    }
+
+    /*
+     * Paintにグラデーションを付与するかどうか
+     */
+    public void setGradation(boolean isGradation) {
+        mIsGradation = isGradation;
     }
 
     /*
@@ -180,9 +196,10 @@ public class EffectManager {
             EffectView effectView = new EffectView(mAddDistView.getContext(), mEffectShape, mPaintStyle, mEffectRangeSize, mEffectMinSize, mEffectColorPtn, mIsTilt);
             effectView.setEffectShape( mEffectShape, mPaintStyle );
             effectView.setEffectSize( mEffectRangeSize, mEffectMinSize );
-            effectView.setEffectColorPattern( mEffectColorPtn );
+            effectView.setEffectColorPattern( mEffectColorPtn, mEffectColor );
             effectView.setEffectTilt( mIsTilt );
             effectView.setEffectAlpha( mEffectAlpha );
+            effectView.setGradation( mIsGradation );
             mAddDistView.addView(effectView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
             //---------------------------------

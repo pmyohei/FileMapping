@@ -59,6 +59,16 @@
                 android:textColor="@color/black" />
 
             <TextView
+                android:id="@+id/tv_starSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="星(小)"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
                 android:id="@+id/tv_flower"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -129,6 +139,16 @@
                 android:textColor="@color/black" />
 
             <TextView
+                android:id="@+id/tv_yellowLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="円（金色に光る)"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
                 android:id="@+id/tv_cruch_heart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -155,6 +175,16 @@
                 android:layout_marginTop="12dp"
                 android:layout_gravity="center"
                 android:text="普通のハート(浮)"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_small_float_heart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="小ハート(浮)"
                 android:textSize="18sp"
                 android:textColor="@color/black" />
 
