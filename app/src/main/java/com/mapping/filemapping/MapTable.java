@@ -94,6 +94,7 @@ public class MapTable implements Serializable {
     static public final int DOT = 0x50;
     static public final int CIRCLE = 0x51;
     static public final int SNOW = 0x52;
+    static public final int OVAL = 0x53;
 
     public static enum EffectShape {
         FILL(0),

@@ -18,6 +18,7 @@ public class EffectManager {
 
     //透明度
     public static final int DEFAULT_ALPHA = 0x55;
+    public static final int DISABLE_ALPHA = -1;
 
     //エフェクトビュー追加先レイアウト
     final private ViewGroup mAddDistView;
@@ -36,7 +37,9 @@ public class EffectManager {
     //エフェクト色パターン（固定(デフォルト)、ランダム）
     private int mEffectColorPtn;
     //エフェクト透明度
-    private int mEffectAlpha;
+    private int mEffectMinAlpha;
+    private int mEffectMaxAlpha;
+    private boolean mIsEffectRandomAlpha;
     //傾けの有無
     private boolean mIsTilt;
     //グラデーションの有無
@@ -85,12 +88,10 @@ public class EffectManager {
      *   表示中のエフェクトを削除し、現在設定中のエフェクト設定値で再開始
      */
     public void restartEffect() {
-
         //------------------------
         // 描画中のエフェクトを削除
         //------------------------
         removeEffects();
-
         //------------------------
         // 新しいエフェクトを生成
         //------------------------
@@ -122,7 +123,9 @@ public class EffectManager {
 
         //初期値
         mEffectVolume = 20;
-        mEffectAlpha = DEFAULT_ALPHA;
+        mEffectMinAlpha = DEFAULT_ALPHA;
+        mEffectMaxAlpha = DEFAULT_ALPHA;
+        mIsEffectRandomAlpha = false;
         mIsGradation = false;
     }
 
@@ -168,7 +171,12 @@ public class EffectManager {
      *   para1：透明度
      */
     public void setEffectAlpha(int alpha) {
-        mEffectAlpha = alpha;
+        mEffectMinAlpha = alpha;
+        mEffectMaxAlpha = EffectView.UNSPECIFIED;
+    }
+    public void setEffectAlpha(int minAlpha, int maxAlpha) {
+        mEffectMinAlpha = minAlpha;
+        mEffectMaxAlpha = maxAlpha;
     }
 
     /*
@@ -198,7 +206,7 @@ public class EffectManager {
             effectView.setEffectSize( mEffectRangeSize, mEffectMinSize );
             effectView.setEffectColorPattern( mEffectColorPtn, mEffectColor );
             effectView.setEffectTilt( mIsTilt );
-            effectView.setEffectAlpha( mEffectAlpha );
+            effectView.setEffectAlpha( mEffectMinAlpha, mEffectMaxAlpha );
             effectView.setGradation( mIsGradation );
             mAddDistView.addView(effectView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 

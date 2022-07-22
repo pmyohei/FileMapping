@@ -18,6 +18,14 @@
     <color name="transparent_0_white">#00FFFFFF</color>
     <color name="gray">#FFEAEAEA</color>
 
+    <!-- エフェクトカラー -->
+    <color name="effect_heart_red">#FF0000</color>
+    <color name="effect_heart_white">#FFFFFF</color>
+    <color name="effect_heart_black">#000000</color>
+    <color name="effect_heart_gradation_blue">#0092ca</color>
+    <color name="effect_snow">#D1F1FF</color>
+    <color name="effect_snow_white">#f7f7f7</color>
+
     <!-- エフェクトランダムカラー -->
     <color name="effect_white">#FFFFFF</color>
     <color name="effect_right_white">#FDFFFF</color>

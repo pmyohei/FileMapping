@@ -103,7 +103,7 @@ public class EffectView extends View {
     }
 
     //未設定
-    final int UNSPECIFIED = -1;
+    final static int UNSPECIFIED = -1;
     //色パターン
     public static final int COLOR_PTN_DEFAULT = 0;
     public static final int COLOR_PTN_RANDOM = 1;
@@ -226,6 +226,35 @@ public class EffectView extends View {
      */
     public void setEffectAlpha(int alpha) {
         mAlpha = alpha;
+    }
+    /*
+     * エフェクト透明度の設定
+     *   para1：最小透明度（0x00～）
+     *   para2：最大透明度（～0xFF）
+     *
+     *   最小～最大透明度の範囲でランダムに透明度を算出し、本エフェクトの透明度とする。
+     */
+    public void setEffectAlpha(int minAlpha, int maxAlpha) {
+
+        //-------------------------------------
+        // 最大値未指定なら、最小透明度を固定で設定
+        //-------------------------------------
+        if( maxAlpha == UNSPECIFIED ){
+            setEffectAlpha( minAlpha );
+            return;
+        }
+
+        //-------------------------------------
+        // 最大値指定ありなら、透明度をランダムで算出
+        //-------------------------------------
+        //ランダムで算出する範囲
+        int range = (maxAlpha - minAlpha) + 1;
+
+        //ランダムに透明度を算出し、最小透明度に上乗せ
+        Random random = new Random();
+        int alpha = minAlpha + random.nextInt(range);
+
+        setEffectAlpha( alpha );
     }
 
     /*
@@ -460,6 +489,7 @@ public class EffectView extends View {
     /*
      * 最小サイズに加算するランダム最大値の取得
      */
+/*
     private int getEffectRangeSize() {
 
         //--------------------------------
@@ -495,10 +525,12 @@ public class EffectView extends View {
                 return 20;
         }
     }
+*/
 
     /*
      * 最小サイズの取得
      */
+/*
     private int getEffectMinSize() {
 
         //--------------------------------
@@ -534,6 +566,7 @@ public class EffectView extends View {
                 return 60;
         }
     }
+*/
 
     /*
      * エフェクトのPathを生成
@@ -615,6 +648,10 @@ public class EffectView extends View {
                 mPath = createCircle();
                 break;
 
+            case MapTable.OVAL:
+                mPath = createOval();
+                break;
+
             default:
                 mPath = createSakura();
                 break;
@@ -672,14 +709,15 @@ public class EffectView extends View {
             case MapTable.SPARKLE_RANDOM:
             case MapTable.FLOWER:
             case MapTable.SAKURA:
+            case MapTable.CIRCLE:
                 //Paint単体生成
                 mPaint = createCommonPaint();
                 break;
 
-            case MapTable.CIRCLE:
+/*            case MapTable.CIRCLE:
                 //Paint単体生成
                 mPaint = createpaintGtest();
-                break;
+                break;*/
 
             case MapTable.SPARKLE_VERY_LONG:
                 //スパークル(かなり長い)用Paintの生成
@@ -769,24 +807,34 @@ public class EffectView extends View {
      *  ハート（膨らんだ形状）
      */
     private ArrayList<Path> createHeartInflated() {
-        //ビューサイズの半分の値
-        float halfSize = mSize / 2f;
-        //制御点
-        float farOriCtrlPos = halfSize * 0.66f;             //制御点（原点から遠くの位置）
-        float nearOriCtrlPos = halfSize * 0.33f;            //制御点（原点から近くの位置）
-        float farCntCtrlPos = halfSize + farOriCtrlPos;     //制御点（中間地点から遠くの位置）
-        float nearCntCtrlPos = halfSize + nearOriCtrlPos;   //制御点（中間地点から近くの位置）
 
+        //---------------------
+        // 座標
+        //---------------------
+        float halfSize = mSize / 2f;
+        final float center = getWidth() / 2f;
+        final float org = center - halfSize;
+        final float ctrl_01 = org + (mSize * 0.10f);
+        final float ctrl_04 = org + (mSize * 0.4f);
+        final float ctrl_06 = org + (mSize * 0.6f);
+        final float ctrl_09 = org + (mSize * 0.9f);
+        final float top = org + mSize;
+
+        //---------------------
+        // ハートを生成
+        //---------------------
         Path path = new Path();
 
-        path.moveTo(halfSize, mSize);
-        path.cubicTo(farOriCtrlPos, halfSize, nearOriCtrlPos, mSize, 0, halfSize);
-        path.cubicTo(0, 0, halfSize, 0, halfSize, halfSize);
-        path.cubicTo(halfSize, 0, mSize, 0, mSize, halfSize);
-        path.cubicTo(farCntCtrlPos, mSize, nearCntCtrlPos, halfSize, halfSize, mSize);
+        path.moveTo(center, top);
+        path.cubicTo(ctrl_04, center, ctrl_01, top, org, center);
+        path.cubicTo(org, org, center, org, center, center);
+        path.cubicTo(center, org, top, org, top, center);
+        path.cubicTo(ctrl_09, top, ctrl_06, center, center, top);
         path.close();
 
-        //Pathリストに設定
+        //---------------------
+        // Pathリストに設定
+        //---------------------
         ArrayList<Path> pathes = new ArrayList<>();
         pathes.add(path);
 
@@ -1291,6 +1339,37 @@ public class EffectView extends View {
         return pathes;
     }
 
+    /*
+     * Path生成
+     *   楕円形
+     */
+    private ArrayList<Path> createOval() {
+        //ビューサイズの半分の値
+        float halfSize = mSize / 2f;
+
+        //座標
+        final float centerX = getWidth() / 2f;
+        final float centerY = getHeight() / 2f;
+/*        final float left = centerX - halfSize*0.8f;
+        final float top = centerY - halfSize;
+        final float right = centerX + halfSize*0.9f;
+        final float bottom = centerY + halfSize*1.2f;*/
+        final float left = centerX - halfSize * 0.5f;
+        final float top = centerY - halfSize;
+        final float right = centerX + halfSize * 1.5f;
+        final float bottom = centerY + halfSize * 1.4f;
+
+        //楕円形
+        Path path = new Path();
+        path.addOval( left, top, right, bottom, Path.Direction.CW );
+
+        //Pathリストに設定
+        ArrayList<Path> pathes = new ArrayList<>();
+        pathes.add(path);
+
+        return pathes;
+    }
+
 
     /*
      * スパークルのPath取得
@@ -1529,7 +1608,7 @@ public class EffectView extends View {
             paint.setStyle(Paint.Style.FILL);
         } else {
             paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(4);
+            paint.setStrokeWidth(2);
         }
 
         //グラデーションの付与
