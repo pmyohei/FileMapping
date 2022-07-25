@@ -94,7 +94,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_gravity="center"
-                android:text="枠線のハート"
+                android:text="ハート：枠線"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_stroke_fill_heart_red"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="ハート：枠線・FIll"
                 android:textSize="18sp"
                 android:textColor="@color/black" />
 
@@ -109,12 +119,12 @@
                 android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/tv_blink_heart_colorful"
+                android:id="@+id/tv_blink_heart_purple"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_gravity="center"
-                android:text="ハート、カラフル、明滅、斜め"
+                android:text="ハート（潰）、紫、明滅"
                 android:textSize="18sp"
                 android:textColor="@color/black" />
 
@@ -149,12 +159,92 @@
                 android:textColor="@color/black" />
 
             <TextView
+                android:id="@+id/tv_starMoonYellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="月・スター：黄色"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
                 android:id="@+id/tv_starMoonColorful"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_gravity="center"
                 android:text="月・スター：カラフル"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_circleStarWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="丸い星々"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_sparkle8White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="スパークル：８方向、白"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_sparkle8Yellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="スパークル：８方向、黄色"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_sparkle4White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="スパークル：４方向、白"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_sparkle4RedBlue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="スパークル：４方向、赤・青"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_sparkle4_8White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="スパークル：４・８方向、白"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_sparkle4_8Colorful"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="スパークル：４・８方向、カラフル"
                 android:textSize="18sp"
                 android:textColor="@color/black" />
 

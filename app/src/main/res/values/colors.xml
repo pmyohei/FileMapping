@@ -20,11 +20,20 @@
 
     <!-- エフェクトカラー -->
     <color name="effect_heart_red">#FF0000</color>
+    <color name="effect_heart_pink">#f5587b</color>
     <color name="effect_heart_white">#FFFFFF</color>
     <color name="effect_heart_black">#000000</color>
+    <color name="effect_heart_purple">#7B3B8C</color>
     <color name="effect_heart_gradation_blue">#0092ca</color>
+    <color name="effect_star">#feff9f</color>
     <color name="effect_snow">#D1F1FF</color>
     <color name="effect_snow_white">#f7f7f7</color>
+    <color name="effect_sparkle_white">#ffffff</color>
+    <color name="effect_sparkle_red">#970747</color>
+    <color name="effect_sparkle_blue">#1989ac</color>
+    <color name="effect_sparkle_yellow">#F8F1AD</color>
+
+    <color name="effect_test_yellow">#F8F1AD</color>
 
     <!-- エフェクトランダムカラー -->
     <color name="effect_white">#FFFFFF</color>

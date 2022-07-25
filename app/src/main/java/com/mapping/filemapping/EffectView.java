@@ -871,14 +871,19 @@ public class EffectView extends View {
     private ArrayList<Path> createDia() {
         //ビューサイズの半分の値
         float halfSize = mSize / 2f;
+        //描画中心
+        float center = getWidth() / 2f;
+        final float org = center - halfSize;
+        final float top = center + halfSize;
 
+        //Path生成
         Path path = new Path();
 
-        path.moveTo(halfSize, 0);
-        path.lineTo(0, halfSize);
-        path.lineTo(halfSize, mSize);
-        path.lineTo(mSize, halfSize);
-        path.lineTo(halfSize, 0);
+        path.moveTo(center, org);
+        path.lineTo(org, center);
+        path.lineTo(center, top);
+        path.lineTo(top, center);
+        path.lineTo(center, org);
         path.close();
 
         //Pathリストに設定
@@ -1736,7 +1741,7 @@ public class EffectView extends View {
         //グラデーション色：十字
         int[] spklColors = new int[] {
                 Color.WHITE,
-                mShadowColor,
+                mColor,
                 Color.TRANSPARENT,
         };
         float[] spklStops = new float[] {
@@ -1809,14 +1814,15 @@ public class EffectView extends View {
         Shader circleGradient = new RadialGradient(
                 halfSize, halfSize,         //中心座標
                 halfSize / 3,         //半径
-                getResources().getColor(R.color.transparent_50_white), Color.TRANSPARENT,
+                //getResources().getColor(R.color.transparent_50_white), Color.TRANSPARENT,
+                mColor, Color.TRANSPARENT,
                 Shader.TileMode.CLAMP);
 
         //十字のグラデーション
         Shader sparkleGradient = new RadialGradient(
                 halfSize, halfSize,         //中心座標
                 halfSize,                   //半径
-                Color.WHITE, Color.TRANSPARENT,
+                mColor, Color.TRANSPARENT,
                 Shader.TileMode.CLAMP);
 
         //--------------------------------------------
@@ -1827,7 +1833,7 @@ public class EffectView extends View {
         CirclePaint.setAntiAlias(true);
         CirclePaint.setAlpha(0xFF);
         CirclePaint.setStyle(Paint.Style.FILL);
-        CirclePaint.setShadowLayer(mSize / 8f, 0, 0, Color.WHITE);
+        CirclePaint.setShadowLayer(mSize / 8f, 0, 0, mShadowColor);
         CirclePaint.setShader(circleGradient);
 
         //十字／斜め十字
@@ -1835,7 +1841,7 @@ public class EffectView extends View {
         sparklePaint.setAntiAlias(true);
         sparklePaint.setAlpha(0xFF);
         sparklePaint.setStyle(Paint.Style.FILL);
-        sparklePaint.setShadowLayer(mSize / 8f, 0, 0, Color.WHITE);
+        sparklePaint.setShadowLayer(mSize / 8f, 0, 0, mShadowColor);
         sparklePaint.setShader(sparkleGradient);
 
         //--------------------------------------------
