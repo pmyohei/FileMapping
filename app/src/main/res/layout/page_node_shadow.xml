@@ -33,7 +33,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_gravity="center"
                 android:text="@string/shadow_on_off"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/text_base_color" />
 
             <!--  仕切り線  -->

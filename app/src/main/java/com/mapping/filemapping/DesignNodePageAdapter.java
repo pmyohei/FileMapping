@@ -193,7 +193,7 @@ public class DesignNodePageAdapter extends RecyclerView.Adapter<DesignNodePageAd
             rv_fontAlphabet.setAdapter( new FontAdapter( alphaFonts, mv_node, null, FontAdapter.ALPHABET ) );
             //スクロールリスナー（ViewPager2のタブ切り替えを制御）
             ViewPager2 vp2_design = mv_node.getRootView().findViewById(R.id.vp2_design);
-            rv_fontAlphabet.addOnItemTouchListener( new Vp2OnItemTouchListener( vp2_design ) );
+            rv_fontAlphabet.addOnItemTouchListener( new Vp2ScrollControlListener( vp2_design ) );
 
             //日本語設定の場合のみ、日本語フォントも設定
             Locale locale = Locale.getDefault();
@@ -208,7 +208,7 @@ public class DesignNodePageAdapter extends RecyclerView.Adapter<DesignNodePageAd
                 //RecyclerViewにアダプタを設定
                 rv_fontjapanese.setAdapter( new FontAdapter( jpFonts, mv_node, null, FontAdapter.JAPANESE ) );
                 //スクロールリスナー（ViewPager2のタブ切り替えを制御）
-                rv_fontjapanese.addOnItemTouchListener( new Vp2OnItemTouchListener( vp2_design ) );
+                rv_fontjapanese.addOnItemTouchListener( new Vp2ScrollControlListener( vp2_design ) );
 
             } else {
                 //日本語以外なら、非表示

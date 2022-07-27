@@ -32,11 +32,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:layout_gravity="center"
                 android:text="@string/shadow_on_off"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/text_base_color" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_effects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:clipToPadding="false"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp" />
 
             <!--  仕切り線  -->
             <View

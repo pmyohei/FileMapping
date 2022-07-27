@@ -54,6 +54,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
         private MaterialCardView iv_BottomTop;
         private MaterialCardView iv_BrTl;
         //エフェクト
+        private RecyclerView rv_effects;
         private TextView tv_small_heart_red;
         private TextView tv_small_heart_black;
         private TextView tv_small_heart_white;
@@ -141,6 +142,8 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                     break;
 
                 case 1:
+                    rv_effects = itemView.findViewById(R.id.rv_effects);
+
                     tv_small_heart_red = itemView.findViewById(R.id.tv_small_heart_red);
                     tv_small_heart_black = itemView.findViewById(R.id.tv_small_heart_black);
                     tv_small_heart_white = itemView.findViewById(R.id.tv_small_heart_white);
@@ -320,6 +323,24 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
             FrameLayout fl_map = mv_map.findViewById(R.id.fl_map);
 
             fl_map.post(() -> {
+
+                Context context = mv_map.getContext();
+
+                //レイアウトマネージャの生成・設定（横スクロール）
+                LinearLayoutManager ll_manager = new LinearLayoutManager(context);
+                ll_manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                rv_effects.setLayoutManager(ll_manager);
+
+//                String[] effectResourceNames = ResourceManager.getAlphabetFonts();
+                //RecyclerViewにアダプタを設定
+                rv_effects.setAdapter( new EffectImageAdapter( null, fl_map ) );
+                //スクロール抑制リスナー（ViewPager2のタブ切り替えを制御）
+                ViewPager2 vp2_design = mv_map.getRootView().findViewById(R.id.vp2_design);
+                rv_effects.addOnItemTouchListener( new Vp2ScrollControlListener( vp2_design ) );
+
+
+
+
                 final EffectManager effectManager = new EffectManager( (ViewGroup)fl_map );
 
                 Resources resources = fl_map.getContext().getResources();
@@ -330,8 +351,10 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
 
                         int color = resources.getColor( R.color.effect_heart_red );
 
-                        effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.FILL, MapTable.SLOW_FLOAT, false);
-                        effectManager.setEffectVolume( 40 );
+                        //effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.FILL, MapTable.SLOW_FLOAT, false);
+                        effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.FILL, MapTable.NO_ANIM, false);
+                        //effectManager.setEffectVolume( 40 );
+                        effectManager.setEffectVolume( 80 );
                         effectManager.setEffectSize( 20, 50 );
                         effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color );
                         effectManager.setEffectAlpha( 0xAA );
@@ -345,8 +368,10 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
 
                         int color = resources.getColor( R.color.effect_heart_black );
 
-                        effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.FILL, MapTable.SLOW_FLOAT, false);
-                        effectManager.setEffectVolume( 40 );
+                        //effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.FILL, MapTable.SLOW_FLOAT, false);
+                        effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.FILL, MapTable.NO_ANIM, false);
+                        //effectManager.setEffectVolume( 40 );
+                        effectManager.setEffectVolume( 80 );
                         effectManager.setEffectSize( 20, 50 );
                         effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color );
                         effectManager.setEffectAlpha( 0xAA );
@@ -360,8 +385,10 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
 
                         int color = resources.getColor( R.color.effect_heart_white );
 
-                        effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.FILL, MapTable.SLOW_FLOAT, false);
-                        effectManager.setEffectVolume( 40 );
+                        //effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.FILL, MapTable.SLOW_FLOAT, false);
+                        effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.FILL, MapTable.NO_ANIM, false);
+                        //effectManager.setEffectVolume( 40 );
+                        effectManager.setEffectVolume( 80 );
                         effectManager.setEffectSize( 20, 50 );
                         effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color );
                         effectManager.setEffectAlpha( 0xAA );
@@ -375,7 +402,8 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
 
                         //int color = resources.getColor( R.color.effect_heart_white );
 
-                        effectManager.setEffectAttr( MapTable.HEART_THIN, Paint.Style.FILL, MapTable.SLOW_FLOAT, true);
+                        //effectManager.setEffectAttr( MapTable.HEART_THIN, Paint.Style.FILL, MapTable.SLOW_FLOAT, true);
+                        effectManager.setEffectAttr( MapTable.HEART_THIN, Paint.Style.FILL, MapTable.NO_ANIM, true);
                         effectManager.setEffectVolume( 40 );
                         effectManager.setEffectSize( 400, 100 );
                         effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
@@ -1031,7 +1059,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
             rv_fontAlphabet.setAdapter( new FontAdapter( alphaFonts, null, mv_map, FontAdapter.ALPHABET ) );
             //スクロールリスナー（ViewPager2のタブ切り替えを制御）
             ViewPager2 vp2_design = mv_map.getRootView().findViewById(R.id.vp2_design);
-            rv_fontAlphabet.addOnItemTouchListener( new Vp2OnItemTouchListener( vp2_design ) );
+            rv_fontAlphabet.addOnItemTouchListener( new Vp2ScrollControlListener( vp2_design ) );
 
             //日本語設定の場合のみ、日本語フォントも設定
             Locale locale = Locale.getDefault();
@@ -1046,7 +1074,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                 //RecyclerViewにアダプタを設定
                 rv_fontjapanese.setAdapter( new FontAdapter( jpFonts, null, mv_map, FontAdapter.JAPANESE ) );
                 //スクロールリスナー（ViewPager2のタブ切り替えを制御）
-                rv_fontjapanese.addOnItemTouchListener( new Vp2OnItemTouchListener( vp2_design ) );
+                rv_fontjapanese.addOnItemTouchListener( new Vp2ScrollControlListener( vp2_design ) );
 
             } else {
                 //日本語以外なら、非表示

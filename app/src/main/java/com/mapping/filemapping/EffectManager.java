@@ -560,6 +560,12 @@ public class EffectManager {
     }
 
 
+
+
+
+
+
+
     /*
      * リピートアニメーションリスナー（REVERSE）
      */

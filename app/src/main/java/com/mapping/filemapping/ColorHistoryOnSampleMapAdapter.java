@@ -15,7 +15,7 @@ import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
-public class ColorHistoryAdapter extends RecyclerView.Adapter<ColorHistoryAdapter.ViewHolder> {
+public class ColorHistoryOnSampleMapAdapter extends RecyclerView.Adapter<ColorHistoryOnSampleMapAdapter.ViewHolder> {
 
     //カラーパターン
     public static final int COLOR_2 = 2;
@@ -98,7 +98,7 @@ public class ColorHistoryAdapter extends RecyclerView.Adapter<ColorHistoryAdapte
     /*
      * コンストラクタ
      */
-    public ColorHistoryAdapter(List<String[]> data, View sampleMap, ViewGroup colorParent, int pattern ) {
+    public ColorHistoryOnSampleMapAdapter(List<String[]> data, View sampleMap, ViewGroup colorParent, int pattern ) {
         mData = data;
         mfl_sampleMap = (SampleMapView) sampleMap;
         mll_colorParent = colorParent;
