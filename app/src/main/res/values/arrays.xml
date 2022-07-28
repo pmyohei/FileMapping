@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="effectImageResourceName">
+    <array name="effectImageResource">
+        <item>@drawable/heart_float_red</item>
+        <item>@drawable/heart_float_black</item>
+        <item>@drawable/heart_float_white</item>
+        <item>@drawable/heart_float_colorful</item>
+        <item>@drawable/heart_float_colorful2</item>
+        <item>@drawable/heart_float_colorful3</item>
+        <item>@drawable/heart_float_colorful4</item>
+        <item>@drawable/heart_float_colorful5</item>
+        <item>@drawable/heart_float_colorful6</item>
         <item>@drawable/hb1</item>
-        <item>@drawable/hb2</item>
-        <item>@drawable/hb3</item>
+        <item>@drawable/heart_scale_colorful</item>
+        <item>@drawable/heart_scale_colorful2</item>
+        <item>@drawable/heart_float_red_stroke</item>
+        <item>@drawable/star_moon_yellow</item>
+        <item>@drawable/star_moon_yellow2</item>
+        <item>@drawable/star_moon_colorful1</item>
+        <item>@drawable/star_moon_colorful2</item>
+        <item>@drawable/star_moon_colorful3</item>
+        <item>@drawable/star_moon_colorful4</item>
+        <item>@drawable/circle_star_1</item>
+        <item>@drawable/circle_star_2</item>
+        <item>@drawable/circle_star_3</item>
+        <item>@drawable/circle_star_4</item>
+        <item>@drawable/snow_1</item>
     </array>
+
+
 
 </resources>

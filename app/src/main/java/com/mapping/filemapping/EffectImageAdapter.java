@@ -1,23 +1,15 @@
 package com.mapping.filemapping;
 
-import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.card.MaterialCardView;
-
-import java.util.List;
 
 /*
  * エフェクトイメージ用アダプタ
@@ -75,7 +67,7 @@ public class EffectImageAdapter extends RecyclerView.Adapter<EffectImageAdapter.
         mData = data;
 
         Resources res = toEffectView.getContext().getResources();
-        mEffectImageResourceName = res.obtainTypedArray(R.array.effectImageResourceName);
+        mEffectImageResourceName = res.obtainTypedArray(R.array.effectImageResource);
 
         //エフェクトマネージャの生成
         mEffectManager = new EffectManager( toEffectView );

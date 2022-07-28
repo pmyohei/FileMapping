@@ -16,7 +16,6 @@
         android:id="@+id/iv_effect"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:background="@drawable/hb1"/>
+        android:gravity="center"/>
 
 </com.google.android.material.card.MaterialCardView>

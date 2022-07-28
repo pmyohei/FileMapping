@@ -52,6 +52,10 @@ public class EffectManager {
      */
     public EffectManager(ViewGroup parentView) {
         mAddDistView = parentView;
+
+        //エフェクトイメージのリソースIDを保持
+
+
     }
 
     /*
@@ -73,6 +77,25 @@ public class EffectManager {
     public void startEffect() {
         //エフェクトを生成
         createEffects();
+    }
+
+    /*
+     * エフェクト開始
+     */
+    public void startEffect( int effectResID ) {
+
+        String test = "aaa";
+        switch ( test ){
+            case "aaa":
+
+
+            case "bbb":
+
+
+
+
+        }
+
     }
 
     /*
@@ -321,7 +344,7 @@ public class EffectManager {
             // 拡大と縮小
             //------------------------
             case MapTable.SCALE_UP:
-                applyScaleupEffectAnimation(animationTarget);
+                applyScaleUpEffectAnimation(animationTarget);
                 break;
 
             //------------------------
@@ -539,7 +562,7 @@ public class EffectManager {
      * エフェクトアニメーション
      * 　　拡大と縮小を繰り返す
      */
-    private void applyScaleupEffectAnimation( View animationTarget ) {
+    private void applyScaleUpEffectAnimation(View animationTarget ) {
 
         //------------------------
         // 乱数値
