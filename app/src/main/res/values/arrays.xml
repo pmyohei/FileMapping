@@ -2,29 +2,71 @@
 <resources>
     <array name="effectImageResource">
         <item>@drawable/heart_float_red</item>
+        <item>@drawable/heart_float_red_2</item>
         <item>@drawable/heart_float_black</item>
+        <item>@drawable/heart_float_black_2</item>
+        <item>@drawable/heart_float_black_3</item>
         <item>@drawable/heart_float_white</item>
-        <item>@drawable/heart_float_colorful</item>
+        <item>@drawable/heart_float_white_2</item>
+        <item>@drawable/heart_float_red_stroke</item>
+<!--        <item>@drawable/heart_float_colorful</item>
         <item>@drawable/heart_float_colorful2</item>
         <item>@drawable/heart_float_colorful3</item>
         <item>@drawable/heart_float_colorful4</item>
         <item>@drawable/heart_float_colorful5</item>
         <item>@drawable/heart_float_colorful6</item>
-        <item>@drawable/hb1</item>
-        <item>@drawable/heart_scale_colorful</item>
-        <item>@drawable/heart_scale_colorful2</item>
-        <item>@drawable/heart_float_red_stroke</item>
-        <item>@drawable/star_moon_yellow</item>
+        <item>@drawable/heart_float_colorful7</item>
+        <item>@drawable/heart_float_colorful8</item>
+        <item>@drawable/heart_float_colorful9</item>-->
+<!--        <item>@drawable/heart_float_colorful10</item>
+        <item>@drawable/heart_float_colorful11</item>
+        <item>@drawable/heart_float_colorful12</item>
+        <item>@drawable/heart_float_colorful13</item>
+        <item>@drawable/heart_float_colorful14</item>
+        <item>@drawable/heart_float_colorful15</item>-->
+        <item>@drawable/heart_float_colorful16</item>
+        <!--<item>@drawable/heart_scale_colorful2</item>-->
+        <item>@drawable/heart_scale_colorful3</item>
+        <item>@drawable/heart_scale_colorful4</item>
+        <!--        <item>@drawable/hb1</item>
+                <item>@drawable/heart_scale_colorful</item>
+                <item>@drawable/star_moon_yellow</item>-->
         <item>@drawable/star_moon_yellow2</item>
+<!--
         <item>@drawable/star_moon_colorful1</item>
         <item>@drawable/star_moon_colorful2</item>
         <item>@drawable/star_moon_colorful3</item>
+-->
         <item>@drawable/star_moon_colorful4</item>
+<!--
         <item>@drawable/circle_star_1</item>
         <item>@drawable/circle_star_2</item>
         <item>@drawable/circle_star_3</item>
+-->
         <item>@drawable/circle_star_4</item>
         <item>@drawable/snow_1</item>
+        <item>@drawable/sparkle_8_white</item>
+<!--
+        <item>@drawable/sparkle_8_yellow</item>
+        <item>@drawable/sparkle_8_yellow2</item>
+-->
+        <item>@drawable/sparkle_8_yellow3</item>
+<!--
+        <item>@drawable/sparkle_4_white</item>
+        <item>@drawable/sparkle_4_white_2</item>
+-->
+        <item>@drawable/sparkle_4_white_3</item>
+<!--
+        <item>@drawable/sparkle_4_red_blue</item>
+        <item>@drawable/sparkle_4_red_blue_2</item>
+-->
+        <item>@drawable/sparkle_4_red_blue_3</item>
+<!--
+        <item>@drawable/sparkle_4_8_white</item>
+        <item>@drawable/sparkle_4_8_white_2</item>
+-->
+        <item>@drawable/sparkle_4_8_white_3</item>
+        <item>@drawable/sparkle_4_8_colorful_1</item>
     </array>
 
 
