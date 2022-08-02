@@ -9,7 +9,6 @@ import android.graphics.Path;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -106,8 +105,10 @@ public class EffectView extends View {
     final static int UNSPECIFIED = -1;
     //色パターン
     public static final int COLOR_PTN_DEFAULT = 0;
-    public static final int COLOR_PTN_RANDOM = 1;
-    public static final int COLOR_PTN_SPECIFY = 2;
+    public static final int COLOR_PTN_SPECIFY = 1;
+    public static final int COLOR_PTN_LIGHT_RANDOM = 2;
+    public static final int COLOR_PTN_MIDDLE_RANDOM = 3;
+
 
     //エフェクト形状
     private int mEffectShape;
@@ -294,9 +295,11 @@ public class EffectView extends View {
         int[] colors;
         if (colorKind == COLOR_PTN_DEFAULT) {
             colors = getDefaultColor();
-        } else if (colorKind == COLOR_PTN_RANDOM) {
-            colors = getRandomColor();
-        } else {
+        } else if (colorKind == COLOR_PTN_LIGHT_RANDOM) {
+            colors = getRandomLightColor();
+        } else if (colorKind == COLOR_PTN_MIDDLE_RANDOM) {
+            colors = getRandomMiddleColor();
+        }  else {
             mColor = color;
             mShadowColor = color;
             return;
@@ -322,8 +325,8 @@ public class EffectView extends View {
             case MapTable.HEART_NORMAL:
             case MapTable.HEART_THIN:
             case MapTable.HEART_INFLATED:
-                colorRID = R.color.effect_right_red;
-                shadowColorRID = R.color.effect_red;
+                colorRID = R.color.effect_random_right_red;
+                shadowColorRID = R.color.effect_random_dark_red;
                 break;
 
             case MapTable.STAR:
@@ -332,8 +335,8 @@ public class EffectView extends View {
             case MapTable.TRIANGLE:
             case MapTable.DIA:
             case MapTable.SPARKLE_VERY_LONG:
-                colorRID = R.color.effect_right_yellow;
-                shadowColorRID = R.color.effect_yellow;
+                colorRID = R.color.effect_random_right_yellow;
+                shadowColorRID = R.color.effect_random_dark_yellow;
                 break;
 
             case MapTable.SPARKLE_SHORT:
@@ -341,25 +344,25 @@ public class EffectView extends View {
             case MapTable.SPARKLE_LONG:
             case MapTable.SPARKLE_RANDOM:
             case MapTable.SPARCLE_CENTRAL_CIRCLE:
-                colorRID = R.color.effect_right_white;
-                shadowColorRID = R.color.effect_white;
+                colorRID = R.color.effect_random_right_white;
+                shadowColorRID = R.color.effect_random_dark_white;
                 break;
 
             case MapTable.FLOWER:
             case MapTable.SAKURA:
-                colorRID = R.color.effect_right_pink;
-                shadowColorRID = R.color.effect_pink;
+                colorRID = R.color.effect_random_right_pink;
+                shadowColorRID = R.color.effect_random_dark_pink;
                 break;
 
             case MapTable.CIRCLE:
             case MapTable.SNOW:
-                colorRID = R.color.effect_right_white;
-                shadowColorRID = R.color.effect_white;
+                colorRID = R.color.effect_random_right_white;
+                shadowColorRID = R.color.effect_random_dark_white;
                 break;
 
             default:
-                colorRID = R.color.effect_right_white;
-                shadowColorRID = R.color.effect_white;
+                colorRID = R.color.effect_random_right_white;
+                shadowColorRID = R.color.effect_random_dark_white;
                 break;
         }
 
@@ -375,9 +378,9 @@ public class EffectView extends View {
 
 
     /*
-     * ランダムに色を取得
+     * ランダムに色(薄め)を取得
      */
-    private int[] getRandomColor() {
+    private int[] getRandomLightColor() {
 
         //-----------------------------
         // ランダムにカラーリソースIDを取得
@@ -389,32 +392,32 @@ public class EffectView extends View {
         int i = random.nextInt(6);
         switch (i) {
             case 0:
-                colorRID = R.color.effect_right_yellow;
-                shadowColorRID = R.color.effect_yellow;
+                colorRID = R.color.effect_random_right_yellow;
+                shadowColorRID = R.color.effect_random_dark_yellow;
                 break;
             case 1:
-                colorRID = R.color.effect_right_red;
-                shadowColorRID = R.color.effect_red;
+                colorRID = R.color.effect_random_right_red;
+                shadowColorRID = R.color.effect_random_dark_red;
                 break;
             case 2:
-                colorRID = R.color.effect_right_blue;
-                shadowColorRID = R.color.effect_blue;
+                colorRID = R.color.effect_random_right_blue;
+                shadowColorRID = R.color.effect_random_dark_blue;
                 break;
             case 3:
-                colorRID = R.color.effect_right_green;
-                shadowColorRID = R.color.effect_green;
+                colorRID = R.color.effect_random_right_green;
+                shadowColorRID = R.color.effect_random_dark_green;
                 break;
             case 4:
-                colorRID = R.color.effect_right_pink;
-                shadowColorRID = R.color.effect_pink;
+                colorRID = R.color.effect_random_right_pink;
+                shadowColorRID = R.color.effect_random_dark_pink;
                 break;
             case 5:
-                colorRID = R.color.effect_right_purple;
-                shadowColorRID = R.color.effect_purple;
+                colorRID = R.color.effect_random_right_purple;
+                shadowColorRID = R.color.effect_random_dark_purple;
                 break;
             default:
-                colorRID = R.color.effect_right_yellow;
-                shadowColorRID = R.color.effect_yellow;
+                colorRID = R.color.effect_random_right_yellow;
+                shadowColorRID = R.color.effect_random_dark_yellow;
                 break;
         }
 
@@ -427,6 +430,62 @@ public class EffectView extends View {
 
         return colors;
     }
+
+    /*
+     * ランダムに色(中間)を取得
+     */
+    private int[] getRandomMiddleColor() {
+
+        //-----------------------------
+        // ランダムにカラーリソースIDを取得
+        //-----------------------------
+        int colorRID;
+        int shadowColorRID;
+
+        Random random = new Random();
+        int i = random.nextInt(6);
+        switch (i) {
+            case 0:
+                colorRID = R.color.effect_random_middle_yellow;
+                shadowColorRID = R.color.effect_random_dark_yellow;
+                break;
+            case 1:
+                colorRID = R.color.effect_random_middle_red;
+                shadowColorRID = R.color.effect_random_dark_red;
+                break;
+            case 2:
+                colorRID = R.color.effect_random_middle_blue;
+                shadowColorRID = R.color.effect_random_dark_blue;
+                break;
+            case 3:
+                colorRID = R.color.effect_random_middle_green;
+                shadowColorRID = R.color.effect_random_dark_green;
+                break;
+            case 4:
+                colorRID = R.color.effect_random_middle_pink;
+                shadowColorRID = R.color.effect_random_dark_pink;
+                break;
+            case 5:
+                colorRID = R.color.effect_random_middle_purple;
+                shadowColorRID = R.color.effect_random_dark_purple;
+                break;
+            default:
+                colorRID = R.color.effect_random_middle_yellow;
+                shadowColorRID = R.color.effect_random_dark_yellow;
+                break;
+        }
+
+        //-----------------------------
+        // カラーリソースIDを色に変換
+        //-----------------------------
+        int[] colors = new int[2];
+        colors[0] = getResources().getColor(colorRID);
+        colors[1] = getResources().getColor(shadowColorRID);
+
+        return colors;
+    }
+
+
 
     /*
      * 角度のランダム設定
@@ -660,14 +719,14 @@ public class EffectView extends View {
         //API28以下は、影の見切れを防ぐために線だけのPathを描画しておく
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
             //Shadowレイヤによる影描画エリアの確保
-            secureShadowArea();
+            secureShadowAreaPath();
         }
     }
 
     /*
-     * 影描画エリアの確保
+     * 影描画エリアの確保：Path
      */
-    private void secureShadowArea() {
+    private void secureShadowAreaPath() {
         Path path = mPath.get(0);
 
         //描画中心
@@ -682,6 +741,7 @@ public class EffectView extends View {
         path.lineTo(centerX, centerY + mSize);
         path.close();
     }
+
 
     /*
      * エフェクトのPaintを生成
@@ -1228,14 +1288,14 @@ public class EffectView extends View {
         //花びらの幅の半分
         float halfPetalWidth = petalWidth / 2f;
 
-        //各点の高さ情報
+        //描画中心座標
+        final float cx = getWidth() / 2f;
+        final float cy = getHeight() / 2f;
+
+        //各点までの長さ
         final float petalHeight = halfSize;
         final float innerHeight = halfSize - halfPetalWidth;
         final float ctrlHeight = halfSize / 2f;
-
-        //描画中心座標
-        final float cx = halfSize;
-        final float cy = halfSize;
 
         //ビューの中心へ移動
         Path path = new Path();
@@ -1258,13 +1318,13 @@ public class EffectView extends View {
             // 各頂点・制御点のラジアン
             //--------------------------------------------
             //制御点（左・右）
-            float leftCtrlRadians = (float) ((angle + LEFT_CTRL_ANGLE) * halfPI);
-            float rightCtrlRadians = (float) ((angle + RIGHT_CTRL_ANGLE) * halfPI);
+            float leftCtrlRadians = ((angle + LEFT_CTRL_ANGLE) * halfPI);
+            float rightCtrlRadians = ((angle + RIGHT_CTRL_ANGLE) * halfPI);
             //中央の切れ込み
-            float centerRadians = (float) ((angle + CENTER_ANGLE) * halfPI);
+            float centerRadians = ((angle + CENTER_ANGLE) * halfPI);
             //花びら先端（左・右）
-            float leftTipRadians = (float) ((angle + LEFT_TIP_ANGLE) * halfPI);
-            float rightTipRadians = (float) ((angle + RIGHT_TIP_ANGLE) * halfPI);
+            float leftTipRadians = ((angle + LEFT_TIP_ANGLE) * halfPI);
+            float rightTipRadians = ((angle + RIGHT_TIP_ANGLE) * halfPI);
 
             //--------------------------------------------
             // 各点の高さに対する、指定角度を反映した値を算出
@@ -1278,10 +1338,10 @@ public class EffectView extends View {
             //中央の切れ込み点
             float tranceInnerX = (float) (innerHeight * Math.cos(centerRadians));
             float tranceInnerY = (float) (innerHeight * Math.sin(centerRadians));
-            //花びら選択（左）
+            //花びら先端（左）
             float tranceLeftTipX = (float) (petalHeight * Math.cos(leftTipRadians));
             float tranceLeftTipY = (float) (petalHeight * Math.sin(leftTipRadians));
-            //花びら選択（右）
+            //花びら先端（右）
             float tranceRightTipX = (float) (petalHeight * Math.cos(rightTipRadians));
             float tranceRightTipY = (float) (petalHeight * Math.sin(rightTipRadians));
 
@@ -1297,10 +1357,10 @@ public class EffectView extends View {
             //中央の切れ込み点の座標
             float innerPosX = cx + tranceInnerX;
             float innerPosY = cy + tranceInnerY;
-            //花びら選択（左）の座標
+            //花びら先端（左）の座標
             float leftTipPosX = cx + tranceLeftTipX;
             float leftTipPosY = cy + tranceLeftTipY;
-            //花びら選択（右）の座標
+            //花びら先端（右）の座標
             float rightTipPosX = cx + tranceRightTipX;
             float rightTipPosY = cy + tranceRightTipY;
 

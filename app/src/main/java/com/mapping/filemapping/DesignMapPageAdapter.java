@@ -65,7 +65,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
         private TextView tv_blink_heart_purple;
         private TextView tv_snowFall;
         private TextView tv_PolkaDotsColorful;
-        private TextView tv_PolkaDotsYellow;
+        private TextView tv_PolkaDotsWhite;
         private TextView tv_starMoonYellow;
         private TextView tv_starMoonColorful;
         private TextView tv_circleStarWhite;
@@ -75,6 +75,10 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
         private TextView tv_sparkle4RedBlue;
         private TextView tv_sparkle4_8White;
         private TextView tv_sparkle4_8Colorful;
+        private TextView tv_flower_white;
+        private TextView tv_little_flower_white;
+        private TextView tv_flower_2color;
+        private TextView tv_sakura_pink;
 
         private TextView tv_star;
         private TextView tv_starSmall;
@@ -154,7 +158,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                     tv_blink_heart_purple = itemView.findViewById(R.id.tv_blink_heart_purple);
                     tv_snowFall = itemView.findViewById(R.id.tv_snowFall);
                     tv_PolkaDotsColorful = itemView.findViewById(R.id.tv_PolkaDotsColorful);
-                    tv_PolkaDotsYellow = itemView.findViewById(R.id.tv_PolkaDotsYellow);
+                    tv_PolkaDotsWhite = itemView.findViewById(R.id.tv_PolkaDotsWhite);
                     tv_starMoonYellow = itemView.findViewById(R.id.tv_starMoonYellow);
                     tv_starMoonColorful = itemView.findViewById(R.id.tv_starMoonColorful);
                     tv_circleStarWhite = itemView.findViewById(R.id.tv_circleStarWhite);
@@ -164,6 +168,10 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                     tv_sparkle4RedBlue = itemView.findViewById(R.id.tv_sparkle4RedBlue);
                     tv_sparkle4_8White = itemView.findViewById(R.id.tv_sparkle4_8White);
                     tv_sparkle4_8Colorful = itemView.findViewById(R.id.tv_sparkle4_8Colorful);
+                    tv_flower_white = itemView.findViewById(R.id.tv_flower_white);
+                    tv_little_flower_white = itemView.findViewById(R.id.tv_little_flower_white);
+                    tv_flower_2color = itemView.findViewById(R.id.tv_flower_2color);
+                    tv_sakura_pink = itemView.findViewById(R.id.tv_sakura_pink);
 
                     //tmp
                     tv_star = itemView.findViewById(R.id.tv_star);
@@ -399,9 +407,11 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                         //effectManager.setEffectAttr( MapTable.HEART_THIN, Paint.Style.FILL, MapTable.SLOW_FLOAT, true);
                         effectManager.setEffectAttr( MapTable.HEART_THIN, Paint.Style.FILL, MapTable.NO_ANIM, true);
                         effectManager.setEffectVolume( 80 );
-                        effectManager.setEffectSize( 400, 100 );
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
-                        effectManager.setEffectAlpha( 0x88 );
+//                        effectManager.setEffectSize( 400, 100 );
+                        effectManager.setEffectSize( 300, 300 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_LIGHT_RANDOM);
+//                        effectManager.setEffectAlpha( 0x88 );
+                        effectManager.setEffectAlpha( 0xaa, 0xee );
                         effectManager.restartEffect();
                     }
                 });
@@ -410,36 +420,36 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                     @Override
                     public void onClick(View view) {
 
-                        int color = resources.getColor( R.color.effect_heart_gradation_blue);
+/*                        int color = resources.getColor( R.color.effect_heart_gradation_blue);
 
-                        effectManager.setEffectAttr( MapTable.HEART_INFLATED, Paint.Style.STROKE, MapTable.SLOW_FLOAT, false);
+                        effectManager.setEffectAttr( MapTable.HEART_INFLATED, Paint.Style.STROKE, MapTable.SLOW_FLOAT, true);
                         effectManager.setEffectVolume( 20 );
-                        effectManager.setEffectSize( 100, 300 );
+                        effectManager.setEffectSize( 100, 100 );
                         effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color );
                         effectManager.setEffectAlpha( 0xDD );
-                        effectManager.restartEffect();
+                        effectManager.restartEffect();*/
                     }
                 });
 
                 tv_stroke_fill_heart_red.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int fillColor = resources.getColor( R.color.effect_heart_red);
+/*                        int fillColor = resources.getColor( R.color.effect_heart_red);
                         int strokeColor = resources.getColor( R.color.effect_heart_pink);
 
                         effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.FILL, MapTable.SLOW_FLOAT, false);
                         effectManager.setEffectVolume( 20 );
-                        effectManager.setEffectSize( 100, 300 );
+                        effectManager.setEffectSize( 100, 100 );
                         effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, fillColor );
                         effectManager.setEffectAlpha( 0xDD );
                         effectManager.restartEffect();
 
                         effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.STROKE, MapTable.SLOW_FLOAT, false);
                         effectManager.setEffectVolume( 15 );
-                        effectManager.setEffectSize( 100, 200 );
+                        effectManager.setEffectSize( 100, 100 );
                         effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, strokeColor );
                         effectManager.setEffectAlpha( 0xDD );
-                        effectManager.createEffects();
+                        effectManager.createEffects();*/
                     }
                 });
 
@@ -451,8 +461,9 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                         effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.FILL, MapTable.NO_ANIM, true);
                         effectManager.setEffectVolume( 40 );
                         effectManager.setEffectSize( 400, 300 );
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
-                        effectManager.setEffectAlpha( 0x55, 0xdd );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_LIGHT_RANDOM);
+//                        effectManager.setEffectAlpha( 0x55, 0xdd );
+                        effectManager.setEffectAlpha( 0xaa, 0xee );
                         effectManager.setGradation( false );
                         effectManager.restartEffect();
                     }
@@ -461,15 +472,30 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                 tv_blink_heart_purple.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int color = view.getContext().getResources().getColor( R.color.effect_heart_purple);
+                        int color1 = view.getContext().getResources().getColor( R.color.effect_inflated_heart_1);
+                        int color2 = view.getContext().getResources().getColor( R.color.effect_inflated_heart_2);
+                        int color3 = view.getContext().getResources().getColor( R.color.effect_inflated_heart_3);
 
-                        effectManager.setEffectAttr( MapTable.HEART_INFLATED, Paint.Style.FILL, MapTable.BLINK_MOVE, false);
-                        effectManager.setEffectVolume( 20 );
+                        //1色目
+//                        effectManager.setEffectAttr( MapTable.HEART_INFLATED, Paint.Style.FILL, MapTable.BLINK_MOVE, false);
+                        effectManager.setEffectAttr( MapTable.HEART_INFLATED, Paint.Style.FILL, MapTable.NO_ANIM, true);
+                        effectManager.setEffectVolume( 30 );
                         effectManager.setEffectSize( 100, 100 );
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color );
-                        effectManager.setEffectAlpha( 0x88, 0xDD );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color1 );
+//                        effectManager.setEffectAlpha( 0xDD, 0xFF );
+                        effectManager.setEffectAlpha( 0xFF );
                         effectManager.setGradation( false );
                         effectManager.restartEffect();
+
+                        //2色目
+                        effectManager.setEffectVolume( 30 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color2 );
+                        effectManager.createEffects();
+
+                        //3色目
+                        effectManager.setEffectVolume( 30 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color3 );
+                        effectManager.createEffects();
                     }
                 });
 
@@ -494,12 +520,12 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                 tv_PolkaDotsColorful.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int colorSnow = view.getContext().getResources().getColor( R.color.effect_snow );
+                        int color = view.getContext().getResources().getColor( R.color.effect_polkadots_white );
 
                         effectManager.setEffectAttr( MapTable.OVAL, Paint.Style.FILL, MapTable.NO_ANIM, false);
                         effectManager.setEffectVolume( 20 );
                         effectManager.setEffectSize( 100, 200 );
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_LIGHT_RANDOM);
                         effectManager.setEffectAlpha( 0x11, 0x22 );
                         //effectManager.setEffectAlpha( 0x33, 0x44 );
                         effectManager.restartEffect();
@@ -507,30 +533,61 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                         effectManager.setEffectAttr( MapTable.OVAL, Paint.Style.FILL, MapTable.BLINK_MOVE, false);
                         effectManager.setEffectVolume( 20 );
                         effectManager.setEffectSize( 100, 200 );
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
-                        effectManager.setEffectAlpha( 0x11 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_LIGHT_RANDOM);
+                        effectManager.setEffectAlpha( 0x22 );
                         //effectManager.setEffectAlpha( 0x33 );
                         effectManager.createEffects();
 
                         effectManager.setEffectAttr( MapTable.OVAL, Paint.Style.FILL, MapTable.BLINK_MOVE, false);
                         effectManager.setEffectVolume( 20 );
                         effectManager.setEffectSize( 200, 400 );
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
-                        effectManager.setEffectAlpha( 0x11, 0x22 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_LIGHT_RANDOM);
+                        effectManager.setEffectAlpha( 0x11, 0x55 );
                         effectManager.createEffects();
 
                         effectManager.setEffectAttr( MapTable.CIRCLE, Paint.Style.FILL, MapTable.NO_ANIM);
                         effectManager.setEffectVolume( 100 );
                         effectManager.setEffectSize( 10, 10 );
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, Color.WHITE );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color);
                         effectManager.setEffectAlpha( 0x44, 0xDD );
                         effectManager.createEffects();
                     }
                 });
 
-                tv_PolkaDotsYellow.setOnClickListener(new View.OnClickListener() {
+                tv_PolkaDotsWhite.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        int color = view.getContext().getResources().getColor( R.color.effect_polkadots_white );
+
+                        effectManager.setEffectAttr( MapTable.OVAL, Paint.Style.FILL, MapTable.NO_ANIM, false);
+                        effectManager.setEffectVolume( 20 );
+                        effectManager.setEffectSize( 100, 200 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color);
+                        effectManager.setEffectAlpha( 0x11, 0x22 );
+                        //effectManager.setEffectAlpha( 0x33, 0x44 );
+                        effectManager.restartEffect();
+
+                        effectManager.setEffectAttr( MapTable.OVAL, Paint.Style.FILL, MapTable.BLINK_MOVE, false);
+                        effectManager.setEffectVolume( 20 );
+                        effectManager.setEffectSize( 100, 200 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color);
+                        effectManager.setEffectAlpha( 0x22 );
+                        //effectManager.setEffectAlpha( 0x33 );
+                        effectManager.createEffects();
+
+                        effectManager.setEffectAttr( MapTable.OVAL, Paint.Style.FILL, MapTable.BLINK_MOVE, false);
+                        effectManager.setEffectVolume( 10 );
+                        effectManager.setEffectSize( 200, 400 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color);
+                        effectManager.setEffectAlpha( 0x11, 0x55 );
+                        effectManager.createEffects();
+
+                        effectManager.setEffectAttr( MapTable.CIRCLE, Paint.Style.FILL, MapTable.NO_ANIM);
+                        effectManager.setEffectVolume( 100 );
+                        effectManager.setEffectSize( 10, 10 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color);
+                        effectManager.setEffectAlpha( 0x44, 0xDD );
+                        effectManager.createEffects();
                     }
                 });
 
@@ -571,7 +628,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
 //                        effectManager.setEffectVolume( 30 );
                         effectManager.setEffectVolume( 50 );
                         effectManager.setEffectSize( 100, 40 );
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_LIGHT_RANDOM);
                         effectManager.setEffectAlpha( 0x99, 0xCC );
                         effectManager.restartEffect();
 
@@ -579,7 +636,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
 //                        effectManager.setEffectVolume( 5 );
                         effectManager.setEffectVolume( 10 );
                         effectManager.setEffectSize( 100, 100 );
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_LIGHT_RANDOM);
                         effectManager.setEffectAlpha( 0x99 );
                         effectManager.createEffects();
 
@@ -790,7 +847,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
 //                        effectManager.setEffectSize( 100, 100 );
                         effectManager.setEffectSize( 100, 300 );
                         //effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, colorWhite);
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_LIGHT_RANDOM);
                         effectManager.setEffectAlpha( 0xDD, 0xEE );
                         effectManager.restartEffect();
 
@@ -805,7 +862,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
 //                        effectManager.setEffectSize( 200, 100 );
                         effectManager.setEffectSize( 200, 400 );
                         //effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, colorWhite);
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_MIDDLE_RANDOM);
                         effectManager.setEffectAlpha( 0xDD, 0xEE );
                         effectManager.createEffects();
 
@@ -818,15 +875,127 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                         effectManager.setEffectVolume( 500 );
                         effectManager.setEffectSize( 10, 10 );
                         //effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, colorWhite);
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_LIGHT_RANDOM);
                         effectManager.setEffectAlpha( 0x44, 0xDD );
                         effectManager.createEffects();
                     }
                 });
 
+                //花びら：白
+                tv_flower_white.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int color = view.getContext().getResources().getColor( R.color.effect_flower_white );
+
+                        effectManager.setEffectAttr( MapTable.FLOWER, Paint.Style.FILL, MapTable.SPIN, false);
+//                        effectManager.setEffectAttr( MapTable.FLOWER, Paint.Style.FILL, MapTable.SPIN, false);
+//                        effectManager.setEffectVolume( 15 );
+                        effectManager.setEffectVolume( 40 );
+                        effectManager.setEffectSize( 100, 200 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color );
+                        effectManager.setEffectAlpha( 0x99, 0xDD );
+                        effectManager.restartEffect();
+
+/*                        effectManager.setAnimation( MapTable.NO_ANIM );
+                        effectManager.setTilt( true );
+                        effectManager.setEffectVolume( 10 );
+                        effectManager.setEffectSize( 200, 200 );
+                        effectManager.setEffectAlpha( 0x22, 0x44 );
+                        effectManager.createEffects();*/
+
+                        effectManager.setEffectAttr( MapTable.DIA, Paint.Style.FILL, MapTable.NO_ANIM, true);
+//                        effectManager.setEffectVolume( 100 );
+                        effectManager.setEffectVolume( 300 );
+                        effectManager.setEffectSize( 30, 20 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color );
+                        effectManager.setEffectAlpha( 0x66, 0xDD );
+                        effectManager.createEffects();
+                    }
+                });
+
+                //花びら（小さい：複数）：白
+                tv_little_flower_white.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int color = view.getContext().getResources().getColor( R.color.effect_flower_white );
+
+                        effectManager.setEffectAttr( MapTable.FLOWER, Paint.Style.FILL, MapTable.NO_ANIM, true);
+//                        effectManager.setEffectVolume( 60 );
+                        effectManager.setEffectVolume( 100 );
+                        effectManager.setEffectSize( 60, 60 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color );
+                        effectManager.setEffectAlpha( 0x22, 0xDD );
+                        effectManager.restartEffect();
+
+                        effectManager.setEffectAttr( MapTable.DIA, Paint.Style.FILL, MapTable.NO_ANIM);
+//                        effectManager.setEffectVolume( 100 );
+                        effectManager.setEffectVolume( 200 );
+                        effectManager.setEffectSize( 10, 10 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color );
+                        effectManager.setEffectAlpha( 0x66, 0xDD );
+                        effectManager.createEffects();
+                    }
+                });
+
+                //花びら：色あり
+                tv_flower_2color.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int colorWhite = view.getContext().getResources().getColor( R.color.effect_flower_white );
+                        int color1 = view.getContext().getResources().getColor( R.color.effect_flower_1 );
+                        int color2 = view.getContext().getResources().getColor( R.color.effect_flower_2 );
+
+                        effectManager.setEffectAttr( MapTable.DIA, Paint.Style.FILL, MapTable.NO_ANIM, true);
+//                        effectManager.setEffectVolume( 100 );
+                        effectManager.setEffectVolume( 300 );
+                        effectManager.setEffectSize( 20, 20 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, colorWhite );
+                        effectManager.setEffectAlpha( 0x33, 0xDD );
+                        effectManager.restartEffect();
+
+                        effectManager.setEffectAttr( MapTable.FLOWER, Paint.Style.FILL, MapTable.SPIN, false);
+//                        effectManager.setEffectVolume( 8 );
+                        effectManager.setEffectVolume( 16 );
+                        effectManager.setEffectSize( 100, 200 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color1 );
+//                        effectManager.setEffectAlpha( 0x99, 0xDD );
+                        effectManager.setEffectAlpha( 0xDD, 0xFF );
+                        effectManager.createEffects();
+
+//                        effectManager.setEffectVolume( 8 );
+                        effectManager.setEffectVolume( 16 );
+                        effectManager.setEffectSize( 100, 200 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color2 );
+                        effectManager.setEffectAlpha( 0x99, 0xDD );
+                        effectManager.createEffects();
 
 
+                    }
+                });
 
+                //さくら：ピンク
+                tv_sakura_pink.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int color = view.getContext().getResources().getColor( R.color.effect_sakura );
+
+                        effectManager.setEffectAttr( MapTable.SAKURA, Paint.Style.FILL, MapTable.SPIN, false);
+//                        effectManager.setEffectVolume( 20 );
+                        effectManager.setEffectVolume( 40 );
+                        effectManager.setEffectSize( 100, 200 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color );
+                        effectManager.setEffectAlpha( 0x99, 0xDD );
+                        effectManager.restartEffect();
+
+                        effectManager.setEffectAttr( MapTable.DIA, Paint.Style.FILL, MapTable.NO_ANIM, true);
+//                        effectManager.setEffectVolume( 100 );
+                        effectManager.setEffectVolume( 200 );
+                        effectManager.setEffectSize( 30, 20 );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_SPECIFY, color );
+                        effectManager.setEffectAlpha( 0x33, 0xEE );
+                        effectManager.createEffects();
+                    }
+                });
 
 
 
@@ -838,7 +1007,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                         effectManager.setEffectAttr( MapTable.STAR, Paint.Style.FILL, MapTable.SPIN);
                         effectManager.setEffectVolume( 100 );
                         effectManager.setEffectSize( 100, 100 );
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_LIGHT_RANDOM);
                         effectManager.restartEffect();
 
                         effectManager.setEffectAttr( MapTable.DOT, Paint.Style.FILL, MapTable.BLINK);
@@ -855,7 +1024,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                         effectManager.setEffectAttr( MapTable.STAR, Paint.Style.FILL, MapTable.SPIN);
                         effectManager.setEffectVolume( 100 );
                         effectManager.setEffectSize( 40, 80 );
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_LIGHT_RANDOM);
                         effectManager.setEffectAlpha(0xDD );
                         effectManager.setGradation(true);
                         effectManager.restartEffect();
@@ -900,7 +1069,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                         effectManager.setEffectAttr( MapTable.SPARKLE_VERY_LONG, Paint.Style.FILL, MapTable.NO_ANIM, true);
                         effectManager.setEffectVolume( 10 );
                         effectManager.setEffectSize( 100, 400 );
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_LIGHT_RANDOM);
                         effectManager.restartEffect();
                     }
                 });
@@ -947,7 +1116,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                     @Override
                     public void onClick(View view) {
 
-                        int color = view.getContext().getResources().getColor( R.color.effect_right_yellow );
+                        int color = view.getContext().getResources().getColor( R.color.effect_random_right_yellow);
 
                         effectManager.setEffectAttr( MapTable.DOT, Paint.Style.FILL, MapTable.BLINK);
                         effectManager.setEffectVolume( 100 );
@@ -993,7 +1162,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                         effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.FILL, MapTable.SLOW_FLOAT, true);
                         effectManager.setEffectVolume( 80 );
                         effectManager.setEffectSize( 100, 100 );
-                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_RANDOM );
+                        effectManager.setEffectColorPtn( EffectView.COLOR_PTN_LIGHT_RANDOM);
                         effectManager.restartEffect();
                     }
                 });
@@ -1020,7 +1189,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                         effectManager.setGradation( true );
                         effectManager.restartEffect();
 
-                        int color = view.getContext().getResources().getColor( R.color.effect_right_blue );
+                        int color = view.getContext().getResources().getColor( R.color.effect_random_right_blue);
 
                         effectManager.setEffectAttr( MapTable.SNOW, Paint.Style.FILL, MapTable.SLOW_FALL);
                         effectManager.setEffectVolume( 60 );

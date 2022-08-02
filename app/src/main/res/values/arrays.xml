@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="effectImageResource">
-        <item>@drawable/heart_float_red</item>
+        <!--<item>@drawable/heart_float_red</item>-->
         <item>@drawable/heart_float_red_2</item>
-        <item>@drawable/heart_float_black</item>
-        <item>@drawable/heart_float_black_2</item>
+<!--        <item>@drawable/heart_float_black</item>-->
+<!--        <item>@drawable/heart_float_black_2</item>-->
         <item>@drawable/heart_float_black_3</item>
         <item>@drawable/heart_float_white</item>
-        <item>@drawable/heart_float_white_2</item>
-        <item>@drawable/heart_float_red_stroke</item>
-<!--        <item>@drawable/heart_float_colorful</item>
+        <!--<item>@drawable/heart_float_white_2</item>-->
+        <!--<item>@drawable/heart_float_red_stroke</item>-->
+        <!--<item>@drawable/heart_scale_colorful2</item>-->
+        <!--<item>@drawable/heart_scale_colorful3</item>-->
+        <!--<item>@drawable/heart_scale_colorful4</item>-->
+        <item>@drawable/heart_scale_colorful5</item>
+        <!--<item>@drawable/heart_scale_colorful6</item>
+        <item>@drawable/heart_scale_colorful7</item>
+        <item>@drawable/heart_scale_colorful8</item>
+        <item>@drawable/heart_scale_colorful9</item>-->
+<!--        <item>@drawable/inflated_heart_3color_1</item>
+        <item>@drawable/inflated_heart_3color_2</item>
+        <item>@drawable/inflated_heart_3color_3</item>
+        <item>@drawable/inflated_heart_3color_4</item>-->
+<!--        <item>@drawable/inflated_heart_3color_5</item>
+        <item>@drawable/inflated_heart_3color_6</item>
+        <item>@drawable/inflated_heart_3color_7</item>
+        <item>@drawable/inflated_heart_3color_8</item>
+        <item>@drawable/inflated_heart_3color_9</item>-->
+        <item>@drawable/inflated_heart_3color_10</item>
+        <!--
+        <item>@drawable/heart_float_colorful</item>
         <item>@drawable/heart_float_colorful2</item>
         <item>@drawable/heart_float_colorful3</item>
         <item>@drawable/heart_float_colorful4</item>
@@ -17,17 +36,20 @@
         <item>@drawable/heart_float_colorful6</item>
         <item>@drawable/heart_float_colorful7</item>
         <item>@drawable/heart_float_colorful8</item>
-        <item>@drawable/heart_float_colorful9</item>-->
-<!--        <item>@drawable/heart_float_colorful10</item>
+        <item>@drawable/heart_float_colorful9</item>
+        <item>@drawable/heart_float_colorful10</item>
         <item>@drawable/heart_float_colorful11</item>
         <item>@drawable/heart_float_colorful12</item>
         <item>@drawable/heart_float_colorful13</item>
         <item>@drawable/heart_float_colorful14</item>
-        <item>@drawable/heart_float_colorful15</item>-->
+        <item>@drawable/heart_float_colorful15</item>
         <item>@drawable/heart_float_colorful16</item>
-        <!--<item>@drawable/heart_scale_colorful2</item>-->
-        <item>@drawable/heart_scale_colorful3</item>
-        <item>@drawable/heart_scale_colorful4</item>
+        <item>@drawable/heart_float_colorful17</item>
+        <item>@drawable/heart_float_colorful18</item>
+        <item>@drawable/heart_float_colorful19</item>
+        <item>@drawable/heart_float_colorful20</item>
+        <item>@drawable/heart_float_colorful21</item>-->
+        <item>@drawable/heart_float_colorful22</item>
         <!--        <item>@drawable/hb1</item>
                 <item>@drawable/heart_scale_colorful</item>
                 <item>@drawable/star_moon_yellow</item>-->
@@ -66,7 +88,28 @@
         <item>@drawable/sparkle_4_8_white_2</item>
 -->
         <item>@drawable/sparkle_4_8_white_3</item>
-        <item>@drawable/sparkle_4_8_colorful_1</item>
+<!--        <item>@drawable/sparkle_4_8_colorful_1</item>
+        <item>@drawable/sparkle_4_8_colorful_2</item>-->
+        <item>@drawable/sparkle_4_8_colorful_3</item>
+<!--        <item>@drawable/polkadots_colorful_1</item>
+        <item>@drawable/polkadots_colorful_2</item>-->
+        <item>@drawable/polkadots_colorful_3</item>
+        <item>@drawable/polkadots_white_1</item>
+<!--        <item>@drawable/polkadots_white_2</item>
+        <item>@drawable/polkadots_white_3</item>-->
+<!--        <item>@drawable/flower_white_1</item>
+        <item>@drawable/flower_white_2</item>
+        <item>@drawable/flower_white_3</item>-->
+        <item>@drawable/flower_white_4</item>
+<!--        <item>@drawable/flower_2color_1</item>
+        <item>@drawable/flower_2color_2</item>
+        <item>@drawable/flower_2color_3</item>
+        <item>@drawable/flower_2color_4</item>
+        <item>@drawable/flower_2color_5</item>-->
+        <item>@drawable/flower_2color_6</item>
+        <item>@drawable/little_flower_white_1</item>
+        <item>@drawable/sakura_pink_1</item>
+        <!--<item>@drawable/sakura_pink_2</item>-->
     </array>
 
 

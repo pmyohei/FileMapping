@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_gravity="center"
-                android:text="ハート：枠線"
+                android:text="×：ハート：枠線"
                 android:textSize="18sp"
                 android:textColor="@color/black" />
 
@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_gravity="center"
-                android:text="ハート：枠線・FIll"
+                android:text="×：ハート：枠線とFIll"
                 android:textSize="18sp"
                 android:textColor="@color/black" />
 
@@ -161,12 +161,12 @@
                 android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/tv_PolkaDotsYellow"
+                android:id="@+id/tv_PolkaDotsWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_gravity="center"
-                android:text="水玉：黄色"
+                android:text="水玉：白"
                 android:textSize="18sp"
                 android:textColor="@color/black" />
 
@@ -260,6 +260,46 @@
                 android:textSize="18sp"
                 android:textColor="@color/black" />
 
+            <TextView
+                android:id="@+id/tv_flower_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="花びら：白"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_little_flower_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="花びら（小さい：複数）：白"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_flower_2color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="花びら：2色"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
+
+
+            <TextView
+                android:id="@+id/tv_sakura_pink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:text="サクラ：ピンク"
+                android:textSize="18sp"
+                android:textColor="@color/black" />
 
 
 

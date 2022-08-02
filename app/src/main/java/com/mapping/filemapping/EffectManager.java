@@ -190,6 +190,20 @@ public class EffectManager {
     }
 
     /*
+     * アニメーションの設定
+     */
+    public void setAnimation(int animation) {
+        mEffectAnimation = animation;
+    }
+
+    /*
+     * 傾きの有無
+     */
+    public void setTilt(boolean isTilt) {
+        mIsTilt = isTilt;
+    }
+
+    /*
      * エフェクト透明度の設定
      *   para1：透明度
      */
@@ -310,6 +324,13 @@ public class EffectManager {
             //------------------------
             case MapTable.SPIN:
                 applySpinEffectAnimation(animationTarget);
+                break;
+
+            //------------------------
+            // 場所を変えながら回転
+            //------------------------
+            case MapTable.SPIN_MOVE:
+                applySpinMoveEffectAnimation(animationTarget);
                 break;
 
             //------------------------
@@ -471,7 +492,7 @@ public class EffectManager {
         // 乱数値
         //------------------------
         Random random = new Random();
-        int duration = random.nextInt(8001) + 8000;
+        int duration = random.nextInt(10001) + 20000;
         int delay = random.nextInt(1001);
 
         //------------------------
@@ -483,6 +504,16 @@ public class EffectManager {
         //tmpSet.setStartDelay( delay );
         tmpSet.start();
     }
+
+    /*
+     * エフェクトアニメーション
+     * 　　回転。回転後、移動。
+     */
+    private void applySpinMoveEffectAnimation(View animationTarget) {
+
+    }
+
+
 
     /*
      * エフェクトアニメーション

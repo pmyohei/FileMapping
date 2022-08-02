@@ -114,6 +114,7 @@ public class MapTable implements Serializable {
     static public final int BLINK = 0x00;                      //明滅
     static public final int BLINK_MOVE = 0x01;                 //明滅（移動あり）
     static public final int SPIN = 0x10;                       //回転
+    static public final int SPIN_MOVE = 0x11;                  //回転（移動あり）
     static public final int SLOW_MOVE = 0x20;                  //ゆっくり移動
     static public final int SLOW_FLOAT = 0x30;                 //ゆっくり浮き上がる
     static public final int SLOW_FALL = 0x40;                  //ゆっくり落ちる
