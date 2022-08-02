@@ -23,9 +23,9 @@
     <color name="effect_heart_pink">#f5587b</color>
     <color name="effect_heart_white">#FFFFFF</color>
     <color name="effect_heart_black">#000000</color>
-    <color name="effect_inflated_heart_1">#92DAF0</color>
-    <color name="effect_inflated_heart_2">#FCF1D9</color>
-    <color name="effect_inflated_heart_3">#FEDCDB</color>
+    <color name="effect_inflated_heart_blue">#92DAF0</color>
+    <color name="effect_inflated_heart_cream">#FCF1D9</color>
+    <color name="effect_inflated_heart_pink">#FEDCDB</color>
     <color name="effect_star">#feff9f</color>
     <color name="effect_snow">#D1F1FF</color>
     <color name="effect_snow_white">#f7f7f7</color>
@@ -35,8 +35,8 @@
     <color name="effect_sparkle_yellow">#F8F1AD</color>
     <color name="effect_polkadots_white">#ffffff</color>
     <color name="effect_flower_white">#ffffff</color>
-    <color name="effect_flower_1">#FE9000</color>
-    <color name="effect_flower_2">#29335C</color>
+    <color name="effect_flower_orange">#FE9000</color>
+    <color name="effect_flower_navy">#29335C</color>
     <color name="effect_sakura">#F8DCDC</color>
 
     <color name="effect_test_yellow">#F8F1AD</color>
