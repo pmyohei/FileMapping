@@ -70,58 +70,41 @@ public class MapTable implements Serializable {
     //------------------------------------
     // エフェクト形状
     //------------------------------------
-    //ハート
-    static public final int HEART_NORMAL = 0x00;
-    static public final int HEART_THIN = 0x01;
-    static public final int HEART_INFLATED = 0x02;
-    //尖鋭
-    static public final int TRIANGLE = 0x10;
-    static public final int DIA = 0x11;
-    //星
-    static public final int STAR = 0x20;
-    static public final int MOON = 0x21;
-    //スパークル
-    static public final int SPARKLE_SHORT = 0x30;
-    static public final int SPARKLE_SHIN = 0x31;
-    static public final int SPARKLE_LONG = 0x32;
-    static public final int SPARKLE_VERY_LONG = 0x33;
-    static public final int SPARKLE_RANDOM = 0x34;
-    static public final int SPARCLE_CENTRAL_CIRCLE = 0x35;
-    //花
-    static public final int FLOWER = 0x40;
-    static public final int SAKURA = 0x41;
-    //円
-    static public final int DOT = 0x50;
-    static public final int CIRCLE = 0x51;
-    static public final int SNOW = 0x52;
-    static public final int OVAL = 0x53;
+    static public final int EFFECT_SHAPE_HEART_NORMAL = 0x00;           //ハート
+    static public final int EFFECT_SHAPE_HEART_THIN = 0x01;
+    static public final int EFFECT_SHAPE_HEART_INFLATED = 0x02;
+    static public final int EFFECT_SHAPE_TRIANGLE = 0x10;               //尖鋭
+    static public final int EFFECT_SHAPE_DIA = 0x11;
+    static public final int EFFECT_SHAPE_STAR = 0x20;                   //星
+    static public final int EFFECT_SHAPE_MOON = 0x21;
+    static public final int EFFECT_SHAPE_SPARKLE_4_DIRECTION = 0x30;    //スパークル
+    static public final int EFFECT_SHAPE_SPARKLE_8_DIRECTION = 0x31;
+    static public final int EFFECT_SHAPE_SPARKLE_SHORT = 0x32;
+    static public final int EFFECT_SHAPE_SPARKLE_SHIN = 0x33;
+    static public final int EFFECT_SHAPE_SPARKLE_LONG = 0x34;
+    static public final int EFFECT_SHAPE_SPARKLE_RANDOM = 0x35;
+    static public final int EFFECT_SHAPE_FLOWER = 0x40;                 //花
+    static public final int EFFECT_SHAPE_SAKURA = 0x41;
+    static public final int EFFECT_SHAPE_CIRCLE = 0x51;                 //円
+    static public final int EFFECT_SHAPE_OVAL = 0x53;
 
-    public static enum EffectShape {
-        FILL(0),
-        STROKE(1),
-        FILL_AND_STROKE(2);
+    //------------------------------------
+    // エフェクトアニメーション
+    //------------------------------------
+    static public final int EFFECT_ANIM_NONE = -1;                         //なし
+    static public final int EFFECT_ANIM_BLINK = 0x00;                      //明滅
+    static public final int EFFECT_ANIM_BLINK_MOVE = 0x01;                 //明滅（移動あり）
+    static public final int EFFECT_ANIM_SPIN = 0x10;                       //回転
+    static public final int EFFECT_ANIM_SPIN_MOVE = 0x11;                  //回転（移動あり）
+    static public final int EFFECT_ANIM_SLOW_MOVE = 0x20;                  //ゆっくり移動
+    static public final int EFFECT_ANIM_SLOW_FLOAT = 0x30;                 //ゆっくり浮き上がる
+    static public final int EFFECT_ANIM_SLOW_FALL = 0x40;                  //ゆっくり落ちる
+    static public final int EFFECT_ANIM_STROKE_GRADATION_ROTATE = 0x50;    //枠線のグラデーションの回転
+    static public final int EFFECT_ANIM_SCALE_UP = 0x60;                   //拡大と縮小
 
-        // フィールドの定義
-        private int id;
-
-        EffectShape(int id) {
-            this.id = id;
-        }
-    }
-
-    //エフェクトアニメーション
-    static public final int NO_ANIM = -1;                      //なし
-    static public final int BLINK = 0x00;                      //明滅
-    static public final int BLINK_MOVE = 0x01;                 //明滅（移動あり）
-    static public final int SPIN = 0x10;                       //回転
-    static public final int SPIN_MOVE = 0x11;                  //回転（移動あり）
-    static public final int SLOW_MOVE = 0x20;                  //ゆっくり移動
-    static public final int SLOW_FLOAT = 0x30;                 //ゆっくり浮き上がる
-    static public final int SLOW_FALL = 0x40;                  //ゆっくり落ちる
-    static public final int STROKE_GRADATION_ROTATE = 0x50;    //枠線のグラデーションの回転
-    static public final int SCALE_UP = 0x60;                   //拡大と縮小
-
-    //グラデーション方向
+    //------------------------------------
+    // //グラデーション方向
+    //------------------------------------
     static public final int GRNDIR_KEEPING = -1;            //※現状維持指定用
     static public final int GRNDIR_TL_BR = 0;
     static public final int GRNDIR_TOP_BOTTOM = 1;
