@@ -50,7 +50,6 @@ import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Map;
 import java.util.Objects;
 
 /*
@@ -980,18 +979,6 @@ public class MapActivity extends AppCompatActivity {
 
         //BottomSheetを開く（画面移動あり）
         openDesignBottomSheet(DesignBottomSheet.NODE, node, node.getCenterPosX(), node.getCenterPosY());
-    }
-
-    /*
-     * マップエフェクト初期処理
-     */
-    private void initEffectMap() {
-        //エフェクトマネージャーを生成し、エフェクト開始
-        ViewGroup vg = findViewById(R.id.fl_map);
-        //EffectManager effectManager = new EffectManager( vg, MapTable.HEART_INFLATED, Paint.Style.STROKE, MapTable.STROKE_GRADATION_ROTATE);
-        //EffectManager effectManager = new EffectManager( vg, MapTable.CIRCLE, Paint.Style.FILL, MapTable.BLINK);
-        EffectManager effectManager = new EffectManager( vg, MapTable.STAR, Paint.Style.FILL, MapTable.SPIN);
-        effectManager.startEffect();
     }
 
     /*

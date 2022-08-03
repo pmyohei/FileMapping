@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="effectImageResource">
+        <item>@drawable/effect_heart_float_red</item>
+        <item>@drawable/effect_heart_float_black</item>
+        <item>@drawable/effect_heart_float_white</item>
+        <item>@drawable/effect_heart_scale_colorful</item>
+        <item>@drawable/effect_inflated_heart_float_3color</item>
+        <item>@drawable/effect_thin_heart_float_colorful</item>
+        <item>@drawable/effect_star_moon_yellow</item>
+        <item>@drawable/effect_star_moon_colorful</item>
+        <item>@drawable/effect_circle_star</item>
+        <item>@drawable/effect_snow</item>
+        <item>@drawable/effect_8sparkle_white</item>
+        <item>@drawable/effect_8sparkle_yellow</item>
+        <item>@drawable/effect_4sparkle_white</item>
+        <item>@drawable/effect_4sparkle_red_blue</item>
+        <item>@drawable/effect_4_8sparkle_white</item>
+        <item>@drawable/effect_4_8sparkle_colorful</item>
+        <item>@drawable/effect_polkadots_colorful</item>
+        <item>@drawable/effect_polkadots_white</item>
+        <item>@drawable/effect_sakura_pink</item>
+        <item>@drawable/effect_flower_white</item>
+        <item>@drawable/effect_flower_2color</item>
+        <item>@drawable/effect_little_flower_white</item>
+    </array>
+
+    <array name="effectRandomLightColors">
+        <item>@color/effect_random_right_yellow</item>
+        <item>@color/effect_random_right_red</item>
+        <item>@color/effect_random_right_blue</item>
+        <item>@color/effect_random_right_green</item>
+        <item>@color/effect_random_right_pink</item>
+        <item>@color/effect_random_right_purple</item>
+    </array>
+
+    <array name="effectRandomMiddleColors">
+        <item>@color/effect_random_middle_yellow</item>
+        <item>@color/effect_random_middle_red</item>
+        <item>@color/effect_random_middle_blue</item>
+        <item>@color/effect_random_middle_green</item>
+        <item>@color/effect_random_middle_pink</item>
+        <item>@color/effect_random_middle_purple</item>
+    </array>
+
+    <array name="effectRandomDarkColors">
+        <item>@color/effect_random_dark_yellow</item>
+        <item>@color/effect_random_dark_red</item>
+        <item>@color/effect_random_dark_blue</item>
+        <item>@color/effect_random_dark_green</item>
+        <item>@color/effect_random_dark_pink</item>
+        <item>@color/effect_random_dark_purple</item>
+    </array>
+
+</resources>

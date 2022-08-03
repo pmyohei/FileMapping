@@ -110,7 +110,7 @@ public class ColorSelectionView extends LinearLayout {
         //横スクロールを本リサイクラービューに優先させる
         ViewPager2 vp2 = mSetView.getRootView().findViewById(R.id.vp2_design);
         RecyclerView rv_history = findViewById(R.id.rv_history);
-        rv_history.addOnItemTouchListener(new Vp2OnItemTouchListener(vp2));
+        rv_history.addOnItemTouchListener(new Vp2ScrollControlListener(vp2));
     }
 
     /*
@@ -640,10 +640,7 @@ public class ColorSelectionView extends LinearLayout {
 
             return Color.HSVToColor( matchingHSV );
         }
-
-
     }
-
 
 
     /*
@@ -750,7 +747,6 @@ public class ColorSelectionView extends LinearLayout {
             //表示データ数を返す
             return mData.size();
         }
-
     }
 
 }

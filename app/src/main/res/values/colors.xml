@@ -23,8 +23,9 @@
     <color name="effect_heart_pink">#f5587b</color>
     <color name="effect_heart_white">#FFFFFF</color>
     <color name="effect_heart_black">#000000</color>
-    <color name="effect_heart_purple">#7B3B8C</color>
-    <color name="effect_heart_gradation_blue">#0092ca</color>
+    <color name="effect_inflated_heart_blue">#92DAF0</color>
+    <color name="effect_inflated_heart_cream">#FCF1D9</color>
+    <color name="effect_inflated_heart_pink">#FEDCDB</color>
     <color name="effect_star">#feff9f</color>
     <color name="effect_snow">#D1F1FF</color>
     <color name="effect_snow_white">#f7f7f7</color>
@@ -32,24 +33,35 @@
     <color name="effect_sparkle_red">#970747</color>
     <color name="effect_sparkle_blue">#1989ac</color>
     <color name="effect_sparkle_yellow">#F8F1AD</color>
+    <color name="effect_polkadots_white">#ffffff</color>
+    <color name="effect_flower_white">#ffffff</color>
+    <color name="effect_flower_orange">#FE9000</color>
+    <color name="effect_flower_navy">#29335C</color>
+    <color name="effect_sakura">#F8DCDC</color>
 
     <color name="effect_test_yellow">#F8F1AD</color>
 
     <!-- エフェクトランダムカラー -->
-    <color name="effect_white">#FFFFFF</color>
-    <color name="effect_right_white">#FDFFFF</color>
-    <color name="effect_yellow">#FFEB3B</color>
-    <color name="effect_right_yellow">#FDFBE8</color>
-    <color name="effect_red">#FF3838</color>
-    <color name="effect_right_red">#FFE0E0</color>
-    <color name="effect_blue">#140CFF</color>
-    <color name="effect_right_blue">#E6EDFF</color>
-    <color name="effect_green">#50FF11</color>
-    <color name="effect_right_green">#ECFFE6</color>
-    <color name="effect_pink">#FF2CC4</color>
-    <color name="effect_right_pink">#FFE9F9</color>
-    <color name="effect_purple">#FFBB86FC</color>
-    <color name="effect_right_purple">#EFE1FF</color>
+    <color name="effect_random_dark_white">#FFFFFF</color>
+    <color name="effect_random_right_white">#FDFFFF</color>
+    <color name="effect_random_dark_yellow">#FFEB3B</color>
+    <color name="effect_random_middle_yellow">#FFF9BA</color>
+    <color name="effect_random_right_yellow">#FDFBE8</color>
+    <color name="effect_random_dark_red">#FF3838</color>
+    <color name="effect_random_middle_red">#FFB8B8</color>
+    <color name="effect_random_right_red">#FFE0E0</color>
+    <color name="effect_random_dark_blue">#140CFF</color>
+    <color name="effect_random_middle_blue">#C0BEFF</color>
+    <color name="effect_random_right_blue">#E6EDFF</color>
+    <color name="effect_random_dark_green">#50FF11</color>
+    <color name="effect_random_middle_green">#CCFFB9</color>
+    <color name="effect_random_right_green">#ECFFE6</color>
+    <color name="effect_random_dark_pink">#FF2CC4</color>
+    <color name="effect_random_middle_pink">#FFBDED</color>
+    <color name="effect_random_right_pink">#FFE9F9</color>
+    <color name="effect_random_dark_purple">#BB86FC</color>
+    <color name="effect_random_middle_purple">#DFC5FF</color>
+    <color name="effect_random_right_purple">#EFE1FF</color>
 
     <!--  ツールアイコン  -->
     <color name="bg_icon">#80FFFFFF</color>

@@ -45,6 +45,9 @@
     <!--  フォント選択肢の円のサイズ  -->
     <dimen name="font_item_size">48dp</dimen>
     <dimen name="font_item_half_size">24dp</dimen>
+    <!--  エフェクト選択肢のサイズ  -->
+    <dimen name="effect_item_size">64dp</dimen>
+    <dimen name="effect_item_half_size">12dp</dimen>
     <!--  デザインボトムシートのトップパディング  -->
     <dimen name="design_sheet_paddingTop">28dp</dimen>
     <dimen name="design_sheet_paddingBottom">80dp</dimen>

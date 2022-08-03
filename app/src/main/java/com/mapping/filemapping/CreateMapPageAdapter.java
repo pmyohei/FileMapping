@@ -5,7 +5,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -205,7 +204,7 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
             Context context = rv_colorHistory.getContext();
             List<String[]> colorPattern = new ArrayList<>();
 
-            ColorHistoryAdapter historyAdapter = new ColorHistoryAdapter( colorPattern, mfl_sampleMap, ll_colorParent, ColorHistoryAdapter.COLOR_2 );
+            ColorHistoryOnSampleMapAdapter historyAdapter = new ColorHistoryOnSampleMapAdapter( colorPattern, mfl_sampleMap, ll_colorParent, ColorHistoryOnSampleMapAdapter.COLOR_2 );
             rv_colorHistory.setLayoutManager(new LinearLayoutManager(context));
             rv_colorHistory.setAdapter( historyAdapter );
 
@@ -288,7 +287,7 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
         /*
          * 生成色を色履歴へ追加
          */
-        private void addColorHistory(ColorHistoryAdapter historyAdapter, List<String[]> colorPattern){
+        private void addColorHistory(ColorHistoryOnSampleMapAdapter historyAdapter, List<String[]> colorPattern){
             //選択中の色を取得し、色履歴アダプタのリストへ追加
             String[] colorsStr = getSelecteColors();
             colorPattern.add( colorsStr );
