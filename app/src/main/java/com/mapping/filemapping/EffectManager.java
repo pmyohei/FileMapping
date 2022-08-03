@@ -29,6 +29,41 @@ public class EffectManager {
     public static final int COLOR_PTN_LIGHT_RANDOM = 2;
     public static final int COLOR_PTN_MIDDLE_RANDOM = 3;
 
+    //------------------------------------
+    // エフェクト形状
+    //------------------------------------
+    public static final int EFFECT_SHAPE_HEART_NORMAL = 0x00;           //ハート
+    public static final int EFFECT_SHAPE_HEART_THIN = 0x01;
+    public static final int EFFECT_SHAPE_HEART_INFLATED = 0x02;
+    public static final int EFFECT_SHAPE_TRIANGLE = 0x10;               //尖鋭
+    public static final int EFFECT_SHAPE_DIA = 0x11;
+    public static final int EFFECT_SHAPE_STAR = 0x20;                   //星
+    public static final int EFFECT_SHAPE_MOON = 0x21;
+    public static final int EFFECT_SHAPE_SPARKLE_4_DIRECTION = 0x30;    //スパークル
+    public static final int EFFECT_SHAPE_SPARKLE_8_DIRECTION = 0x31;
+    public static final int EFFECT_SHAPE_SPARKLE_SHORT = 0x32;
+    public static final int EFFECT_SHAPE_SPARKLE_SHIN = 0x33;
+    public static final int EFFECT_SHAPE_SPARKLE_LONG = 0x34;
+    public static final int EFFECT_SHAPE_SPARKLE_RANDOM = 0x35;
+    public static final int EFFECT_SHAPE_FLOWER = 0x40;                 //花
+    public static final int EFFECT_SHAPE_SAKURA = 0x41;
+    public static final int EFFECT_SHAPE_CIRCLE = 0x51;                 //円
+    public static final int EFFECT_SHAPE_OVAL = 0x53;
+
+    //------------------------------------
+    // エフェクトアニメーション
+    //------------------------------------
+    final int EFFECT_ANIM_NONE = -1;                         //なし
+    final int EFFECT_ANIM_BLINK = 0x00;                      //明滅
+    final int EFFECT_ANIM_BLINK_MOVE = 0x01;                 //明滅（移動あり）
+    final int EFFECT_ANIM_SPIN = 0x10;                       //回転
+    final int EFFECT_ANIM_SPIN_MOVE = 0x11;                  //回転（移動あり）
+    final int EFFECT_ANIM_SLOW_MOVE = 0x20;                  //ゆっくり移動
+    final int EFFECT_ANIM_SLOW_FLOAT = 0x30;                 //ゆっくり浮き上がる
+    final int EFFECT_ANIM_SLOW_FALL = 0x40;                  //ゆっくり落ちる
+    final int EFFECT_ANIM_STROKE_GRADATION_ROTATE = 0x50;    //枠線のグラデーションの回転
+    final int EFFECT_ANIM_SCALE_UP = 0x60;                   //拡大と縮小
+
 
     //エフェクトビュー追加先レイアウト
     final private ViewGroup mAddDistView;
@@ -64,7 +99,6 @@ public class EffectManager {
     private TypedArray mRandomDarkColors;
 
 
-
     /*
      * コンストラクタ
      */
@@ -90,21 +124,103 @@ public class EffectManager {
     /*
      * エフェクト開始
      */
-    public void startEffect( int effectResID ) {
+    public void startEffect(int effect) {
 
-        String test = "aaa";
-        switch ( test ){
-            case "aaa":
+        switch (effect) {
+            case MapTable.EFFECT_HEART_FLOAT_RED:
+                setAttrHeartFloatRed();
+                break;
 
+            case MapTable.EFFECT_HEART_FLOAT_BLACK:
+                setAttrHeartFloatBlack();
+                break;
 
-            case "bbb":
+            case MapTable.EFFECT_HEART_FLOAT_WHITE:
+                setAttrHeartFloatWhite();
+                break;
 
+            case MapTable.EFFECT_HEART_SCALE_COLORFUL:
+                setAttrHeartScaleColorful();
+                break;
 
+            case MapTable.EFFECT_INFLATED_HEART_FLOAT_3COLOR:
+                setAttrInflatedHeartFloat3Color();
+                break;
 
+            case MapTable.EFFECT_THIN_HEART_FLOAT_COLORFUL:
+                setAttrThinHeartFloatColorful();
+                break;
 
+            case MapTable.EFFECT_STAR_MOON_YELLOW:
+                setAttrStarMoonYellow();
+                break;
+
+            case MapTable.EFFECT_STAR_MOON_COLORFUL:
+                setAttrStarMoonColorful();
+                break;
+
+            case MapTable.EFFECT_CIRCLE_STAR:
+                setAttrCircleStar();
+                break;
+
+            case MapTable.EFFECT_SNOW:
+                setAttrSnow();
+                break;
+
+            case MapTable.EFFECT_8SPARKLE_WHITE:
+                setAttr8sparkleWhite();
+                break;
+
+            case MapTable.EFFECT_8SPARKLE_YELLOW:
+                setAttr8sparkleYellow();
+                break;
+
+            case MapTable.EFFECT_4SPARKLE_WHITE:
+                setAttr4sparkleWhite();
+                break;
+
+            case MapTable.EFFECT_4SPARKLE_RED_BLUE:
+                setAttr4sparkleRedBlue();
+                break;
+
+            case MapTable.EFFECT_4_8SPARKLE_WHITE:
+                setAttr4_8sparkleWhite();
+                break;
+
+            case MapTable.EFFECT_4_8SPARKLE_COLORFUL:
+                setAttr4_8sparkleColorful();
+                break;
+
+            case MapTable.EFFECT_POLKADOTS_COLORFUL:
+                setAttrPolkadotsColorful();
+                break;
+
+            case MapTable.EFFECT_POLKADOTS_WHITE:
+                setAttrPolkadotsWhite();
+                break;
+
+            case MapTable.EFFECT_SAKURA_PINK:
+                setAttrSakuraPink();
+                break;
+
+            case MapTable.EFFECT_FLOWER_WHITE:
+                setAttrFlowerWhite();
+                break;
+
+            case MapTable.EFFECT_FLOWER_2COLOR:
+                setAttrFlower2Color();
+                break;
+
+            case MapTable.EFFECT_LITTLE_FLOWER_WHITE:
+                setAttrLittleFlowerWhite();
+                break;
+
+            default:
+                break;
         }
 
     }
+
 
     /*
      * エフェクト停止
@@ -331,7 +447,623 @@ public class EffectManager {
         //--------------------------------
         // 全てのエフェクト可視状態を変更する
         //--------------------------------
+    }
 
+    /*
+     * エフェクト情報の設定
+     *
+     */
+    private void setAttrHeartFloatRed(){
+        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_heart_red );
+
+        //ハート
+        setEffectAttr( EFFECT_SHAPE_HEART_NORMAL, Paint.Style.FILL, EFFECT_ANIM_SLOW_FLOAT, false);
+        setEffectVolume( 40 );
+        setEffectSize( 20, 50 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+        setEffectAlpha( 0xAA );
+        restartEffect();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrHeartFloatBlack(){
+        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_heart_black );
+
+        //ハート
+        setEffectAttr( EFFECT_SHAPE_HEART_NORMAL, Paint.Style.FILL, EFFECT_ANIM_SLOW_FLOAT, false);
+        setEffectVolume( 40 );
+        setEffectSize( 20, 50 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+        setEffectAlpha( 0xAA );
+        restartEffect();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrHeartFloatWhite(){
+        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_heart_white );
+
+        //ハート
+        setEffectAttr( EFFECT_SHAPE_HEART_NORMAL, Paint.Style.FILL, EFFECT_ANIM_SLOW_FLOAT, false);
+        setEffectVolume( 40 );
+        setEffectSize( 20, 50 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+        setEffectAlpha( 0xAA );
+        restartEffect();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrHeartScaleColorful(){
+        //ハート
+        setEffectAttr( EFFECT_SHAPE_HEART_NORMAL, Paint.Style.FILL, EFFECT_ANIM_SCALE_UP, true);
+        setEffectVolume( 40 );
+        setEffectSize( 200, 300 );
+        setEffectColorPtn( COLOR_PTN_LIGHT_RANDOM);
+        setEffectAlpha( 0x55, 0xdd );
+        setGradation( false );
+        restartEffect();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrInflatedHeartFloat3Color(){
+        int colorBlue = mAddDistView.getContext().getResources().getColor( R.color.effect_inflated_heart_blue);
+        int colorCream = mAddDistView.getContext().getResources().getColor( R.color.effect_inflated_heart_cream);
+        int colorPink = mAddDistView.getContext().getResources().getColor( R.color.effect_inflated_heart_pink);
+
+        //共通設定
+        setEffectAttr( EFFECT_SHAPE_HEART_INFLATED, Paint.Style.FILL, EFFECT_ANIM_BLINK_MOVE, false);
+        setEffectSize( 100, 100 );
+        setEffectVolume( 15 );
+        setGradation( false );
+        setEffectAlpha( 0xDD, 0xFF );
+
+        //ハート、青系
+        setEffectColorPtn( COLOR_PTN_SPECIFY, colorBlue );
+        restartEffect();
+
+        //ハート、クリーム色系
+        setEffectColorPtn( COLOR_PTN_SPECIFY, colorCream );
+        createEffects();
+
+        //ハート、ピンク系
+        setEffectColorPtn( COLOR_PTN_SPECIFY, colorPink );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrThinHeartFloatColorful(){
+        //ハート
+        setEffectAttr( EFFECT_SHAPE_HEART_THIN, Paint.Style.FILL, EFFECT_ANIM_SLOW_FLOAT, true);
+        setEffectVolume( 60 );
+        setEffectSize( 100, 300 );
+        setEffectColorPtn( COLOR_PTN_LIGHT_RANDOM);
+        setEffectAlpha( 0x88 );
+        restartEffect();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrStarMoonYellow(){
+        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_star );
+
+        //星
+        setEffectAttr( EFFECT_SHAPE_STAR, Paint.Style.FILL, EFFECT_ANIM_SPIN);
+        setEffectVolume( 30 );
+        setEffectSize( 100, 40 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+        setEffectAlpha( 0x99, 0xCC );
+        restartEffect();
+
+        //月
+        setEffectAttr( EFFECT_SHAPE_MOON, Paint.Style.FILL, EFFECT_ANIM_NONE, true);
+        setEffectVolume( 5 );
+        setEffectSize( 100, 100 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+        setEffectAlpha( 0x99 );
+        createEffects();
+
+        //円
+        setEffectAttr( EFFECT_SHAPE_CIRCLE, Paint.Style.FILL, EFFECT_ANIM_NONE);
+        setEffectVolume( 100 );
+        setEffectSize( 10, 10 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+        setEffectAlpha( 0x44, 0xDD );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrStarMoonColorful(){
+        //星
+        setEffectAttr( EFFECT_SHAPE_STAR, Paint.Style.FILL, EFFECT_ANIM_SPIN);
+        setEffectVolume( 30 );
+        setEffectSize( 100, 40 );
+        setEffectColorPtn( COLOR_PTN_LIGHT_RANDOM);
+        setEffectAlpha( 0x99, 0xCC );
+        restartEffect();
+
+        //月
+        setEffectAttr( EFFECT_SHAPE_MOON, Paint.Style.FILL, EFFECT_ANIM_NONE, true);
+        setEffectVolume( 5 );
+        setEffectSize( 100, 100 );
+        setEffectColorPtn( COLOR_PTN_LIGHT_RANDOM);
+        setEffectAlpha( 0x99 );
+        createEffects();
+
+        //円
+        setEffectAttr( EFFECT_SHAPE_CIRCLE, Paint.Style.FILL, EFFECT_ANIM_NONE);
+        setEffectVolume( 100 );
+        setEffectSize( 10, 10 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, Color.WHITE );
+        setEffectAlpha( 0x44, 0xDD );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrCircleStar(){
+        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_sparkle_white );
+
+        //円、アニメーションあり
+        setEffectAttr( EFFECT_SHAPE_CIRCLE, Paint.Style.FILL, EFFECT_ANIM_BLINK_MOVE);
+        setEffectVolume( 100 );
+        setEffectSize( 10, 20 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+        setEffectAlpha( 0x44, 0xDD );
+        restartEffect();
+
+        //円、アニメーションなし
+        setEffectAttr( EFFECT_SHAPE_CIRCLE, Paint.Style.FILL, EFFECT_ANIM_NONE);
+        setEffectVolume( 50 );
+        setEffectSize( 10, 10 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+        setEffectAlpha( 0x44, 0xDD );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrSnow(){
+        int colorSnow = mAddDistView.getContext().getResources().getColor( R.color.effect_snow );
+
+        //円（雪）
+        setEffectAttr( EFFECT_SHAPE_CIRCLE, Paint.Style.FILL, EFFECT_ANIM_SLOW_FALL);
+        setEffectVolume( 160 );
+        setEffectSize( 40, 10 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, colorSnow );
+        setEffectAlpha( 0x44, 0xCC );
+        setGradation( true );
+        restartEffect();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttr8sparkleWhite(){
+        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_sparkle_white );
+
+        //8方向スパークル
+        setEffectAttr( EFFECT_SHAPE_SPARKLE_8_DIRECTION, Paint.Style.FILL, EFFECT_ANIM_BLINK_MOVE);
+        setEffectVolume( 30 );
+        setEffectSize( 100, 100 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+        setEffectAlpha( 0xDD, 0xEE );
+        restartEffect();
+
+        //円
+        setEffectAttr( EFFECT_SHAPE_CIRCLE, Paint.Style.FILL, EFFECT_ANIM_NONE);
+        setEffectVolume( 100 );
+        setEffectSize( 10, 10 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+        setEffectAlpha( 0x44, 0xDD );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttr8sparkleYellow(){
+        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_sparkle_yellow );
+
+        //8方向スパークル
+        setEffectAttr( EFFECT_SHAPE_SPARKLE_8_DIRECTION, Paint.Style.FILL, EFFECT_ANIM_BLINK_MOVE);
+        setEffectVolume( 30 );
+        setEffectSize( 100, 100 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color);
+        setEffectAlpha( 0xDD, 0xEE );
+        restartEffect();
+
+        //円
+        setEffectAttr( EFFECT_SHAPE_CIRCLE, Paint.Style.FILL, EFFECT_ANIM_NONE);
+        setEffectVolume( 100 );
+        setEffectSize( 10, 10 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+        setEffectAlpha( 0x44, 0xDD );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttr4sparkleWhite(){
+        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_sparkle_white );
+
+        //4方向スパークル
+        setEffectAttr( EFFECT_SHAPE_SPARKLE_4_DIRECTION, Paint.Style.FILL, EFFECT_ANIM_BLINK_MOVE, false);
+        setEffectVolume( 30 );
+        setEffectSize( 200, 100 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+        setEffectAlpha( 0xDD, 0xEE );
+        restartEffect();
+
+        //ダイア
+        setEffectAttr( EFFECT_SHAPE_DIA, Paint.Style.FILL, EFFECT_ANIM_NONE);
+        setEffectVolume( 100 );
+        setEffectSize( 10, 10 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+        setEffectAlpha( 0x44, 0xDD );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttr4sparkleRedBlue(){
+        int colorRed = mAddDistView.getContext().getResources().getColor( R.color.effect_sparkle_red );
+        int colorBlue = mAddDistView.getContext().getResources().getColor( R.color.effect_sparkle_blue );
+        int colorWhite = mAddDistView.getContext().getResources().getColor( R.color.effect_sparkle_white );
+
+        //-----------------------
+        // 4方向スパークル
+        //-----------------------
+        //共通設定
+        setEffectAttr( EFFECT_SHAPE_SPARKLE_4_DIRECTION, Paint.Style.FILL, EFFECT_ANIM_BLINK_MOVE, false);
+        setEffectVolume( 15 );
+        setEffectSize( 200, 100 );
+        setEffectAlpha( 0xDD, 0xEE );
+
+        //4方向スパークル、赤系
+        setEffectColorPtn( COLOR_PTN_SPECIFY, colorRed);
+        restartEffect();
+
+        //4方向スパークル、青系
+        setEffectColorPtn( COLOR_PTN_SPECIFY, colorBlue);
+        createEffects();
+
+        //-----------------------
+        // 円
+        //-----------------------
+        setEffectAttr( EFFECT_SHAPE_CIRCLE, Paint.Style.FILL, EFFECT_ANIM_NONE);
+        setEffectVolume( 100 );
+        setEffectSize( 10, 10 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, colorWhite );
+        setEffectAlpha( 0x44, 0xDD );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttr4_8sparkleWhite(){
+        int colorWhite = mAddDistView.getContext().getResources().getColor( R.color.effect_sparkle_white );
+
+        //-----------------------
+        // 8方向スパークル
+        //-----------------------
+        //共通設定
+        setEffectAttr( EFFECT_SHAPE_SPARKLE_8_DIRECTION, Paint.Style.FILL, EFFECT_ANIM_BLINK_MOVE, true);
+        setEffectSize( 100, 100 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, colorWhite);
+        setEffectAlpha( 0xDD, 0xEE );
+
+        //8方向スパークル、アニメーションあり
+        setAnimation( EFFECT_ANIM_BLINK_MOVE);
+        setEffectVolume( 15 );
+        restartEffect();
+
+        //8方向スパークル、アニメーションなし
+        setAnimation( EFFECT_ANIM_NONE);
+        setEffectVolume( 5 );
+        createEffects();
+
+        //-----------------------
+        // 4方向スパークル
+        //-----------------------
+        //共通設定
+        setEffectAttr( EFFECT_SHAPE_SPARKLE_4_DIRECTION, Paint.Style.FILL, EFFECT_ANIM_BLINK_MOVE, true);
+        setEffectSize( 200, 100 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, colorWhite);
+        setEffectAlpha( 0xDD, 0xEE );
+
+        //4方向スパークル、アニメーションあり
+        setAnimation( EFFECT_ANIM_BLINK_MOVE);
+        setEffectVolume( 15 );
+        createEffects();
+
+        //4方向スパークル、アニメーションなし
+        setAnimation( EFFECT_ANIM_NONE);
+        setEffectVolume( 5 );
+        createEffects();
+
+        //-----------------------
+        // 円
+        //-----------------------
+        setEffectAttr( EFFECT_SHAPE_CIRCLE, Paint.Style.FILL, EFFECT_ANIM_NONE);
+        setEffectVolume( 100 );
+        setEffectSize( 10, 10 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, colorWhite );
+        setEffectAlpha( 0x44, 0xDD );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttr4_8sparkleColorful(){
+        //-----------------------
+        // 8方向スパークル
+        //-----------------------
+        //共通設定
+        setEffectAttr( EFFECT_SHAPE_SPARKLE_8_DIRECTION, Paint.Style.FILL, EFFECT_ANIM_BLINK_MOVE, true);
+        setEffectColorPtn( COLOR_PTN_LIGHT_RANDOM);
+        setEffectAlpha( 0xDD, 0xEE );
+        setEffectSize( 100, 100 );
+
+        //8方向スパークル、アニメーションあり
+        setAnimation( EFFECT_ANIM_BLINK_MOVE);
+        setEffectVolume( 15 );
+        restartEffect();
+
+        //8方向スパークル、アニメーションなし
+        setAnimation( EFFECT_ANIM_NONE);
+        setEffectVolume( 5 );
+        createEffects();
+
+        //-----------------------
+        // 4方向スパークル
+        //-----------------------
+        //共通設定
+        setEffectAttr( EFFECT_SHAPE_SPARKLE_4_DIRECTION, Paint.Style.FILL, EFFECT_ANIM_BLINK_MOVE, true);
+        setEffectSize( 200, 100 );
+        setEffectColorPtn( COLOR_PTN_MIDDLE_RANDOM);
+        setEffectAlpha( 0xDD, 0xEE );
+
+        //4方向スパークル、アニメーションあり
+        setAnimation( EFFECT_ANIM_BLINK_MOVE);
+        setEffectVolume( 15 );
+        createEffects();
+
+        //4方向スパークル、アニメーションなし
+        setAnimation( EFFECT_ANIM_NONE);
+        setEffectVolume( 5 );
+        createEffects();
+
+        //-----------------------
+        // 円
+        //-----------------------
+        setEffectAttr( EFFECT_SHAPE_CIRCLE, Paint.Style.FILL, EFFECT_ANIM_NONE);
+        setEffectVolume( 100 );
+        setEffectSize( 10, 10 );
+        setEffectColorPtn( COLOR_PTN_LIGHT_RANDOM);
+        setEffectAlpha( 0x44, 0xDD );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrPolkadotsColorful(){
+        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_polkadots_white );
+
+        //共通設定：楕円
+        setEffectVolume( 20 );
+        setEffectColorPtn( COLOR_PTN_LIGHT_RANDOM);
+        setEffectAttr( EFFECT_SHAPE_OVAL, Paint.Style.FILL, EFFECT_ANIM_NONE, false);
+
+        //楕円、アニメーションなし
+        setAnimation( EFFECT_ANIM_NONE);
+        setEffectSize( 100, 200 );
+        setEffectAlpha( 0x11, 0x22 );
+        restartEffect();
+
+        //楕円、アニメーションあり、透明度高め
+        setAnimation( EFFECT_ANIM_BLINK_MOVE);
+        setEffectSize( 100, 200 );
+        setEffectAlpha( 0x22 );
+        createEffects();
+
+        //楕円、アニメーションあり、透明度ランダム
+        setAnimation( EFFECT_ANIM_BLINK_MOVE);
+        setEffectSize( 200, 400 );
+        setEffectAlpha( 0x11, 0x55 );
+        createEffects();
+
+        //小さい円、アニメーションなし
+        setEffectAttr( EFFECT_SHAPE_CIRCLE, Paint.Style.FILL, EFFECT_ANIM_NONE);
+        setEffectVolume( 100 );
+        setEffectSize( 10, 10 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color);
+        setEffectAlpha( 0x44, 0xDD );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrPolkadotsWhite(){
+        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_polkadots_white );
+
+        //楕円、アニメーションなし
+        setEffectAttr( EFFECT_SHAPE_OVAL, Paint.Style.FILL, EFFECT_ANIM_NONE, false);
+        setEffectVolume( 20 );
+        setEffectSize( 100, 200 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color);
+        setEffectAlpha( 0x11, 0x22 );
+        restartEffect();
+
+        //楕円、アニメーションあり、透明度高め
+        setEffectAttr( EFFECT_SHAPE_OVAL, Paint.Style.FILL, EFFECT_ANIM_BLINK_MOVE, false);
+        setEffectVolume( 20 );
+        setEffectSize( 100, 200 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color);
+        setEffectAlpha( 0x22 );
+        createEffects();
+
+        //楕円、アニメーションあり、透明度ランダム
+        setEffectAttr( EFFECT_SHAPE_OVAL, Paint.Style.FILL, EFFECT_ANIM_BLINK_MOVE, false);
+        setEffectVolume( 10 );
+        setEffectSize( 200, 400 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color);
+        setEffectAlpha( 0x11, 0x55 );
+        createEffects();
+
+        //小さい円、アニメーションなし
+        setEffectAttr( EFFECT_SHAPE_CIRCLE, Paint.Style.FILL, EFFECT_ANIM_NONE);
+        setEffectVolume( 100 );
+        setEffectSize( 10, 10 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color);
+        setEffectAlpha( 0x44, 0xDD );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrSakuraPink(){
+        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_sakura );
+
+        //共通設定
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+
+        //サクラ
+        setEffectAttr( EFFECT_SHAPE_SAKURA, Paint.Style.FILL, EFFECT_ANIM_SPIN, false);
+        setEffectVolume( 20 );
+        setEffectSize( 100, 200 );
+        setEffectAlpha( 0x99, 0xDD );
+        restartEffect();
+
+        //ダイヤ
+        setEffectAttr( EFFECT_SHAPE_DIA, Paint.Style.FILL, EFFECT_ANIM_NONE, true);
+        setEffectVolume( 100 );
+        setEffectSize( 30, 20 );
+        setEffectAlpha( 0x33, 0xEE );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrFlowerWhite(){
+        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_flower_white );
+
+        //共通設定
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+
+        //花びら
+        setEffectAttr( EFFECT_SHAPE_FLOWER, Paint.Style.FILL, EFFECT_ANIM_SPIN, false);
+        setEffectVolume( 15 );
+        setEffectSize( 100, 200 );
+        setEffectAlpha( 0x99, 0xDD );
+        restartEffect();
+
+        //ダイヤ
+        setEffectAttr( EFFECT_SHAPE_DIA, Paint.Style.FILL, EFFECT_ANIM_NONE, true);
+        setEffectVolume( 100 );
+        setEffectSize( 30, 20 );
+        setEffectAlpha( 0x66, 0xDD );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrFlower2Color(){
+        int colorWhite = mAddDistView.getContext().getResources().getColor( R.color.effect_flower_white );
+        int colorOrange = mAddDistView.getContext().getResources().getColor( R.color.effect_flower_orange);
+        int colorNavy = mAddDistView.getContext().getResources().getColor( R.color.effect_flower_navy);
+
+        //ダイヤ
+        setEffectAttr( EFFECT_SHAPE_DIA, Paint.Style.FILL, EFFECT_ANIM_NONE, true);
+        setEffectVolume( 100 );
+        setEffectSize( 20, 20 );
+        setEffectColorPtn( COLOR_PTN_SPECIFY, colorWhite );
+        setEffectAlpha( 0x33, 0xDD );
+        restartEffect();
+
+        //-----------------------
+        // 花びら
+        //-----------------------
+        //共通設定
+        setEffectAttr( EFFECT_SHAPE_FLOWER, Paint.Style.FILL, EFFECT_ANIM_SPIN, false);
+        setEffectVolume( 8 );
+        setEffectSize( 100, 200 );
+        setEffectAlpha( 0x99, 0xDD );
+
+        //花びら、オレンジ系
+        setEffectColorPtn( COLOR_PTN_SPECIFY, colorOrange );
+        createEffects();
+
+        //花びら、ネイビー系
+        setEffectColorPtn( COLOR_PTN_SPECIFY, colorNavy );
+        createEffects();
+    }
+
+    /*
+     * エフェクト情報の設定
+     *   aa
+     */
+    private void setAttrLittleFlowerWhite(){
+        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_flower_white );
+
+        //共通設定
+        setEffectColorPtn( COLOR_PTN_SPECIFY, color );
+
+        //花びら（小さめ）
+        setEffectAttr( EFFECT_SHAPE_FLOWER, Paint.Style.FILL, EFFECT_ANIM_NONE, true);
+        setEffectVolume( 60 );
+        setEffectSize( 60, 60 );
+        setEffectAlpha( 0x22, 0xDD );
+        restartEffect();
+
+        //ダイヤ
+        setEffectAttr( EFFECT_SHAPE_DIA, Paint.Style.FILL, EFFECT_ANIM_NONE);
+        setEffectVolume( 100 );
+        setEffectSize( 10, 10 );
+        setEffectAlpha( 0x66, 0xDD );
+        createEffects();
     }
 
     /*
@@ -346,63 +1078,63 @@ public class EffectManager {
             //------------------------
             // 明滅
             //------------------------
-            case MapTable.EFFECT_ANIM_BLINK:
+            case EFFECT_ANIM_BLINK:
                 applyBlinkEffectAnimation(animationTarget);
                 break;
 
             //------------------------
             // 場所を変えながら明滅
             //------------------------
-            case MapTable.EFFECT_ANIM_BLINK_MOVE:
+            case EFFECT_ANIM_BLINK_MOVE:
                 applyBlinkMoveEffectAnimation(animationTarget);
                 break;
 
             //------------------------
             // 回転
             //------------------------
-            case MapTable.EFFECT_ANIM_SPIN:
+            case EFFECT_ANIM_SPIN:
                 applySpinEffectAnimation(animationTarget);
                 break;
 
             //------------------------
             // 場所を変えながら回転
             //------------------------
-            case MapTable.EFFECT_ANIM_SPIN_MOVE:
+            case EFFECT_ANIM_SPIN_MOVE:
                 applySpinMoveEffectAnimation(animationTarget);
                 break;
 
             //------------------------
             // ゆっくりな移動
             //------------------------
-            case MapTable.EFFECT_ANIM_SLOW_MOVE:
+            case EFFECT_ANIM_SLOW_MOVE:
 
                 break;
 
             //------------------------
             // ゆっくりと浮き上がる
             //------------------------
-            case MapTable.EFFECT_ANIM_SLOW_FLOAT:
+            case EFFECT_ANIM_SLOW_FLOAT:
                 applyFloatEffectAnimation(animationTarget);
                 break;
 
             //------------------------
             // ゆっくり落ちる
             //------------------------
-            case MapTable.EFFECT_ANIM_SLOW_FALL:
+            case EFFECT_ANIM_SLOW_FALL:
                 applyFallEffectAnimation(animationTarget);
                 break;
 
             //------------------------
             // 枠線のグラデーションの回転
             //------------------------
-            case MapTable.EFFECT_ANIM_STROKE_GRADATION_ROTATE:
+            case EFFECT_ANIM_STROKE_GRADATION_ROTATE:
                 applyStrokeGradationRotateEffectAnimation(animationTarget);
                 break;
 
             //------------------------
             // 拡大と縮小
             //------------------------
-            case MapTable.EFFECT_ANIM_SCALE_UP:
+            case EFFECT_ANIM_SCALE_UP:
                 applyScaleUpEffectAnimation(animationTarget);
                 break;
 

@@ -302,71 +302,71 @@ public class EffectView extends View {
         // エフェクト形状に応じたPath設定
         //--------------------------------
         switch (mEffectShape) {
-            case MapTable.EFFECT_SHAPE_HEART_NORMAL:
+            case EffectManager.EFFECT_SHAPE_HEART_NORMAL:
                 mPath = createHeartNormalPath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_HEART_THIN:
+            case EffectManager.EFFECT_SHAPE_HEART_THIN:
                 mPath = createThinHeartPath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_HEART_INFLATED:
+            case EffectManager.EFFECT_SHAPE_HEART_INFLATED:
                 mPath = createInflatedHeartPath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_TRIANGLE:
+            case EffectManager.EFFECT_SHAPE_TRIANGLE:
                 mPath = createTrianglePath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_DIA:
+            case EffectManager.EFFECT_SHAPE_DIA:
                 mPath = createDiaPath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_STAR:
+            case EffectManager.EFFECT_SHAPE_STAR:
                 mPath = createStarPath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_MOON:
+            case EffectManager.EFFECT_SHAPE_MOON:
                 mPath = createMoonPath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_SPARKLE_SHORT:
+            case EffectManager.EFFECT_SHAPE_SPARKLE_SHORT:
                 mPath = createSparkleShortPath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_SPARKLE_SHIN:
+            case EffectManager.EFFECT_SHAPE_SPARKLE_SHIN:
                 mPath = createSparkleShinPath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_SPARKLE_LONG:
+            case EffectManager.EFFECT_SHAPE_SPARKLE_LONG:
                 mPath = createSparkleLongPath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_SPARKLE_4_DIRECTION:
+            case EffectManager.EFFECT_SHAPE_SPARKLE_4_DIRECTION:
                 mPath = createSparkle4DirectionPath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_SPARKLE_8_DIRECTION:
+            case EffectManager.EFFECT_SHAPE_SPARKLE_8_DIRECTION:
                 mPath = createSparkle8DirectionPath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_SPARKLE_RANDOM:
+            case EffectManager.EFFECT_SHAPE_SPARKLE_RANDOM:
                 mPath = createSparkleRandomPath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_FLOWER:
+            case EffectManager.EFFECT_SHAPE_FLOWER:
                 mPath = createFlowerPath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_SAKURA:
+            case EffectManager.EFFECT_SHAPE_SAKURA:
                 mPath = createSakuraPath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_CIRCLE:
+            case EffectManager.EFFECT_SHAPE_CIRCLE:
                 mPath = createCirclePath();
                 break;
 
-            case MapTable.EFFECT_SHAPE_OVAL:
+            case EffectManager.EFFECT_SHAPE_OVAL:
                 mPath = createOvalPath();
                 break;
 
@@ -416,29 +416,29 @@ public class EffectView extends View {
         // エフェクト形状に応じたPath設定
         //--------------------------------
         switch (mEffectShape) {
-            case MapTable.EFFECT_SHAPE_HEART_NORMAL:
-            case MapTable.EFFECT_SHAPE_HEART_THIN:
-            case MapTable.EFFECT_SHAPE_HEART_INFLATED:
-            case MapTable.EFFECT_SHAPE_TRIANGLE:
-            case MapTable.EFFECT_SHAPE_DIA:
-            case MapTable.EFFECT_SHAPE_STAR:
-            case MapTable.EFFECT_SHAPE_SPARKLE_SHORT:
-            case MapTable.EFFECT_SHAPE_SPARKLE_SHIN:
-            case MapTable.EFFECT_SHAPE_SPARKLE_LONG:
-            case MapTable.EFFECT_SHAPE_SPARKLE_RANDOM:
-            case MapTable.EFFECT_SHAPE_FLOWER:
-            case MapTable.EFFECT_SHAPE_SAKURA:
-            case MapTable.EFFECT_SHAPE_CIRCLE:
+            case EffectManager.EFFECT_SHAPE_HEART_NORMAL:
+            case EffectManager.EFFECT_SHAPE_HEART_THIN:
+            case EffectManager.EFFECT_SHAPE_HEART_INFLATED:
+            case EffectManager.EFFECT_SHAPE_TRIANGLE:
+            case EffectManager.EFFECT_SHAPE_DIA:
+            case EffectManager.EFFECT_SHAPE_STAR:
+            case EffectManager.EFFECT_SHAPE_SPARKLE_SHORT:
+            case EffectManager.EFFECT_SHAPE_SPARKLE_SHIN:
+            case EffectManager.EFFECT_SHAPE_SPARKLE_LONG:
+            case EffectManager.EFFECT_SHAPE_SPARKLE_RANDOM:
+            case EffectManager.EFFECT_SHAPE_FLOWER:
+            case EffectManager.EFFECT_SHAPE_SAKURA:
+            case EffectManager.EFFECT_SHAPE_CIRCLE:
                 //Paint単体生成
                 mPaint = createCommonPaint();
                 break;
 
-            case MapTable.EFFECT_SHAPE_SPARKLE_4_DIRECTION:
+            case EffectManager.EFFECT_SHAPE_SPARKLE_4_DIRECTION:
                 //スパークル(4方向)Paint
                 mPaint = createSparkle4DirectionPaint();
                 break;
 
-            case MapTable.EFFECT_SHAPE_SPARKLE_8_DIRECTION:
+            case EffectManager.EFFECT_SHAPE_SPARKLE_8_DIRECTION:
                 //スパークル(4方向)Paint
                 mPaint = createSparkle8DirectionPaint();
                 break;

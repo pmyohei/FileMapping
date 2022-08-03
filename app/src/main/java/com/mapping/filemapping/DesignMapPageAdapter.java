@@ -350,7 +350,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                 final EffectManager effectManager = new EffectManager( fl_map );
 
                 Resources resources = fl_map.getContext().getResources();
-
+/*
                 tv_small_heart_red.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -417,21 +417,21 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                     @Override
                     public void onClick(View view) {
 
-/*                        int color = resources.getColor( R.color.effect_heart_gradation_blue);
+*//*                        int color = resources.getColor( R.color.effect_heart_gradation_blue);
 
                         effectManager.setEffectAttr( MapTable.HEART_INFLATED, Paint.Style.STROKE, MapTable.SLOW_FLOAT, true);
                         effectManager.setEffectVolume( 20 );
                         effectManager.setEffectSize( 100, 100 );
                         effectManager.setEffectColorPtn( EffectManager.COLOR_PTN_SPECIFY, color );
                         effectManager.setEffectAlpha( 0xDD );
-                        effectManager.restartEffect();*/
+                        effectManager.restartEffect();*//*
                     }
                 });
 
                 tv_stroke_fill_heart_red.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-/*                        int fillColor = resources.getColor( R.color.effect_heart_red);
+*//*                        int fillColor = resources.getColor( R.color.effect_heart_red);
                         int strokeColor = resources.getColor( R.color.effect_heart_pink);
 
                         effectManager.setEffectAttr( MapTable.HEART_NORMAL, Paint.Style.FILL, MapTable.SLOW_FLOAT, false);
@@ -446,7 +446,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                         effectManager.setEffectSize( 100, 100 );
                         effectManager.setEffectColorPtn( EffectManager.COLOR_PTN_SPECIFY, strokeColor );
                         effectManager.setEffectAlpha( 0xDD );
-                        effectManager.createEffects();*/
+                        effectManager.createEffects();*//*
                     }
                 });
 
@@ -999,7 +999,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                         effectManager.setEffectAlpha( 0x33, 0xEE );
                         effectManager.createEffects();
                     }
-                });
+                });*/
             });
         }
 

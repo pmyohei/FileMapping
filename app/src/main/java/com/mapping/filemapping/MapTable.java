@@ -68,39 +68,31 @@ public class MapTable implements Serializable {
     private boolean isShadow;
 
     //------------------------------------
-    // エフェクト形状
+    // エフェクト
     //------------------------------------
-    static public final int EFFECT_SHAPE_HEART_NORMAL = 0x00;           //ハート
-    static public final int EFFECT_SHAPE_HEART_THIN = 0x01;
-    static public final int EFFECT_SHAPE_HEART_INFLATED = 0x02;
-    static public final int EFFECT_SHAPE_TRIANGLE = 0x10;               //尖鋭
-    static public final int EFFECT_SHAPE_DIA = 0x11;
-    static public final int EFFECT_SHAPE_STAR = 0x20;                   //星
-    static public final int EFFECT_SHAPE_MOON = 0x21;
-    static public final int EFFECT_SHAPE_SPARKLE_4_DIRECTION = 0x30;    //スパークル
-    static public final int EFFECT_SHAPE_SPARKLE_8_DIRECTION = 0x31;
-    static public final int EFFECT_SHAPE_SPARKLE_SHORT = 0x32;
-    static public final int EFFECT_SHAPE_SPARKLE_SHIN = 0x33;
-    static public final int EFFECT_SHAPE_SPARKLE_LONG = 0x34;
-    static public final int EFFECT_SHAPE_SPARKLE_RANDOM = 0x35;
-    static public final int EFFECT_SHAPE_FLOWER = 0x40;                 //花
-    static public final int EFFECT_SHAPE_SAKURA = 0x41;
-    static public final int EFFECT_SHAPE_CIRCLE = 0x51;                 //円
-    static public final int EFFECT_SHAPE_OVAL = 0x53;
-
-    //------------------------------------
-    // エフェクトアニメーション
-    //------------------------------------
-    static public final int EFFECT_ANIM_NONE = -1;                         //なし
-    static public final int EFFECT_ANIM_BLINK = 0x00;                      //明滅
-    static public final int EFFECT_ANIM_BLINK_MOVE = 0x01;                 //明滅（移動あり）
-    static public final int EFFECT_ANIM_SPIN = 0x10;                       //回転
-    static public final int EFFECT_ANIM_SPIN_MOVE = 0x11;                  //回転（移動あり）
-    static public final int EFFECT_ANIM_SLOW_MOVE = 0x20;                  //ゆっくり移動
-    static public final int EFFECT_ANIM_SLOW_FLOAT = 0x30;                 //ゆっくり浮き上がる
-    static public final int EFFECT_ANIM_SLOW_FALL = 0x40;                  //ゆっくり落ちる
-    static public final int EFFECT_ANIM_STROKE_GRADATION_ROTATE = 0x50;    //枠線のグラデーションの回転
-    static public final int EFFECT_ANIM_SCALE_UP = 0x60;                   //拡大と縮小
+    static public final int EFFECT_NONE = -1;
+    static public final int EFFECT_HEART_FLOAT_RED = 0x00;
+    static public final int EFFECT_HEART_FLOAT_BLACK = 0x01;
+    static public final int EFFECT_HEART_FLOAT_WHITE = 0x02;
+    static public final int EFFECT_HEART_SCALE_COLORFUL = 0x03;
+    static public final int EFFECT_INFLATED_HEART_FLOAT_3COLOR = 0x04;
+    static public final int EFFECT_THIN_HEART_FLOAT_COLORFUL = 0x05;
+    static public final int EFFECT_STAR_MOON_YELLOW = 0x10;
+    static public final int EFFECT_STAR_MOON_COLORFUL = 0x11;
+    static public final int EFFECT_CIRCLE_STAR = 0x12;
+    static public final int EFFECT_SNOW = 0x20;
+    static public final int EFFECT_8SPARKLE_WHITE = 0x30;
+    static public final int EFFECT_8SPARKLE_YELLOW = 0x31;
+    static public final int EFFECT_4SPARKLE_WHITE = 0x32;
+    static public final int EFFECT_4SPARKLE_RED_BLUE = 0x33;
+    static public final int EFFECT_4_8SPARKLE_WHITE = 0x34;
+    static public final int EFFECT_4_8SPARKLE_COLORFUL = 0x35;
+    static public final int EFFECT_POLKADOTS_COLORFUL = 0x40;
+    static public final int EFFECT_POLKADOTS_WHITE = 0x41;
+    static public final int EFFECT_SAKURA_PINK = 0x50;
+    static public final int EFFECT_FLOWER_WHITE = 0x51;
+    static public final int EFFECT_FLOWER_2COLOR = 0x52;
+    static public final int EFFECT_LITTLE_FLOWER_WHITE = 0x53;
 
     //------------------------------------
     // //グラデーション方向
