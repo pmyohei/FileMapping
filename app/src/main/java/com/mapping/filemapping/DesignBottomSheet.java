@@ -121,18 +121,13 @@ public class DesignBottomSheet extends CoordinatorLayout {
      * BottomSheetを開く
      */
     public void openBottomSheet(int kind, View view) {
-
-        final float HALF = 0.5f;
-        //final float ONE_THIRD = 0.3f;
-
-        float heightRatio;
-
+        //BottomSheet表示割合
+        final float DISPLAY_RATIO = 0.4f;
         //種別を保持
         mIsKind = kind;
 
         //レイアウト構築
         if (kind == NODE) {
-
             //ノード種別で切り分け
             if (((BaseNode) view).getNode().getKind() == NodeTable.NODE_KIND_PICTURE) {
                 //ノードピクチャデザイン指定
@@ -142,24 +137,16 @@ public class DesignBottomSheet extends CoordinatorLayout {
                 setupNodeDesignLayout(view);
             }
 
-            heightRatio = HALF;
-
         } else if (kind == MAP) {
             //マップデザイン指定
             setupMapDesignLayout(view);
-
-            heightRatio = HALF;
-
         } else {
             //ノード形のみの指定
             setupNodeSizeLayout();
-
-            heightRatio = HALF;
         }
 
         //高さ設定
-        setBottomSheetHeight(getContext(), heightRatio);
-
+        setBottomSheetHeight(getContext(), DISPLAY_RATIO);
         //オープン
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(findViewById(R.id.ll_bottomSheet));
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -210,9 +197,7 @@ public class DesignBottomSheet extends CoordinatorLayout {
         new TabLayoutMediator(tabLayout, vp2,
                 (tab, position) -> tab.setText(tabs.get(position))
         ).attach();
-
     }
-
 
     /*
      * ピクチャノードデザイン用のレイアウトを設定
