@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -137,6 +139,10 @@ public class ColorHistoryOnSampleMapAdapter extends RecyclerView.Adapter<ColorHi
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         //ビューの設定
         viewHolder.setView( mData.get(i) );
+
+        //アニメーション付きでカラーを表示
+        Animation animation = AnimationUtils.loadAnimation(mfl_sampleMap.getContext(), R.anim.appear_color_history);
+        viewHolder.itemView.startAnimation(animation);
     }
 
     /*
