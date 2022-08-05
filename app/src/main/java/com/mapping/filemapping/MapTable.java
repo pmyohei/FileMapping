@@ -67,6 +67,10 @@ public class MapTable implements Serializable {
     @ColumnInfo(name = "is_shadow")
     private boolean isShadow;
 
+    //エフェクト
+    @ColumnInfo(name = "effect", defaultValue="-1")
+    private int effect;
+
     //------------------------------------
     // エフェクト
     //------------------------------------
@@ -191,6 +195,12 @@ public class MapTable implements Serializable {
     public boolean isShadow() { return isShadow; }
     public void setShadow(boolean isShadow) { this.isShadow = isShadow;}
 
+    public int getEffect() {
+        return effect;
+    }
+    public void setEffect(int effect) {
+        this.effect = effect;
+    }
 
     /*
      * マップカラーの設定（主カラー、副カラー）

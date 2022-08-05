@@ -120,6 +120,7 @@
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/item_color_pattern.xml" value="0.15833333333333333" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/item_color_pattern2.xml" value="0.20625" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/item_color_pattern3.xml" value="0.1265625" />
+        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/item_effect.xml" value="0.21770833333333334" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/item_font.xml" value="0.18704710144927536" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/item_font_alpha.xml" value="0.22291666666666668" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/item_font_jp.xml" value="0.21666666666666667" />
@@ -155,7 +156,7 @@
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/page_node_color.xml" value="0.1" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/page_node_design.xml" value="0.1" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/page_node_design_old.xml" value="0.20104166666666667" />
-        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/page_node_font.xml" value="0.1" />
+        <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/page_node_font.xml" value="0.2" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/page_node_line_color.xml" value="0.213768115942029" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/page_node_line_design.xml" value="0.1" />
         <entry key="..\:/Users/t.yohei/AndroidStudioProjects/FileMapping/app/src/main/res/layout/page_node_name.xml" value="0.1" />

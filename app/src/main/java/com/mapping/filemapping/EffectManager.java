@@ -6,6 +6,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -16,6 +17,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class EffectManager {
@@ -67,6 +70,8 @@ public class EffectManager {
 
     //エフェクトビュー追加先レイアウト
     final private ViewGroup mAddDistView;
+    //エフェクト種別
+    private int mEffectKind;
     //エフェクトの形状
     private int mEffectShape;
     //エフェクトアニメーション
@@ -97,28 +102,48 @@ public class EffectManager {
     private TypedArray mRandomLightColors;
     private TypedArray mRandomMiddleColors;
     private TypedArray mRandomDarkColors;
-
+    //エフェクトpathとエフェクト種別の対応表
+    static private Map<String, Integer> mEffectPathKindMap;
 
     /*
      * コンストラクタ
      */
     public EffectManager(ViewGroup parentView) {
         mAddDistView = parentView;
+        mEffectKind = MapTable.EFFECT_NONE;
 
         //ランダムカラー
         Resources res = parentView.getContext().getResources();
         mRandomLightColors = res.obtainTypedArray(R.array.effectRandomLightColors);
         mRandomMiddleColors = res.obtainTypedArray(R.array.effectRandomMiddleColors);
         mRandomDarkColors = res.obtainTypedArray(R.array.effectRandomDarkColors);
-    }
 
-
-    /*
-     * エフェクト開始
-     */
-    public void startEffect() {
-        //エフェクトを生成
-        createEffects();
+        //エフェクトpathとエフェクト種別の対応表
+        //※エフェクトイメージの追加や名称の変更をする場合、本初期化処理も合わせて修正する必要がある
+        mEffectPathKindMap = new HashMap<>();
+        mEffectPathKindMap.put("/effect_none.", MapTable.EFFECT_NONE );
+        mEffectPathKindMap.put("/effect_heart_float_red.", MapTable.EFFECT_HEART_FLOAT_RED );
+        mEffectPathKindMap.put("/effect_heart_float_black.", MapTable.EFFECT_HEART_FLOAT_BLACK );
+        mEffectPathKindMap.put("/effect_heart_float_white.", MapTable.EFFECT_HEART_FLOAT_WHITE );
+        mEffectPathKindMap.put("/effect_heart_scale_colorful.", MapTable.EFFECT_HEART_SCALE_COLORFUL );
+        mEffectPathKindMap.put("/effect_inflated_heart_float_3color.", MapTable.EFFECT_INFLATED_HEART_FLOAT_3COLOR );
+        mEffectPathKindMap.put("/effect_thin_heart_float_colorful.", MapTable.EFFECT_THIN_HEART_FLOAT_COLORFUL );
+        mEffectPathKindMap.put("/effect_star_moon_yellow.", MapTable.EFFECT_STAR_MOON_YELLOW );
+        mEffectPathKindMap.put("/effect_star_moon_colorful.", MapTable.EFFECT_STAR_MOON_COLORFUL );
+        mEffectPathKindMap.put("/effect_circle_star.", MapTable.EFFECT_CIRCLE_STAR );
+        mEffectPathKindMap.put("/effect_snow.", MapTable.EFFECT_SNOW );
+        mEffectPathKindMap.put("/effect_8sparkle_white.", MapTable.EFFECT_8SPARKLE_WHITE );
+        mEffectPathKindMap.put("/effect_8sparkle_yellow.", MapTable.EFFECT_8SPARKLE_YELLOW );
+        mEffectPathKindMap.put("/effect_4sparkle_white.", MapTable.EFFECT_4SPARKLE_WHITE );
+        mEffectPathKindMap.put("/effect_4sparkle_red_blue.", MapTable.EFFECT_4SPARKLE_RED_BLUE );
+        mEffectPathKindMap.put("/effect_4_8sparkle_white.", MapTable.EFFECT_4_8SPARKLE_WHITE );
+        mEffectPathKindMap.put("/effect_4_8sparkle_colorful.", MapTable.EFFECT_4_8SPARKLE_COLORFUL );
+        mEffectPathKindMap.put("/effect_polkadots_colorful.", MapTable.EFFECT_POLKADOTS_COLORFUL );
+        mEffectPathKindMap.put("/effect_polkadots_white.", MapTable.EFFECT_POLKADOTS_WHITE );
+        mEffectPathKindMap.put("/effect_sakura_pink.", MapTable.EFFECT_SAKURA_PINK );
+        mEffectPathKindMap.put("/effect_flower_white.", MapTable.EFFECT_FLOWER_WHITE );
+        mEffectPathKindMap.put("/effect_flower_2color.", MapTable.EFFECT_FLOWER_2COLOR );
+        mEffectPathKindMap.put("/effect_little_flower_white.", MapTable.EFFECT_LITTLE_FLOWER_WHITE );
     }
 
     /*
@@ -126,7 +151,18 @@ public class EffectManager {
      */
     public void startEffect(int effect) {
 
+        //エフェクト更新処理
+        boolean needsUpdate = needsUpdateEffect( effect );
+        if( !needsUpdate ){
+            return;
+        }
+
+        //エフェクト種別に応じたエフェクトの生成と開始
         switch (effect) {
+            case MapTable.EFFECT_NONE:
+                removeEffects();
+                break;
+
             case MapTable.EFFECT_HEART_FLOAT_RED:
                 setAttrHeartFloatRed();
                 break;
@@ -223,14 +259,6 @@ public class EffectManager {
 
 
     /*
-     * エフェクト停止
-     */
-    public void stopEffect() {
-        //エフェクトを削除
-        removeEffects();
-    }
-
-    /*
      * エフェクト再開始
      *   表示中のエフェクトを削除し、現在設定中のエフェクト設定値で再開始
      */
@@ -244,6 +272,27 @@ public class EffectManager {
         //------------------------
         createEffects();
     }
+
+    /*
+     * エフェクト更新の有無の判定
+     *   更新が必要な場合は更新する。
+     *
+     *   @return true：更新あり ／ false：更新なし
+     */
+    public boolean needsUpdateEffect( int effect ) {
+
+        //選択中のエフェクトと同じなら、何もしない
+        if( mEffectKind == effect ){
+            return false;
+        }
+        mEffectKind = effect;
+
+        MapCommonData mapCommonData = (MapCommonData) ((Activity) mAddDistView.getContext()).getApplication();
+        mapCommonData.getMap().setEffect( effect );
+
+        return true;
+    }
+
 
     /*
      * エフェクト情報の設定
@@ -451,7 +500,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *
+     *   ハート：浮遊：赤
      */
     private void setAttrHeartFloatRed(){
         int color = mAddDistView.getContext().getResources().getColor( R.color.effect_heart_red );
@@ -467,7 +516,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   ハート：浮遊：黒
      */
     private void setAttrHeartFloatBlack(){
         int color = mAddDistView.getContext().getResources().getColor( R.color.effect_heart_black );
@@ -483,7 +532,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   ハート：浮遊：白
      */
     private void setAttrHeartFloatWhite(){
         int color = mAddDistView.getContext().getResources().getColor( R.color.effect_heart_white );
@@ -499,7 +548,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   ハート（中）：スケール：カラフル
      */
     private void setAttrHeartScaleColorful(){
         //ハート
@@ -514,7 +563,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   ハート（潰れた）：明滅：3色
      */
     private void setAttrInflatedHeartFloat3Color(){
         int colorBlue = mAddDistView.getContext().getResources().getColor( R.color.effect_inflated_heart_blue);
@@ -543,7 +592,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   ハート（細め）：浮遊：カラフル
      */
     private void setAttrThinHeartFloatColorful(){
         //ハート
@@ -557,7 +606,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   星と月：回転：黄色
      */
     private void setAttrStarMoonYellow(){
         int color = mAddDistView.getContext().getResources().getColor( R.color.effect_star );
@@ -589,7 +638,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   星と月：回転：カラフル
      */
     private void setAttrStarMoonColorful(){
         //星
@@ -619,7 +668,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   星（円形）：明滅：白
      */
     private void setAttrCircleStar(){
         int color = mAddDistView.getContext().getResources().getColor( R.color.effect_sparkle_white );
@@ -643,7 +692,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   雪（円形）：ゆっくり降下：青白
      */
     private void setAttrSnow(){
         int colorSnow = mAddDistView.getContext().getResources().getColor( R.color.effect_snow );
@@ -660,7 +709,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   8方向スパークル：明滅：白
      */
     private void setAttr8sparkleWhite(){
         int color = mAddDistView.getContext().getResources().getColor( R.color.effect_sparkle_white );
@@ -684,7 +733,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   8方向スパークル：明滅：黄色
      */
     private void setAttr8sparkleYellow(){
         int color = mAddDistView.getContext().getResources().getColor( R.color.effect_sparkle_yellow );
@@ -708,7 +757,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   4方向スパークル：明滅：白
      */
     private void setAttr4sparkleWhite(){
         int color = mAddDistView.getContext().getResources().getColor( R.color.effect_sparkle_white );
@@ -732,7 +781,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   4方向スパークル：明滅：赤青
      */
     private void setAttr4sparkleRedBlue(){
         int colorRed = mAddDistView.getContext().getResources().getColor( R.color.effect_sparkle_red );
@@ -769,7 +818,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   8方向スパークル：明滅：白
      */
     private void setAttr4_8sparkleWhite(){
         int colorWhite = mAddDistView.getContext().getResources().getColor( R.color.effect_sparkle_white );
@@ -825,7 +874,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   4/8方向スパークル：明滅：カラフル
      */
     private void setAttr4_8sparkleColorful(){
         //-----------------------
@@ -879,7 +928,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   楕円：明滅：カラフル
      */
     private void setAttrPolkadotsColorful(){
 
@@ -918,7 +967,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   楕円：明滅：白
      */
     private void setAttrPolkadotsWhite(){
         int color = mAddDistView.getContext().getResources().getColor( R.color.effect_polkadots_white );
@@ -958,7 +1007,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   サクラ：回転：ピンク
      */
     private void setAttrSakuraPink(){
         int color = mAddDistView.getContext().getResources().getColor( R.color.effect_sakura );
@@ -983,7 +1032,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   花：回転：白
      */
     private void setAttrFlowerWhite(){
         int color = mAddDistView.getContext().getResources().getColor( R.color.effect_flower_white );
@@ -1008,7 +1057,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   花：回転：オレンジ／ネイビー
      */
     private void setAttrFlower2Color(){
         int colorWhite = mAddDistView.getContext().getResources().getColor( R.color.effect_flower_white );
@@ -1043,7 +1092,7 @@ public class EffectManager {
 
     /*
      * エフェクト情報の設定
-     *   aa
+     *   花（小さい）：なし：白
      */
     private void setAttrLittleFlowerWhite(){
         int color = mAddDistView.getContext().getResources().getColor( R.color.effect_flower_white );
@@ -1157,7 +1206,7 @@ public class EffectManager {
         //------------------------
         Random random = new Random();
         int duration = random.nextInt(2501) + 1000;
-        int delay = random.nextInt(1001);
+//        int delay = random.nextInt(1001);
 
         //------------------------
         // アニメーションの適用
@@ -1203,7 +1252,7 @@ public class EffectManager {
         //------------------------
         Random random = new Random();
         int duration = random.nextInt(10001) + 20000;
-        int delay = random.nextInt(1001);
+//        int delay = random.nextInt(1001);
 
         //------------------------
         // アニメーションの適用
@@ -1235,7 +1284,7 @@ public class EffectManager {
         //------------------------
         Random random = new Random();
         int duration = random.nextInt( 4001 ) + 5000;
-        int delay    = random.nextInt( 1001 );
+//        int delay    = random.nextInt( 1001 );
 
         //------------------------
         // アニメーションの適用
@@ -1258,7 +1307,7 @@ public class EffectManager {
         //------------------------
         Random random = new Random();
         int duration = random.nextInt( 5001 ) + 10000;
-        int delay    = random.nextInt( 1001 );
+//        int delay    = random.nextInt( 1001 );
 
         //------------------------
         // アニメーションの適用
@@ -1283,7 +1332,7 @@ public class EffectManager {
         //------------------------
         Random random = new Random();
         int duration = random.nextInt( 8001 ) + 4000;
-        int delay    = random.nextInt( 1001 );
+//        int delay    = random.nextInt( 1001 );
 
         //------------------------
         // アニメーションの適用
@@ -1310,7 +1359,7 @@ public class EffectManager {
         //------------------------
         Random random = new Random();
         int duration = random.nextInt( 2001 ) + 2000;
-        int delay    = random.nextInt( 1001 );
+//        int delay    = random.nextInt( 1001 );
 
         //------------------------
         // アニメーションの適用
@@ -1322,6 +1371,29 @@ public class EffectManager {
         scaleAlphaAnim.addListener( new TrancelationReverseListener( animationTarget ) );
         scaleAlphaAnim.start();
     }
+
+    /*
+     * エフェクト種別の取得
+     * 　エフェクトイメージのpath文字列を元に、エフェクト種別を返す
+     *
+     *   @para1：エフェクトイメージのpath（res/drawable-xxhdpi-v4/effect_heart_float_red.png）
+     */
+    public static int getEffectKindOnImagePath( String targetPath ){
+
+        //----------------------------------
+        // エフェクトpathとエフェクト種別の対応表
+        //----------------------------------
+        for( Map.Entry<String, Integer> effectMap: mEffectPathKindMap.entrySet() ){
+            //エフェクトpathが含まれていれば、対応する値（エフェクト種別）を返す
+            if( targetPath.contains( effectMap.getKey() ) ){
+                return effectMap.getValue();
+            }
+        }
+
+        //エフェクト種別なし
+        return MapTable.EFFECT_NONE;
+    }
+
 
     /*
      * リピートアニメーションリスナー（REVERSE）

@@ -12,6 +12,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
@@ -135,7 +137,7 @@ public class MapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        Log.i("画面向き問題", "onCreate");
+        //Log.i("画面向き問題", "onCreate");
 
         //本マップ情報を保持
         MapCommonData mapCommonData = (MapCommonData) getApplication();
@@ -316,6 +318,22 @@ public class MapActivity extends AppCompatActivity {
         //戻るボタンを有効化
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    /*
+     * エフェクトの描画
+     */
+    private void drawEffect() {
+        //エフェクト追加先のマップビューを取得
+        FrameLayout fl_map = findViewById(R.id.fl_map);
+        fl_map.post(() -> {
+            //エフェクトをマップに描画
+            int effect = mMap.getEffect();
+            EffectManager effectManager = new EffectManager( fl_map );
+            effectManager.startEffect( effect );
+
+            Log.i("値の確認", "effect=" + effect);
+        });
     }
 
     /*
@@ -597,6 +615,8 @@ public class MapActivity extends AppCompatActivity {
         showFirstLaunchDialog();
         //ノードの描画
         drawAllNodes();
+        //エフェクト表示
+        drawEffect();
     }
 
     /*

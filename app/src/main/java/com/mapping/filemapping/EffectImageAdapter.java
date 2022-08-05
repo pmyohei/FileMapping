@@ -3,6 +3,7 @@ package com.mapping.filemapping;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class EffectImageAdapter extends RecyclerView.Adapter<EffectImageAdapter.ViewHolder> {
 
-    //
-    private EffectManager mEffectManager;
-
-    private final String[] mData;
-    private TypedArray mEffectImageResourceName;
+    private final EffectManager mEffectManager;
+    private final TypedArray mEffectImageResourceName;
 
     /*
      * ViewHolder：リスト内の各アイテムのレイアウトを含む View のラッパー
@@ -40,32 +38,32 @@ public class EffectImageAdapter extends RecyclerView.Adapter<EffectImageAdapter.
 
         /*
          * ビューの設定
+         *   @para1：エフェクトイメージ
+         *   @para2：エフェクトイメージリソースのパス文字列（res/drawable-xxhdpi-v4/effect_heart_float_red.png）
          */
-        public void setView( Drawable effectImage ){
+        public void setView( Drawable effectImage, String resPathName ){
             //エフェクトイメージを設定
             iv_effect.setImageDrawable( effectImage );
+            //エフェクト種別を取得
+            int effectKind = mEffectManager.getEffectKindOnImagePath( resPathName );
 
             //エフェクトイメージリスナー
             iv_effect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     //マップ上にエフェクトを適用
-
+                    mEffectManager.startEffect( effectKind );
                 }
             });
         }
-
-
 
     }
 
     /*
      * コンストラクタ
      */
-    public EffectImageAdapter(String[] data, ViewGroup toEffectView ) {
-        mData = data;
-
+    public EffectImageAdapter(ViewGroup toEffectView ) {
+        //エフェクトイメージリストを保持
         Resources res = toEffectView.getContext().getResources();
         mEffectImageResourceName = res.obtainTypedArray(R.array.effectImageResource);
 
@@ -101,10 +99,7 @@ public class EffectImageAdapter extends RecyclerView.Adapter<EffectImageAdapter.
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         //ビューの設定
 //        viewHolder.setView( mData[i] );
-        viewHolder.setView( mEffectImageResourceName.getDrawable(i) );
-
-
-
+        viewHolder.setView( mEffectImageResourceName.getDrawable(i), mEffectImageResourceName.getString(i) );
     }
 
     /*

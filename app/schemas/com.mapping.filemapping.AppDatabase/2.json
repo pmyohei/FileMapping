@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "f3a37de2570c6222e1bd8299ecb2305f",
+    "identityHash": "890fcef28d2df19e9e56cc87a18b8881",
     "entities": [
       {
         "tableName": "map",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `map_name` TEXT, `memo` TEXT, `created_date` TEXT, `update_date` TEXT, `first_color` TEXT, `second_color` TEXT, `third_color` TEXT, `map_color` TEXT, `map_gradation_color` TEXT, `is_gradation` INTEGER NOT NULL DEFAULT false, `gradation_direction` INTEGER NOT NULL DEFAULT 0, `is_shadow` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `map_name` TEXT, `memo` TEXT, `created_date` TEXT, `update_date` TEXT, `first_color` TEXT, `second_color` TEXT, `third_color` TEXT, `map_color` TEXT, `map_gradation_color` TEXT, `is_gradation` INTEGER NOT NULL DEFAULT false, `gradation_direction` INTEGER NOT NULL DEFAULT 0, `is_shadow` INTEGER NOT NULL, `effect` INTEGER NOT NULL DEFAULT -1)",
         "fields": [
           {
             "fieldPath": "pid",
@@ -87,6 +87,13 @@
             "columnName": "is_shadow",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "effect",
+            "columnName": "effect",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "-1"
           }
         ],
         "primaryKey": {
@@ -368,7 +375,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f3a37de2570c6222e1bd8299ecb2305f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '890fcef28d2df19e9e56cc87a18b8881')"
     ]
   }
 }

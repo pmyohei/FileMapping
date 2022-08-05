@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--  ※注意点※  -->
+    <!--  イメージ名の変更や追加をする場合、以下も修正する必要がある  -->
+    <!--  EffectManager - mEffectPathKindMap の初期設定処理  -->
     <array name="effectImageResource">
+        <item>@drawable/effect_none</item>
         <item>@drawable/effect_heart_float_red</item>
         <item>@drawable/effect_heart_float_black</item>
         <item>@drawable/effect_heart_float_white</item>

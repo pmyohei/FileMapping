@@ -208,14 +208,14 @@ public class MapCreateActivity extends AppCompatActivity {
                 mMap.setMapGradationColor( colors[0] );
                 mMap.setGradation( false );
                 mMap.setGradationDirection( MapTable.GRNDIR_TOP_BOTTOM );
-
                 //デフォルトカラー
                 mMap.setFirstColor( colors[0] );
                 mMap.setSecondColor( colors[1] );
                 mMap.setThirdColor( colors[2] );
-
                 //影の有無
                 mMap.setShadow( smv.isMapShadow() );
+                //エフェクト
+                mMap.setEffect( MapTable.EFFECT_NONE );
             }
 
             //入力マップ名を設定
