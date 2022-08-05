@@ -166,10 +166,6 @@ public class DesignBottomSheet extends CoordinatorLayout {
         layoutIdList.add( R.layout.page_node_color);
         layoutIdList.add( R.layout.page_node_border_color);
         layoutIdList.add( R.layout.page_node_shadow);
-        //ルートノード以外は、ライン用ページを追加
-        if (((BaseNode) v_node).getNode().getKind() != NodeTable.NODE_KIND_ROOT) {
-            layoutIdList.add(R.layout.page_node_line_color);
-        }
 
         //タブインジケータの文字列
         Resources resources = getResources();
@@ -182,8 +178,10 @@ public class DesignBottomSheet extends CoordinatorLayout {
         tabs.add( resources.getString(R.string.tab_node_color));
         tabs.add( resources.getString(R.string.tab_border_color));
         tabs.add( resources.getString(R.string.tab_shadow));
+
+        //ルートノード以外は、ラインページを追加
         if (((BaseNode) v_node).getNode().getKind() != NodeTable.NODE_KIND_ROOT) {
-            //ルートノード以外
+            layoutIdList.add(R.layout.page_node_line_color);
             tabs.add(getResources().getString(R.string.tab_line_color));
         }
 
