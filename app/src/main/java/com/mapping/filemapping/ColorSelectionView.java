@@ -11,6 +11,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -723,7 +725,6 @@ public class ColorSelectionView extends LinearLayout {
             //ビューを生成
             LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
             View view = inflater.inflate(R.layout.item_color_history, viewGroup, false);
-
             return new ColorHistoryViewHolder(view);
         }
 
@@ -733,10 +734,13 @@ public class ColorSelectionView extends LinearLayout {
          */
         @Override
         public void onBindViewHolder(@NonNull ColorHistoryViewHolder viewHolder, final int i) {
-            //対象マップ情報
+            //単体のカラービューを設定
             String color = mData.get(i);
-            //ビューの設定
             viewHolder.setView( color );
+
+            //アニメーション付きでカラーを表示
+            Animation animation = AnimationUtils.loadAnimation(mSetView.getContext(), R.anim.appear_color_history);
+            viewHolder.itemView.startAnimation(animation);
         }
 
         /*
