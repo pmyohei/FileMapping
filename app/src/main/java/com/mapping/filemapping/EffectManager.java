@@ -882,7 +882,6 @@ public class EffectManager {
      *   aa
      */
     private void setAttrPolkadotsColorful(){
-        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_polkadots_white );
 
         //共通設定：楕円
         setEffectVolume( 20 );
@@ -902,6 +901,7 @@ public class EffectManager {
         createEffects();
 
         //楕円、アニメーションあり、透明度ランダム
+        int color = mAddDistView.getContext().getResources().getColor( R.color.effect_polkadots_white );
         setAnimation( EFFECT_ANIM_BLINK_MOVE);
         setEffectSize( 200, 400 );
         setEffectAlpha( 0x11, 0x55 );
