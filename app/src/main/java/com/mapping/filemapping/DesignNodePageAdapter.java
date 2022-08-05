@@ -44,6 +44,7 @@ public class DesignNodePageAdapter extends RecyclerView.Adapter<DesignNodePageAd
         private RecyclerView rv_fontAlphabet;
         private RecyclerView rv_fontjapanese;
         private TextView tv_fontjapanese;
+        private View v_fontLine;
         /*--- ノードデザイン ---*/
         private ColorSelectionView csv_background;
         private ImageView iv_circle;
@@ -81,6 +82,7 @@ public class DesignNodePageAdapter extends RecyclerView.Adapter<DesignNodePageAd
                     rv_fontAlphabet = itemView.findViewById(R.id.rv_fontAlphabet);
                     rv_fontjapanese = itemView.findViewById(R.id.rv_fontJapanese);
                     tv_fontjapanese = itemView.findViewById(R.id.tv_fontJapanese);
+                    v_fontLine = itemView.findViewById(R.id.v_fontLine);
                     break;
 
                 case 2:
@@ -212,6 +214,7 @@ public class DesignNodePageAdapter extends RecyclerView.Adapter<DesignNodePageAd
 
             } else {
                 //日本語以外なら、非表示
+                v_fontLine.setVisibility( View.GONE );
                 tv_fontjapanese.setVisibility( View.GONE );
                 rv_fontjapanese.setVisibility( View.GONE );
             }
@@ -398,10 +401,8 @@ public class DesignNodePageAdapter extends RecyclerView.Adapter<DesignNodePageAd
      */
     @Override
     public void onBindViewHolder(@NonNull GuideViewHolder viewHolder, final int i) {
-
         //ページ設定
         viewHolder.setPage( i );
-
     }
 
     /*
@@ -412,8 +413,4 @@ public class DesignNodePageAdapter extends RecyclerView.Adapter<DesignNodePageAd
         //ページ数
         return mData.size();
     }
-
-
-
-
 }

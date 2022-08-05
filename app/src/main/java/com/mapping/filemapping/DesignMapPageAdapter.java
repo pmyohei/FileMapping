@@ -61,6 +61,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
         private ColorSelectionView csv_text;
         private RecyclerView rv_fontAlphabet;
         private RecyclerView rv_fontjapanese;
+        private View v_fontLine;
         private TextView tv_fontjapanese;
         private ImageView iv_circle;
         private ImageView iv_circleLittle;
@@ -114,6 +115,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
                     rv_fontAlphabet = itemView.findViewById(R.id.rv_fontAlphabet);
                     rv_fontjapanese = itemView.findViewById(R.id.rv_fontJapanese);
                     tv_fontjapanese = itemView.findViewById(R.id.tv_fontJapanese);
+                    v_fontLine = itemView.findViewById(R.id.v_fontLine);
                     break;
 
                 case 3:
@@ -299,6 +301,7 @@ public class DesignMapPageAdapter extends RecyclerView.Adapter<DesignMapPageAdap
 
             } else {
                 //日本語以外なら、非表示
+                v_fontLine.setVisibility( View.GONE );
                 tv_fontjapanese.setVisibility( View.GONE );
                 rv_fontjapanese.setVisibility( View.GONE );
             }
