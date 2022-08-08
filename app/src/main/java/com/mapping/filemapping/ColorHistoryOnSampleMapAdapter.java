@@ -23,7 +23,7 @@ public class ColorHistoryOnSampleMapAdapter extends RecyclerView.Adapter<ColorHi
     public static final int COLOR_2 = 2;
 
     private final List<String[]> mData;
-    private final SampleMapView mfl_sampleMap;
+    private final ColorSampleMapView mfl_sampleMap;
     private final ViewGroup mll_colorParent;
     private final int mPattern;
 
@@ -33,7 +33,7 @@ public class ColorHistoryOnSampleMapAdapter extends RecyclerView.Adapter<ColorHi
      */
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final SampleMapView mfl_sampleMap;
+        private final ColorSampleMapView mfl_sampleMap;
         private final ViewGroup mll_colorParent;
         private final LinearLayout ll_colorItem;
 
@@ -43,7 +43,7 @@ public class ColorHistoryOnSampleMapAdapter extends RecyclerView.Adapter<ColorHi
         public ViewHolder(View itemView, View view, ViewGroup colorParent) {
             super(itemView);
 
-            mfl_sampleMap = (SampleMapView)view;
+            mfl_sampleMap = (ColorSampleMapView)view;
             mll_colorParent = colorParent;
             ll_colorItem = itemView.findViewById(R.id.ll_colorItem);
         }
@@ -87,6 +87,17 @@ public class ColorHistoryOnSampleMapAdapter extends RecyclerView.Adapter<ColorHi
                 public void onClick(View view) {
                     //履歴をサンプルマップに反映
                     mfl_sampleMap.setColorPattern( colorPettern );
+                    //選択中の色を履歴に追加
+                    String[] colors = getSelecteColors();
+                    //履歴にない色であれば、色履歴アダプタのリストへ追加
+                    boolean hasColors = hasColorsOnHistory( mData, colors );
+                    if( !hasColors ) {
+                        //本アダプタへ追加を通知
+                        mData.add( colors );
+                        int addIndex = mData.size() - 1;
+                        notifyItemInserted( addIndex );
+                    }
+
                     //履歴を選択中色に反映
                     MaterialCardView mcv_color0 = mll_colorParent.findViewById(R.id.mcv_color0);
                     MaterialCardView mcv_color1 = mll_colorParent.findViewById(R.id.mcv_color1);
@@ -95,6 +106,26 @@ public class ColorHistoryOnSampleMapAdapter extends RecyclerView.Adapter<ColorHi
                 }
             });
         }
+
+        /*
+         * 生成色をサンプルマップへ適用
+         */
+        private String[] getSelecteColors(){
+            //現在生成中の色リストを作成
+            String[] colorsStr = new String[2];
+            MaterialCardView mcv_color0 = mll_colorParent.findViewById(R.id.mcv_color0);
+            MaterialCardView mcv_color1 = mll_colorParent.findViewById(R.id.mcv_color1);
+            ColorStateList colorDrawable0 = mcv_color0.getCardBackgroundColor();
+            ColorStateList colorDrawable1 = mcv_color1.getCardBackgroundColor();
+            int color0 = colorDrawable0.getDefaultColor();
+            int color1 = colorDrawable1.getDefaultColor();
+            String code0 = "#" + Integer.toHexString( color0 );
+            String code1 = "#" + Integer.toHexString( color1 );
+            colorsStr[0] = code0;
+            colorsStr[1] = code1;
+
+            return colorsStr;
+        }
     }
 
     /*
@@ -102,7 +133,7 @@ public class ColorHistoryOnSampleMapAdapter extends RecyclerView.Adapter<ColorHi
      */
     public ColorHistoryOnSampleMapAdapter(List<String[]> data, View sampleMap, ViewGroup colorParent, int pattern ) {
         mData = data;
-        mfl_sampleMap = (SampleMapView) sampleMap;
+        mfl_sampleMap = (ColorSampleMapView) sampleMap;
         mll_colorParent = colorParent;
         mPattern = pattern;
     }
@@ -152,6 +183,24 @@ public class ColorHistoryOnSampleMapAdapter extends RecyclerView.Adapter<ColorHi
     public int getItemCount() {
         //表示データ数を返す
         return mData.size();
+    }
+
+
+    /*
+     * 指定色パターンを保持しているか判定
+     *   @retrun true ：あり
+     *           false：なし
+     */
+    public static boolean hasColorsOnHistory(List<String[]> historyColors, String[] checkColors ) {
+
+        for( String[] colors: historyColors ){
+            //一致している場合（順不同）
+            if( (colors[0].equals(checkColors[0]) && colors[1].equals(checkColors[1])) ||
+                (colors[0].equals(checkColors[1]) && colors[1].equals(checkColors[0])) ){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

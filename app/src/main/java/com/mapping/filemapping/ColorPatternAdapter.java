@@ -1,13 +1,13 @@
 package com.mapping.filemapping;
 
-import static android.view.View.GONE;
-
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -22,7 +22,7 @@ public class ColorPatternAdapter extends RecyclerView.Adapter<ColorPatternAdapte
     public static final int COLOR_3 = 3;
 
     private final String[] mData;
-    private final SampleMapView mfl_sampleMap;
+    private final ColorSampleMapView mfl_sampleMap;
     private final int mPattern;
 
     /*
@@ -31,7 +31,7 @@ public class ColorPatternAdapter extends RecyclerView.Adapter<ColorPatternAdapte
      */
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final SampleMapView mfl_sampleMap;
+        private final ColorSampleMapView mfl_sampleMap;
         private final LinearLayout ll_colorItem;
 
         /*
@@ -40,7 +40,7 @@ public class ColorPatternAdapter extends RecyclerView.Adapter<ColorPatternAdapte
         public ViewHolder(View itemView, View view) {
             super(itemView);
 
-            mfl_sampleMap = (SampleMapView)view;
+            mfl_sampleMap = (ColorSampleMapView)view;
             ll_colorItem = itemView.findViewById(R.id.ll_colorItem);
         }
 
@@ -99,7 +99,7 @@ public class ColorPatternAdapter extends RecyclerView.Adapter<ColorPatternAdapte
      */
     public ColorPatternAdapter(String[] data, View sampleMap, int pattern ) {
         mData = data;
-        mfl_sampleMap = (SampleMapView) sampleMap;
+        mfl_sampleMap = (ColorSampleMapView) sampleMap;
         mPattern = pattern;
     }
 
@@ -136,6 +136,10 @@ public class ColorPatternAdapter extends RecyclerView.Adapter<ColorPatternAdapte
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         //ビューの設定
         viewHolder.setView( mData[i] );
+
+        //アニメーション付きでカラーを表示
+        Animation animation = AnimationUtils.loadAnimation(mfl_sampleMap.getContext(), R.anim.appear_color_history);
+        viewHolder.itemView.startAnimation(animation);
     }
 
     /*

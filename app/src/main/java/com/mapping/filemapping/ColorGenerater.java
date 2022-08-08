@@ -51,7 +51,7 @@ public class ColorGenerater {
         //------------------------
         //範囲上限・最小値
         final int RANGE_S = 61;     //0.00 - 0.60
-        final int RANGE_V = 21;     //0.70 - 1.00  ※最小値加算した場合
+        final int RANGE_V = 21;     //0.80 - 1.00  ※最小値加算を考慮した範囲
         final float MIN_V = 0.8f;
         //彩度／明度はランダム
         Random random = new Random();
@@ -71,6 +71,7 @@ public class ColorGenerater {
         }
 
         //Log.i("補色", "色相=" + pairHsv[0] + " 彩度=" + pairHsv[1] + " 明度=" + pairHsv[2]);
+        //Log.i("マッチングカラー色相", "色相=" + pairHsv[0]);
         return pairHsv;
     }
 
@@ -85,6 +86,8 @@ public class ColorGenerater {
         int angleNum = matchAngles.length;
         int anglePos = random.nextInt(angleNum);
         float angle = matchAngles[anglePos];
+
+        //Log.i("マッチングカラー角度", "角度=" + angle);
 
         //基準角度に対する幅を適用
         //※基準角度に対して、「-1.0 ～ 1.0」の角度をずらす

@@ -24,7 +24,7 @@ import java.util.List;
 public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdapter.GuideViewHolder> {
 
     private final List<Integer> mData;
-    private final SampleMapView mfl_sampleMap;
+    private final ColorSampleMapView mfl_sampleMap;
     //カラー生成ページ設定完了フラグ
     private boolean mIsColorGenerationFlg;
 
@@ -34,7 +34,7 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
     class GuideViewHolder extends RecyclerView.ViewHolder implements TextWatcher {
 
         //設定対象ノードビュー
-        private final SampleMapView mfl_sampleMap;
+        private final ColorSampleMapView mfl_sampleMap;
         /*--- マップ名 ---*/
         private EditText et_mapName;
         /*--- カラーパターン ---*/
@@ -52,7 +52,7 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
         /*
          * コンストラクタ
          */
-        public GuideViewHolder(View itemView, int position, SampleMapView fl_sampleMap) {
+        public GuideViewHolder(View itemView, int position, ColorSampleMapView fl_sampleMap) {
             super(itemView);
 
             mfl_sampleMap = fl_sampleMap;
@@ -288,13 +288,17 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
          * 生成色を色履歴へ追加
          */
         private void addColorHistory(ColorHistoryOnSampleMapAdapter historyAdapter, List<String[]> colorPattern){
-            //選択中の色を取得し、色履歴アダプタのリストへ追加
+            //選択中の色を取得
             String[] colorsStr = getSelecteColors();
-            colorPattern.add( colorsStr );
 
-            //色履歴アダプタへ追加を通知
-            int addPos = colorPattern.size() - 1;
-            historyAdapter.notifyItemInserted( addPos );
+            //履歴に既にある色の組み合わせかチェック
+            boolean hasColors = ColorHistoryOnSampleMapAdapter.hasColorsOnHistory( colorPattern, colorsStr );
+            if( !hasColors ) {
+                //色履歴アダプタへ追加を通知
+                colorPattern.add( colorsStr );
+                int addPos = colorPattern.size() - 1;
+                historyAdapter.notifyItemInserted( addPos );
+            }
         }
 
         /*
@@ -342,7 +346,7 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
     /*
      * コンストラクタ
      */
-    public CreateMapPageAdapter(List<Integer> layoutIdList, SampleMapView fl_sampleMap) {
+    public CreateMapPageAdapter(List<Integer> layoutIdList, ColorSampleMapView fl_sampleMap) {
         mData = layoutIdList;
         mfl_sampleMap = fl_sampleMap;
     }

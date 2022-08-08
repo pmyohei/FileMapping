@@ -8,9 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -138,7 +136,7 @@ public class MapCreateActivity extends AppCompatActivity {
 
         //ViewPager2にアダプタを割り当て
         ViewPager2 vp = findViewById(R.id.vp2_createMap);
-        CreateMapPageAdapter adapter = new CreateMapPageAdapter(layoutIdList, (SampleMapView)fl_map);
+        CreateMapPageAdapter adapter = new CreateMapPageAdapter(layoutIdList, (ColorSampleMapView)fl_map);
         vp.setAdapter(adapter);
         vp.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -200,7 +198,7 @@ public class MapCreateActivity extends AppCompatActivity {
                 mMap = new MapTable();
 
                 //カラーパターンは新規生成のみ
-                SampleMapView smv = findViewById(R.id.fl_map);
+                ColorSampleMapView smv = findViewById(R.id.fl_map);
                 String[] colors = smv.getCurrentColors();
 
                 //マップ色関連
@@ -219,7 +217,7 @@ public class MapCreateActivity extends AppCompatActivity {
             }
 
             //入力マップ名を設定
-            SampleMapView sampleMapView = view.getRootView().findViewById( R.id.fl_map );
+            ColorSampleMapView sampleMapView = view.getRootView().findViewById( R.id.fl_map );
             String mapName = sampleMapView.getMapName();
 
             mMap.setMapName( mapName );
@@ -234,7 +232,7 @@ public class MapCreateActivity extends AppCompatActivity {
          */
         private boolean verifyInputData(View view) {
 
-            SampleMapView sampleMapView = view.getRootView().findViewById( R.id.fl_map );
+            ColorSampleMapView sampleMapView = view.getRootView().findViewById( R.id.fl_map );
 
             //マップ名空チェック
             String mapName = sampleMapView.getMapName();

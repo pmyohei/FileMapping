@@ -1,22 +1,16 @@
 package com.mapping.filemapping;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
-import androidx.cardview.widget.CardView;
-
-public class SampleMapView extends FrameLayout {
+public class ColorSampleMapView extends FrameLayout {
 
     private final int COLOR2_SWITCH_MAX = 2;
     private final int COLOR3_SWITCH_MAX = 6;
@@ -50,15 +44,15 @@ public class SampleMapView extends FrameLayout {
     /*
      * コンストラクタ
      */
-    public SampleMapView(Context context) {
+    public ColorSampleMapView(Context context) {
         this(context, null);
     }
 
-    public SampleMapView(Context context, AttributeSet attrs) {
+    public ColorSampleMapView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SampleMapView(Context context, AttributeSet attrs, int defStyle) {
+    public ColorSampleMapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
