@@ -99,7 +99,7 @@ public class MapTable implements Serializable {
     static public final int EFFECT_LITTLE_FLOWER_WHITE = 0x53;
 
     //------------------------------------
-    // //グラデーション方向
+    // グラデーション方向
     //------------------------------------
     static public final int GRNDIR_KEEPING = -1;            //※現状維持指定用
     static public final int GRNDIR_TL_BR = 0;

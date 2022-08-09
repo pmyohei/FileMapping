@@ -55,9 +55,6 @@ public class RootNodeView extends BaseNode implements Serializable {
      */
     @Override
     public void setNodeBackgroundColor(String color) {
-        //背景色を設定
-        //CardView cv_node = findViewById(R.id.cv_node);
-        //cv_node.setCardBackgroundColor(Color.parseColor(color));
 
         //---------------------------------------
         // アニメーション付きで背景色を変更
@@ -68,23 +65,6 @@ public class RootNodeView extends BaseNode implements Serializable {
         int dstColor = Color.parseColor( color );
         //設定メソッドは、「CardViewのsetCardBackgroundColor」
         ColorAnimation.startTranceColorAnimation(getContext(), cv_node, "cardBackgroundColor", srcColor, dstColor);
-
-/*        //アニメーション時間
-        int duration = getResources().getInteger(R.integer.color_trance_animation_duration);
-
-        //---------------------------------------
-        // アニメーション付きで背景色を設定
-        //---------------------------------------
-        CardView cv_node = findViewById(R.id.cv_node);
-        //変更前と変更後の色
-        int srcColor = Color.parseColor( mNode.getNodeColor() );
-        int dstColor = Color.parseColor( color );
-        ValueAnimator tranceAnimator = ObjectAnimator.ofArgb(cv_node, "cardBackgroundColor", srcColor, dstColor);
-        tranceAnimator.setDuration( duration );
-
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(tranceAnimator);
-        animatorSet.start();*/
 
         //---------------------------------------
         // テーブル更新
@@ -158,8 +138,6 @@ public class RootNodeView extends BaseNode implements Serializable {
      */
     @Override
     public void setBorderColor( String color ) {
-        //枠色を設定
-        //((MaterialCardView)findViewById( R.id.cv_node )).setStrokeColor( Color.parseColor(color) );
 
         //---------------------------------------
         // アニメーション付きで背景色を変更

@@ -113,17 +113,17 @@
     <string name="menu_removePicture">Remove Picture</string>
 
     <!-- デザインタブ -->
-    <string name="tab_node_name">Node name</string>
+    <string name="tab_node_name">Node Name</string>
     <string name="tab_thumnbnail">Thumbnail</string>
     <string name="change_thumnbnail">Change Thumbnail</string>
-    <string name="tab_map_color">Map color</string>
+    <string name="tab_map_color">Map Color</string>
     <string name="tab_map_effect">Effect</string>
     <string name="tab_font">Font</string>
     <string name="tab_text_color">Text Color</string>
     <string name="tab_size">Size</string>
     <string name="tab_node_color">Node Color</string>
-    <string name="tab_border_color">Frame color</string>
-    <string name="tab_line_color">Line color</string>
+    <string name="tab_border_color">Frame Color</string>
+    <string name="tab_line_color">Line Color</string>
     <string name="tab_shadow">Shadow</string>
     <string name="tab_shape">Shape</string>
 
@@ -131,19 +131,19 @@
     <string name="coloeCodeHint">123456</string>
     <string name="map_nameHint">Max.16 text</string>
     <string name="node_nameHint">Max.16 text(3 lines)</string>
-    <string name="title_nodeName">Node name</string>
+    <string name="title_nodeName">Node Name</string>
     <string name="title_nodeSize">Node Size</string>
     <string name="title_nodeShape">Node Shape</string>
-    <string name="title_nodeBackgroundColor">Node background color</string>
-    <string name="title_nodeTextColor">Node text color</string>
-    <string name="title_lineShape">Line shape</string>
-    <string name="title_lineThickness">Line thickness</string>
-    <string name="title_lineColor">Line color</string>
+    <string name="title_nodeBackgroundColor">Node Background Color</string>
+    <string name="title_nodeTextColor">Node Text Color</string>
+    <string name="title_lineShape">Line Shape</string>
+    <string name="title_lineThickness">Line Thickness</string>
+    <string name="title_lineColor">Line Color</string>
 
     <string name="title_mapDesign">Map Design</string>
-    <string name="title_mapBackgroundColor">Map color</string>
+    <string name="title_mapBackgroundColor">Map Color</string>
 
-    <string name="subtitle_monochromatic">Monochromatic</string>
+    <string name="subtitle_monochromatic">Main Color</string>
     <string name="subtitle_gradation">Gradation</string>
     <string name="subtitle_gradationDir">Gradation Direction</string>
 

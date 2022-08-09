@@ -167,7 +167,6 @@ public class NodeView extends ChildNode implements Serializable {
         //設定メソッドは、「MaterialCardViewのsetStrokeColor」
         ColorAnimation.startTranceColorAnimation(getContext(), cv_node, "strokeColor", srcColor, dstColor);
 
-
         mNode.setBorderColor( color );
     }
 

@@ -127,20 +127,12 @@ public class PictureNodeView extends ChildNode implements Serializable {
      */
     @Override
     public void setBorderColor(String color) {
-
-        ColorStateList colorState = new ColorStateList(
-                new int[][]{
-                        new int[]{android.R.attr.state_checked},
-                        new int[]{-android.R.attr.state_checked},
-                },
-                new int[]{
-                        Color.parseColor(color),
-                        Color.parseColor(color),
-                }
-        );
-
-        //枠色を設定
-        ((ShapeableImageView) findViewById(R.id.iv_node)).setStrokeColor(colorState);
+        //変更前と変更後の色
+        int srcColor = Color.parseColor( mNode.getBorderColor() );
+        int dstColor = Color.parseColor( color );
+        //設定メソッドは、「ShapeableImageViewのsetStrokeColor」
+        ShapeableImageView view = findViewById(R.id.iv_node);
+        ColorAnimation.startTranceShapableImageStrokeColorAnimation(getContext(), view, srcColor, dstColor);
 
         mNode.setBorderColor(color);
     }
