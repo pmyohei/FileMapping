@@ -60,21 +60,21 @@ public class SeekbarView extends LinearLayout {
             minSize = NodeTable.NODE_MIN_SIZE;
         }
 
-        //現在の位置
-        float scaleSize = node.getScaleWidth();
-        int progress = (int)((scaleSize / maxSize) * 100f);
-
-        //Log.i("sb_nodeSize", "scaleSize=" + scaleSize + " progress=" + progress);
-
-        //進捗バー最大値
+        //進捗バー目盛り増分
         final int PROGRESS_MAX = 100;
-        //増分
-        int add = (maxSize - minSize) / PROGRESS_MAX;
+        int progressIncrement = (maxSize - minSize) / PROGRESS_MAX;
+
+        //現在の位置
+        float currentScaleSize = node.getScaleWidth();
+        int currentProgress = (int)(((currentScaleSize - minSize) / (maxSize - minSize)) * PROGRESS_MAX);
+
+//        Log.i("バー不具合", "currentScaleSize=" + currentScaleSize + " maxSize=" + maxSize + " currentProgress=" + currentProgress);
+//        Log.i("バー不具合", "getScaleRatio=" + node.getScaleRatio());
 
         //ノードサイズリスナー
         SeekBar sb_size = findViewById(R.id.sb_size);
         sb_size.setMax( PROGRESS_MAX );
-        sb_size.setProgress(progress);
+        sb_size.setProgress(currentProgress);
         sb_size.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekbar){}
@@ -83,7 +83,7 @@ public class SeekbarView extends LinearLayout {
             @Override
             public void onProgressChanged(SeekBar seekbar, int i, boolean flag) {
                 //設定比率を計算し、適用
-                float setSize = minSize + (i * add);
+                float setSize = minSize + (i * progressIncrement);
                 float setRatio = setSize / node.getWidth();
                 node.setScale( setRatio );
             }

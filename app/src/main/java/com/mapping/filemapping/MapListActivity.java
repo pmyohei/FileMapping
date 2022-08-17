@@ -239,7 +239,7 @@ public class MapListActivity extends AppCompatActivity {
                                 if( index != NO_MAP_INDEX ){
                                     //リストから削除して、アダプタを更新
                                     mMaps.remove(index);
-                                    mMapListAdapter.notifyItemRemoved(pid);     //削除時のちらつきを防ぐため、pid指定
+                                    mMapListAdapter.notifyItemRemoved(index);
 //                                    Log.i("Mapリスト：削除", "index=" + index + " pid=" + pid);
                                 }
                             }

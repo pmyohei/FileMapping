@@ -416,6 +416,11 @@ public class BaseNode extends FrameLayout {
         return getWidth() * mNode.getSizeRatio();
     }
 
+    public float getScaleRatio() {
+        //現在の横幅 * 現在の比率
+        return mNode.getSizeRatio();
+    }
+
     /*
      * ノード本体サイズ（横幅）を取得
      *   ※ノード本体のサイズ

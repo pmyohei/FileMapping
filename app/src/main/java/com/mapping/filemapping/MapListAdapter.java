@@ -80,14 +80,7 @@ public class MapListAdapter extends RecyclerView.Adapter<MapListAdapter.MapViewH
         /*
          * ビューの設定
          */
-        public void setView( MapTable map, int index ){
-
-            //お試し
-/*            if( map.getFirstColor() != null ){
-                mcv_map.setBackgroundColor( Color.parseColor(map.getFirstColor()) );
-                tv_mapName.setTextColor( Color.parseColor(map.getSecondColor()) );
-            }*/
-            //--
+        public void setView( MapTable map ){
 
             //マップ名
             tv_mapName.setText( map.getMapName() );
@@ -162,12 +155,10 @@ public class MapListAdapter extends RecyclerView.Adapter<MapListAdapter.MapViewH
      */
     @Override
     public void onBindViewHolder(@NonNull MapViewHolder viewHolder, final int i) {
-
         //対象マップ情報
         MapTable map = mData.get(i);
-
         //ビューの設定
-        viewHolder.setView( map, i );
+        viewHolder.setView( map );
     }
 
     /*
