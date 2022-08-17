@@ -124,9 +124,9 @@ public class NodeTable implements Serializable {
     //ノードサイズ比率：初期値
     public static final float DEFAULT_SIZE_RATIO = 1f;
     //ノードサイズ幅
-    public static final int NODE_MAX_SIZE = 1300;
+    public static final int NODE_MAX_SIZE = 1000;
     public static final int NODE_MIN_SIZE = 100;
-    public static final int PICTURE_MAX_SIZE = 800;
+    public static final int PICTURE_MAX_SIZE = 1000;
     public static final int PICTURE_MIN_SIZE = 100;
 
     //ノード形

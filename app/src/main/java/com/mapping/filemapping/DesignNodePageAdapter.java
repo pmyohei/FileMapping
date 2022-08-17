@@ -205,7 +205,6 @@ public class DesignNodePageAdapter extends RecyclerView.Adapter<DesignNodePageAd
                 rv_fontjapanese.setLayoutManager(ll_manager2);
 
                 //フォントリソースリストを取得
-                //List<Typeface> jpFonts = ResourceManager.getJapaneseFonts( context );
                 List<String> jpFonts = ResourceManager.getJapaneseFonts();
                 //RecyclerViewにアダプタを設定
                 rv_fontjapanese.setAdapter( new FontAdapter( jpFonts, mv_node, null, FontAdapter.JAPANESE ) );
@@ -224,20 +223,10 @@ public class DesignNodePageAdapter extends RecyclerView.Adapter<DesignNodePageAd
          * ページ設定（２）
          */
         private void setPage2() {
-
             //枠サイズ
             sbv_borderSize.setBorderSizeSeekbar( mv_node );
-
             //ノードサイズ
-            //★リリース後、全対象にする
-            if( mv_node.getNode().getKind() == NodeTable.NODE_KIND_PICTURE ){
-                //ピクチャノードのみ設定
-                sbv_nodeSize.setNodeSizeSeekbar( mv_node );
-            } else {
-                //ルートノード、ノード
-                tv_titel_nodeSize.setVisibility( View.GONE );
-                sbv_nodeSize.setVisibility( View.GONE );
-            }
+            sbv_nodeSize.setNodeSizeSeekbar( mv_node );
 
             //ラインサイズ
             if( mv_node.getNode().getKind() == NodeTable.NODE_KIND_ROOT ){
@@ -248,7 +237,6 @@ public class DesignNodePageAdapter extends RecyclerView.Adapter<DesignNodePageAd
                 //ノード、ピクチャノード
                 sbv_lineSize.setLineSizeSeekbar( mv_node );
             }
-
         }
 
         /*

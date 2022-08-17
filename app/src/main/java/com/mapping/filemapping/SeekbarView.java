@@ -82,19 +82,10 @@ public class SeekbarView extends LinearLayout {
             public void onStartTrackingTouch(SeekBar seekbar){}
             @Override
             public void onProgressChanged(SeekBar seekbar, int i, boolean flag) {
-
-                //設定比率を計算
-                float setSize = minSize + ( i * add);
+                //設定比率を計算し、適用
+                float setSize = minSize + (i * add);
                 float setRatio = setSize / node.getWidth();
-
-                if( node.getNode().getKind() == NodeTable.NODE_KIND_ROOT ){
-                    node.setScale( setRatio );
-                } else {
-                    ((ChildNode)node).setScale( setRatio );
-                }
-
-                //Log.i("sb_nodeSize", "設定比率=" + setRatio + " 目標サイズ=" + setSize);
-                //Log.i("sb_nodeSize", "結果サイズ=" + node.getScaleWidth());
+                node.setScale( setRatio );
             }
         });
     }

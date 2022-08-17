@@ -1265,7 +1265,7 @@ public class MapActivity extends AppCompatActivity {
     private class PinchListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
 
         //スケールの上限下限
-        final float LOWER_SCALE = 0.5f;
+        final float LOWER_SCALE = 0.2f;
         final float UPPER_SCALE = 2.0f;
 
         //親レイアウト
@@ -1299,8 +1299,6 @@ public class MapActivity extends AppCompatActivity {
 
         @Override
         public boolean onScaleBegin(ScaleGestureDetector detector) {
-
-            //Log.i("onScale", "onScaleBegin");
 
             //ピンチ操作発生
             mIsPinch = true;
