@@ -332,7 +332,7 @@ public class MapActivity extends AppCompatActivity {
             EffectManager effectManager = new EffectManager( fl_map );
             effectManager.startEffect( effect );
 
-            Log.i("値の確認", "effect=" + effect);
+            //Log.i("値の確認", "effect=" + effect);
         });
     }
 

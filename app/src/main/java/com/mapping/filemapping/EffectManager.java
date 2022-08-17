@@ -90,7 +90,6 @@ public class EffectManager {
     //エフェクト透明度
     private int mEffectMinAlpha;
     private int mEffectMaxAlpha;
-    private boolean mIsEffectRandomAlpha;
     //傾けの有無
     private boolean mIsTilt;
     //グラデーションの有無
@@ -99,9 +98,9 @@ public class EffectManager {
     private int mEffectVolume;
 
     //ランダム色リスト
-    private TypedArray mRandomLightColors;
-    private TypedArray mRandomMiddleColors;
-    private TypedArray mRandomDarkColors;
+    private final TypedArray mRandomLightColors;
+    private final TypedArray mRandomMiddleColors;
+    private final TypedArray mRandomDarkColors;
     //エフェクトpathとエフェクト種別の対応表
     static private Map<String, Integer> mEffectPathKindMap;
 
@@ -109,8 +108,11 @@ public class EffectManager {
      * コンストラクタ
      */
     public EffectManager(ViewGroup parentView) {
+        //エフェクトビュー追加先のビュー
         mAddDistView = parentView;
-        mEffectKind = MapTable.EFFECT_NONE;
+        //現在設定中のエフェクト
+        MapCommonData mapCommonData = (MapCommonData) ((Activity) mAddDistView.getContext()).getApplication();
+        mEffectKind = mapCommonData.getMap().getEffect();
 
         //ランダムカラー
         Resources res = parentView.getContext().getResources();
@@ -153,9 +155,6 @@ public class EffectManager {
 
         //エフェクト更新処理
         boolean needsUpdate = needsUpdateEffect( effect );
-        if( !needsUpdate ){
-            return;
-        }
 
         //エフェクト種別に応じたエフェクトの生成と開始
         switch (effect) {
@@ -321,7 +320,6 @@ public class EffectManager {
         mEffectVolume = 20;
         mEffectMinAlpha = DEFAULT_ALPHA;
         mEffectMaxAlpha = DEFAULT_ALPHA;
-        mIsEffectRandomAlpha = false;
         mIsGradation = false;
     }
 
@@ -441,12 +439,12 @@ public class EffectManager {
             //---------------------------------
             // エフェクトビュー生成・レイアウトへ追加
             //---------------------------------
-            EffectView effectView = new EffectView(mAddDistView.getContext());
+            EffectView effectView = new EffectView(mAddDistView.getContext(), mEffectMinAlpha, mEffectMaxAlpha);
             effectView.setEffectShape( mEffectShape, mPaintStyle );
             effectView.setEffectSize( mEffectRangeSize, mEffectMinSize );
             effectView.setEffectColor( mEffectColor, mEffectShadowColor );
             effectView.setEffectTilt( mIsTilt );
-            effectView.setEffectAlpha( mEffectMinAlpha, mEffectMaxAlpha );
+            //effectView.setEffectAlpha( mEffectMinAlpha, mEffectMaxAlpha );
             effectView.setGradation( mIsGradation );
             mAddDistView.addView(effectView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 

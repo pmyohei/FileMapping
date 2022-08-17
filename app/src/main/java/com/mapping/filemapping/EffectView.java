@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -122,14 +123,13 @@ public class EffectView extends View {
     //グラデーション座標
     GradationCoordinate mGradationCoordinate = null;
 
-
-
     /*
      *　コードから生成
      */
-    public EffectView(Context context) {
+    public EffectView(Context context, int minAlpha, int maxAlpha) {
         super(context);
         mIsGradation = false;
+        setEffectAlpha( minAlpha, maxAlpha );
     }
 
     /*
@@ -161,9 +161,11 @@ public class EffectView extends View {
      * エフェクト透明度の設定
      *   para1：透明度
      */
-    public void setEffectAlpha(int alpha) {
+/*
+    private void setEffectAlpha(int alpha) {
         mAlpha = alpha;
     }
+*/
 
     /*
      * エフェクト透明度の設定
@@ -172,13 +174,14 @@ public class EffectView extends View {
      *
      *   最小～最大透明度の範囲でランダムに透明度を算出し、本エフェクトの透明度とする。
      */
-    public void setEffectAlpha(int minAlpha, int maxAlpha) {
+    private void setEffectAlpha(int minAlpha, int maxAlpha) {
 
         //-------------------------------------
         // 最大値未指定なら、最小透明度を固定で設定
         //-------------------------------------
         if( maxAlpha == UNSPECIFIED ){
-            setEffectAlpha( minAlpha );
+            //setEffectAlpha( minAlpha );
+            mAlpha = minAlpha;
             return;
         }
 
@@ -192,7 +195,8 @@ public class EffectView extends View {
         Random random = new Random();
         int alpha = minAlpha + random.nextInt(range);
 
-        setEffectAlpha( alpha );
+//        setEffectAlpha( alpha );
+        mAlpha = alpha;
     }
 
     /*
@@ -229,6 +233,14 @@ public class EffectView extends View {
      */
     public void setEffectColor(int color, int shadowColor) {
         mColor = color;
+
+        //API31以降の場合、setShadowLayer()に対しては、透過度を設定色に反映させる形とする
+        //※ViewへのsetAlpha()だとShadowLayerに適用されないため
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            int alpha = mAlpha << 24;
+            shadowColor = (shadowColor & 0x00FFFFFF) | alpha;
+        }
+
         mShadowColor = shadowColor;
     }
 
@@ -256,6 +268,7 @@ public class EffectView extends View {
 
         switch (colorType) {
             case 0:
+
                 //単色
                 paint.setColor(mColor);
                 break;
@@ -1316,7 +1329,6 @@ public class EffectView extends View {
 
     /*
      * Paintにグラデーションを付与
-     *  　
      */
     private void addGradation( Paint paint ) {
         //ビューサイズの半分の値
@@ -1347,58 +1359,6 @@ public class EffectView extends View {
 
         paint.setShader(circleGradient);
     }
-
-    /*
-     * Paint生成
-     *  　test
-     */
-    private ArrayList<Paint> createpaintGtest() {
-
-        //ビューサイズの半分の値
-        final float halfSize = mSize / 2f;
-        //描画中心
-        float centerX  = getWidth() / 2f;
-        float centerY  = getHeight() / 2f;
-
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setShadowLayer(mSize / 8f, 0, 0, mShadowColor);
-
-        //Paintの色情報設定
-        setPaintColor(paint);
-        paint.setAlpha(mAlpha);   //※色設定後に行う必要がある
-
-        //----------------------------------------
-        // Paint.Styleの適用
-        //----------------------------------------
-        paint.setStyle(Paint.Style.FILL);
-
-        int[] colors = new int[] {
-                Color.RED,
-                Color.GREEN,
-                Color.BLUE,
-        };
-        float[] stops = new float[] {
-            0.0f,
-            0.7f,
-            1.0f,
-        };
-
-        //中心円のグラデーション
-        Shader circleGradient = new RadialGradient(
-                centerX, centerY,         //中心座標
-                halfSize,                 //半径
-                colors,
-                stops,
-                Shader.TileMode.CLAMP);
-
-        paint.setShader(circleGradient);
-
-        ArrayList<Paint> paints = new ArrayList<>();
-        paints.add(paint);
-        return paints;
-    }
-
 
 
     /*
