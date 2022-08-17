@@ -36,13 +36,13 @@ public class MapListAdapter extends RecyclerView.Adapter<MapListAdapter.MapViewH
      * マップ名編集リスナー
      */
     public interface editMapListener {
-        void onEditMap(MapTable map, int index );
+        void onEditMap(MapTable map);
     }
     /*
      * マップ削除リスナー
      */
     public interface deleteMapListener {
-        void onDeleteMap(MapTable map, int index );
+        void onDeleteMap(MapTable map);
     }
 
     //マップリスト
@@ -104,7 +104,7 @@ public class MapListAdapter extends RecyclerView.Adapter<MapListAdapter.MapViewH
             ib_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mEditMapListener.onEditMap( map, index );
+                    mEditMapListener.onEditMap( map );
                 }
             });
 
@@ -112,7 +112,7 @@ public class MapListAdapter extends RecyclerView.Adapter<MapListAdapter.MapViewH
             ib_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mDeleteMapListener.onDeleteMap( map, index );
+                    mDeleteMapListener.onDeleteMap( map );
                 }
             });
 
@@ -132,7 +132,14 @@ public class MapListAdapter extends RecyclerView.Adapter<MapListAdapter.MapViewH
      */
     @Override
     public int getItemViewType(int position) {
-        return position;
+        //positionをそのまま返すとアイテム削除時にちらつくため、pidで管理
+        return mData.get(position).getPid();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        //positionをそのまま返すとアイテム削除時にちらつくため、pidで管理
+        return mData.get(position).getPid();
     }
 
     /*

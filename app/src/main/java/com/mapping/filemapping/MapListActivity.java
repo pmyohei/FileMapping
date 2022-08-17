@@ -44,12 +44,12 @@ public class MapListActivity extends AppCompatActivity {
     //許可リクエストコード
     public static final int REQUEST_EXTERNAL_STORAGE = 1;
 
-    //
+    private final int NO_MAP_INDEX = -1;
+
+    //MapTable
     private ArrayList<MapTable> mMaps;
-    //
+    //Mapリストアダプタ
     private MapListAdapter mMapListAdapter;
-    //編集対象マップのリスト位置
-    private int mEditPosition;
     //マップ編集ランチャー
     ActivityResultLauncher<Intent> mEditMapLauncher;
 
@@ -71,7 +71,6 @@ public class MapListActivity extends AppCompatActivity {
                 registerForActivityResult(
                         new ActivityResultContracts.StartActivityForResult(),
                         new EditMapResultCallback());
-
 
         //AdMob初期化
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -96,6 +95,7 @@ public class MapListActivity extends AppCompatActivity {
                 RecyclerView rv_mapList = findViewById(R.id.rv_mapList);
                 //アダプタ設定
                 mMapListAdapter = new MapListAdapter(mMaps);
+                mMapListAdapter.setHasStableIds(true);
                 rv_mapList.setAdapter(mMapListAdapter);
                 rv_mapList.setLayoutManager(new LinearLayoutManager(context));
 
@@ -111,16 +111,16 @@ public class MapListActivity extends AppCompatActivity {
                 //リスナー設定：編集
                 mMapListAdapter.setEditMapListener(new MapListAdapter.editMapListener() {
                     @Override
-                    public void onEditMap(MapTable map, int index) {
-                        editMap( map, index );
+                    public void onEditMap(MapTable map) {
+                        editMap(map);
                     }
                 });
 
                 //リスナー設定：削除
                 mMapListAdapter.setDeleteMapListener(new MapListAdapter.deleteMapListener() {
                     @Override
-                    public void onDeleteMap(MapTable map, int index) {
-                        removeMap( map, index );
+                    public void onDeleteMap(MapTable map) {
+                        removeMap(map);
                     }
                 });
 
@@ -140,10 +140,10 @@ public class MapListActivity extends AppCompatActivity {
 
         //権限の確認
         //※API29のみ、WRITEを要求しないとimageにアクセスできない
-        String permissionStr = ( Build.VERSION.SDK_INT == Build.VERSION_CODES.Q
+        String permissionStr = (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q
                 ? Manifest.permission.WRITE_EXTERNAL_STORAGE
                 : Manifest.permission.READ_EXTERNAL_STORAGE);
-        int permission = ContextCompat.checkSelfPermission(this, permissionStr );
+        int permission = ContextCompat.checkSelfPermission(this, permissionStr);
         if (permission != PackageManager.PERMISSION_GRANTED) {
             //権限付与
             permissionsStorage();
@@ -206,12 +206,7 @@ public class MapListActivity extends AppCompatActivity {
     /*
      * マップ情報の編集
      */
-    private void editMap( MapTable map, int index ){
-
-        //Log.i("indexテスト", "index=" + index);
-
-        //編集対象の位置を保持
-        mEditPosition = index;
+    private void editMap(MapTable map) {
 
         //画面遷移
         Intent intent = new Intent(MapListActivity.this, MapEditActivity.class);
@@ -223,14 +218,14 @@ public class MapListActivity extends AppCompatActivity {
     /*
      * マップの削除
      */
-    private void removeMap( MapTable map, int index ){
+    private void removeMap(MapTable map) {
 
         Context context = this;
 
         //削除確認ダイアログを表示
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle( getString(R.string.alert_map_delete_title))
-                .setMessage( getString(R.string.alert_map_delete_message))
+                .setTitle(getString(R.string.alert_map_delete_title))
+                .setMessage(getString(R.string.alert_map_delete_message))
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -239,9 +234,14 @@ public class MapListActivity extends AppCompatActivity {
                         AsyncDeleteMap db = new AsyncDeleteMap(context, map, new AsyncDeleteMap.OnFinishListener() {
                             @Override
                             public void onFinish() {
-                                //リストから削除して、アダプタを更新
-                                mMaps.remove(index);
-                                mMapListAdapter.notifyItemRemoved(index);
+                                int pid = map.getPid();
+                                int index = getMapPidInMapList( mMaps, pid );
+                                if( index != NO_MAP_INDEX ){
+                                    //リストから削除して、アダプタを更新
+                                    mMaps.remove(index);
+                                    mMapListAdapter.notifyItemRemoved(pid);     //削除時のちらつきを防ぐため、pid指定
+//                                    Log.i("Mapリスト：削除", "index=" + index + " pid=" + pid);
+                                }
                             }
                         });
                         //非同期処理開始
@@ -255,6 +255,23 @@ public class MapListActivity extends AppCompatActivity {
         ((TextView) dialog.findViewById(android.R.id.message)).setTypeface(Typeface.SERIF);
     }
 
+    /*
+     * マップindexの取得
+     *   指定されたMapPidに関して、Mapリストのindexを返す
+     */
+    private int getMapPidInMapList( ArrayList<MapTable> maps, int pid ){
+
+        int index = 0;
+        for( MapTable map: maps ){
+            int checkPid = map.getPid();
+            if (pid == checkPid) {
+                return index;
+            }
+            index++;
+        }
+
+        return NO_MAP_INDEX;
+    }
 
     /*
      * 権限付与
@@ -366,9 +383,15 @@ public class MapListActivity extends AppCompatActivity {
                 //編集されたマップを取得
                 MapTable editMap = (MapTable) intent.getSerializableExtra(MapCreateActivity.KEY_MAP);
 
-                //リストを更新して、アダプタに変更通知
-                mMaps.set( mEditPosition, editMap );
-                mMapListAdapter.notifyItemChanged( mEditPosition );
+                int pid = editMap.getPid();
+                int index = getMapPidInMapList( mMaps, pid );
+                if( index != NO_MAP_INDEX ){
+                    //リストを更新して、アダプタに変更通知
+                    mMaps.set( index, editMap );
+                    mMapListAdapter.notifyItemChanged( index );
+
+//                    Log.i("Mapリスト：編集", "index=" + index + " pid=" + pid);
+                }
             }
 
         }
