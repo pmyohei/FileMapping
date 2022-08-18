@@ -130,13 +130,14 @@ public class MapCreateActivity extends AppCompatActivity {
         layoutIdList.add(R.layout.page_map_create_1);
         layoutIdList.add(R.layout.page_map_create_2);
         layoutIdList.add(R.layout.page_map_create_3);
-
+        //色履歴リスト
+        List<String[]> colorHistory = new ArrayList<>();
         //サンプルマップ
         FrameLayout fl_map = findViewById(R.id.fl_map);
 
         //ViewPager2にアダプタを割り当て
         ViewPager2 vp = findViewById(R.id.vp2_createMap);
-        CreateMapPageAdapter adapter = new CreateMapPageAdapter(layoutIdList, (ColorSampleMapView)fl_map);
+        CreateMapPageAdapter adapter = new CreateMapPageAdapter(layoutIdList, colorHistory, (ColorSampleMapView)fl_map);
         vp.setAdapter(adapter);
         vp.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override

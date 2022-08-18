@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,9 @@ import java.util.List;
 
 public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdapter.GuideViewHolder> {
 
-    private final List<Integer> mData;
+    private final List<Integer> mPages;
+    private final List<String[]> mColorHistory;
     private final ColorSampleMapView mfl_sampleMap;
-    //カラー生成ページ設定完了フラグ
-    private boolean mIsColorGenerationFlg;
 
     /*
      * ViewHolder：リスト内の各アイテムのレイアウトを含む View のラッパー
@@ -56,7 +56,6 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
             super(itemView);
 
             mfl_sampleMap = fl_sampleMap;
-            mIsColorGenerationFlg = false;
 
             switch (position) {
                 case 0:
@@ -83,6 +82,7 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
                     iv_check_state1 = itemView.findViewById(R.id.iv_check_state1);
                     iv_generateColor = itemView.findViewById(R.id.iv_generateColor);
                     rv_colorHistory = itemView.findViewById(R.id.rv_colorHistory);
+
                     break;
             }
         }
@@ -153,12 +153,6 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
             mcv_color0.setCardBackgroundColor( Color.parseColor(mapColors[0]) );
             mcv_color1.setCardBackgroundColor( Color.parseColor(mapColors[1]) );
 
-            //一度ページ設定されているなら、以降の処理は不要
-            if( mIsColorGenerationFlg ){
-                return;
-            }
-            mIsColorGenerationFlg = true;
-
             //--------------------------------
             // 色固定チェックリスナー
             //--------------------------------
@@ -202,9 +196,7 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
             // 色履歴
             //--------------------------------
             Context context = rv_colorHistory.getContext();
-            List<String[]> colorPattern = new ArrayList<>();
-
-            ColorHistoryOnSampleMapAdapter historyAdapter = new ColorHistoryOnSampleMapAdapter( colorPattern, mfl_sampleMap, ll_colorParent, ColorHistoryOnSampleMapAdapter.COLOR_2 );
+            ColorHistoryOnSampleMapAdapter historyAdapter = new ColorHistoryOnSampleMapAdapter( mColorHistory, mfl_sampleMap, ll_colorParent, ColorHistoryOnSampleMapAdapter.COLOR_2 );
             rv_colorHistory.setLayoutManager(new LinearLayoutManager(context));
             rv_colorHistory.setAdapter( historyAdapter );
 
@@ -215,7 +207,7 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
                 @Override
                 public void onClick(View view) {
                     //色履歴に追加
-                    addColorHistory( historyAdapter, colorPattern );
+                    addColorHistory( historyAdapter );
                     //カラー生成
                     createMatchingColor();
                     //サンプルマップへ色を反映
@@ -287,16 +279,16 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
         /*
          * 生成色を色履歴へ追加
          */
-        private void addColorHistory(ColorHistoryOnSampleMapAdapter historyAdapter, List<String[]> colorPattern){
+        private void addColorHistory(ColorHistoryOnSampleMapAdapter historyAdapter){
             //選択中の色を取得
             String[] colorsStr = getSelecteColors();
 
             //履歴に既にある色の組み合わせかチェック
-            boolean hasColors = ColorHistoryOnSampleMapAdapter.hasColorsOnHistory( colorPattern, colorsStr );
+            boolean hasColors = ColorHistoryOnSampleMapAdapter.hasColorsOnHistory( mColorHistory, colorsStr );
             if( !hasColors ) {
                 //色履歴アダプタへ追加を通知
-                colorPattern.add( colorsStr );
-                int addPos = colorPattern.size() - 1;
+                mColorHistory.add( colorsStr );
+                int addPos = mColorHistory.size() - 1;
                 historyAdapter.notifyItemInserted( addPos );
             }
         }
@@ -346,8 +338,9 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
     /*
      * コンストラクタ
      */
-    public CreateMapPageAdapter(List<Integer> layoutIdList, ColorSampleMapView fl_sampleMap) {
-        mData = layoutIdList;
+    public CreateMapPageAdapter(List<Integer> layoutIdList, List<String[]> colorHistory, ColorSampleMapView fl_sampleMap) {
+        mPages = layoutIdList;
+        mColorHistory = colorHistory;
         mfl_sampleMap = fl_sampleMap;
     }
 
@@ -368,7 +361,7 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
     public GuideViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         //レイアウトを生成
         LayoutInflater inflater = LayoutInflater.from( viewGroup.getContext() );
-        View view = inflater.inflate(mData.get(position), viewGroup, false);
+        View view = inflater.inflate(mPages.get(position), viewGroup, false);
 
         return new GuideViewHolder(view, position, mfl_sampleMap);
     }
@@ -388,6 +381,6 @@ public class CreateMapPageAdapter extends RecyclerView.Adapter<CreateMapPageAdap
     @Override
     public int getItemCount() {
         //ページ数
-        return mData.size();
+        return mPages.size();
     }
 }

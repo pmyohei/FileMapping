@@ -35,7 +35,7 @@ public class ColorHistoryOnSampleMapAdapter extends RecyclerView.Adapter<ColorHi
 
         private final ColorSampleMapView mfl_sampleMap;
         private final ViewGroup mll_colorParent;
-        private final LinearLayout ll_colorItem;
+        private final LinearLayout mll_colorItem;
 
         /*
          * コンストラクタ
@@ -45,7 +45,7 @@ public class ColorHistoryOnSampleMapAdapter extends RecyclerView.Adapter<ColorHi
 
             mfl_sampleMap = (ColorSampleMapView)view;
             mll_colorParent = colorParent;
-            ll_colorItem = itemView.findViewById(R.id.ll_colorItem);
+            mll_colorItem = itemView.findViewById(R.id.ll_colorItem);
         }
 
         /*
@@ -65,7 +65,7 @@ public class ColorHistoryOnSampleMapAdapter extends RecyclerView.Adapter<ColorHi
                 int colorValue = Color.parseColor( color );
 
                 //カラーを設定
-                MaterialCardView v = ll_colorItem.findViewById( v_id );
+                MaterialCardView v = mll_colorItem.findViewById( v_id );
                 ColorStateList colorState = new ColorStateList(
                         new int[][] {
                                 new int[]{ android.R.attr.state_checked},
@@ -82,7 +82,7 @@ public class ColorHistoryOnSampleMapAdapter extends RecyclerView.Adapter<ColorHi
             }
 
             //色履歴クリックリスナー
-            ll_colorItem.setOnClickListener(new View.OnClickListener() {
+            mll_colorItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //履歴をサンプルマップに反映
