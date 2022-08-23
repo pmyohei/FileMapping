@@ -283,13 +283,17 @@ public class DesignBottomSheet extends CoordinatorLayout {
         List<Integer> layoutIdList = new ArrayList<>();
         layoutIdList.add(R.layout.page_node_shape);
 
-        ViewPager2 vp = findViewById(R.id.vp2_design);
+        ViewPager2 vp2 = findViewById(R.id.vp2_design);
         NodeShapeAdapter adapter = new NodeShapeAdapter(layoutIdList);
-        vp.setAdapter(adapter);
+        vp2.setAdapter(adapter);
 
         //インジケータはなし
         TabLayout tabLayout = findViewById(R.id.tab_bottomDesign);
         tabLayout.setVisibility(GONE);
+
+        //閉じる用エリアはあり
+        LinearLayout ll_closeArea = findViewById(R.id.ll_closeArea);
+        ll_closeArea.setVisibility( VISIBLE );
     }
 
     /*

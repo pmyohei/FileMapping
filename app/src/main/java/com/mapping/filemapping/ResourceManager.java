@@ -34,7 +34,7 @@ public class ResourceManager {
     //URI読み込み有効
     //※URIからの読み込みを有効にする（端末内の全てのリソースにアクセス可能にする）
     //※リリースでは、必ず「false」にすること
-    public static final boolean READ_URI = false;
+    public static final boolean READ_URI = true;
 
     //URIパス
     public static final String URI_PATH = "content://com.android.providers.media.documents/document/image%";
