@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.mapping.filemapping">
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- MediaStore.Images.Media.EXTERNAL_CONTENT_URI -->
     <!-- ※コード上でも「ActivityCompat.requestPermissions()」の処理が必要 -->
     <uses-permission
@@ -9,6 +8,7 @@
         tools:ignore="ScopedStorage" /> <!-- Admodのために追加 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
 
     <!-- requestLegacyExternalStorage="true"：API29で、外部ストレージアクセス（Picasso）で必要 -->
     <application
