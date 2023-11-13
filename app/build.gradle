@@ -9,9 +9,9 @@ android {
         applicationId "com.mapping.filemapping"
         minSdk 21
         targetSdk 33
-        //2023/08/31 API33対応
-        versionCode 5
-        versionName "5.0"
+        //2023/11/13 API33 メディアアクセス権限対応
+        versionCode 6
+        versionName "5.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

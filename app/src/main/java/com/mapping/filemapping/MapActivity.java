@@ -1214,14 +1214,9 @@ public class MapActivity extends AppCompatActivity {
                 float distanceX = motionEvent.getX() - mPreTouchPosX;
                 float distanceY = motionEvent.getY() - mPreTouchPosY;
 
-                //Log.i("MotionEvent", "preX=" + mPreTouchPosX + " preY=" + mPreTouchPosY);
-                //Log.i("MotionEvent", "getX=" + motionEvent.getX() + " getY=" + motionEvent.getY());
-
                 //移動先座標
                 float x = fl_map.getTranslationX() + distanceX;
                 float y = fl_map.getTranslationY() + distanceY;
-
-                //Log.i("マップ移動対応", "予定 移動先X=" + (x) + " 移動先Y=" + (y));
 
                 //マップサイズを超えて移動しようとした場合、最大サイズに丸める（最大移動距離を超えて移動させない）
                 x = ( x >= 0 ?
@@ -1236,11 +1231,6 @@ public class MapActivity extends AppCompatActivity {
                 //前回からの移動量を反映
                 fl_map.setTranslationX(x);
                 fl_map.setTranslationY(y);
-
-                //Log.i("マップ移動対応", "実際 移動先X=" + (x) + " 移動先Y=" + (y));
-                //Log.i("マップ移動対応", "-----------------");
-                //Log.i("サイズチェック", "map_max_size(px)=" + (int)getResources().getDimension(R.dimen.map_max_size_x));
-                //Log.i("サイズチェック", "map_max_size(dp)=" + (getResources().getDimension(R.dimen.map_max_size_x) / getResources().getDisplayMetrics().density));
 
                 mPreTouchPosX = motionEvent.getX();
                 mPreTouchPosY = motionEvent.getY();
@@ -1313,9 +1303,6 @@ public class MapActivity extends AppCompatActivity {
             rnv_rootnode.getLocationInWindow(locationRoot);
             mv_base.getLocationInWindow(locationBase);
 
-            //Log.i("onScaleBegin", "mCenterNode location=" + locationRoot[0] + " location=" + locationRoot[1]);
-            //Log.i("onScaleBegin", "v_tmp location=" + locationBase[0] + " location=" + locationBase[1]);
-
             //2点間のスクリーン座標上の距離を保持
             startDistanceX = locationBase[0] - locationRoot[0];
             startDistanceY = locationBase[1] - locationRoot[1];
@@ -1331,9 +1318,6 @@ public class MapActivity extends AppCompatActivity {
         public boolean onScale(ScaleGestureDetector detector) {
 
             float scaleFactor = detector.getScaleFactor();
-
-            //Log.i("onScale", "getScaleFactor=" + scaleFactor);
-            //Log.i("ピンチ機能", "設定比率=" + mPinchScaleX * scaleFactor);
 
             //設定比率
             float setScaleValue = mPinchScaleX * scaleFactor;
@@ -1373,8 +1357,6 @@ public class MapActivity extends AppCompatActivity {
             MapCommonData mapCommonData = (MapCommonData)getApplication();
             mapCommonData.setPinchDistanceRatio(pinchDistanceRatioX, pinchDistanceRatioY);
 
-            //Log.i("onScaleEnd", "pinchDistanceRatioX=" + pinchDistanceRatioX + " pinchDistanceRatioY=" + pinchDistanceRatioY);
-
             //ピンチ開始時との位置のズレを保持
             //※連続で操作される可能性があるため、累計させる
             mPinchShiftX += (startRootPosX - locationRoot[0]);
@@ -1401,8 +1383,6 @@ public class MapActivity extends AppCompatActivity {
 
             float nowx = root.getTranslationX();
             float nowy = root.getTranslationY();
-
-            //Log.i("onFling", "nowx=" + nowx + " nowy=" + nowy);
 
             //スクローラー
             final float SCALE = 2.5f;

@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.mapping.filemapping.permission.PermissonManager;
 
 import java.util.ArrayList;
 
@@ -39,6 +40,7 @@ public class MapListActivity extends AppCompatActivity {
     /* 画面遷移-レスポンスコード */
     public static final int RESULT_CREATED = 100;
     public static final int RESULT_EDITED = 101;
+
     //許可リクエストコード
     public static final int REQUEST_EXTERNAL_STORAGE = 1;
 
@@ -136,18 +138,16 @@ public class MapListActivity extends AppCompatActivity {
             }
         });
 
+        //------------
         //権限の確認
-        //※API29のみ、WRITEを要求しないとimageにアクセスできない
-        String permissionStr = (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q
-                ? Manifest.permission.WRITE_EXTERNAL_STORAGE
-                : Manifest.permission.READ_EXTERNAL_STORAGE);
-        int permission = ContextCompat.checkSelfPermission(this, permissionStr);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            //権限付与
-            permissionsStorage();
-        } else {
+        //------------
+        boolean permission = PermissonManager.checkPermissonStatus(this);
+        if (permission) {
             //権限ありなら、即ヘルプダイアログの表示
             showFirstLaunchDialog();
+        } else {
+            //権限付与
+            PermissonManager.permissionsStorage(this, REQUEST_EXTERNAL_STORAGE);
         }
     }
 
@@ -272,40 +272,11 @@ public class MapListActivity extends AppCompatActivity {
     }
 
     /*
-     * 権限付与
-     */
-    private void permissionsStorage() {
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            //API23未満なら、許可ダイアログは不要
-            return;
-        }
-
-        //-- API23以降は、許可ダイアログ必須
-
-        //要求パーミッション
-        //許可ダイアログは必須
-        String[] PERMISSIONS_STORAGE = {
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-        };
-        //API29のみ、WRITEを要求しないとimageにアクセスできないため、API29ならパーミッション上書き
-        if( Build.VERSION.SDK_INT == Build.VERSION_CODES.Q ){
-            PERMISSIONS_STORAGE[0] = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-        }
-        //許可されていなければ、許可を要求
-        ActivityCompat.requestPermissions(
-                this,
-                PERMISSIONS_STORAGE,
-                REQUEST_EXTERNAL_STORAGE
-        );
-    }
-
-    /*
      * 権限許可ダイアログの処理結果コールバック
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permission, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permission, grantResults);
+        super.onRequestPermissionsResult(requestCode, permission, grantResults);//★
 
         if (grantResults.length <= 0) {
             return;
