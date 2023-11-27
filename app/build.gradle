@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.android.gms.oss-licenses-plugin'
 }
 
 android {
@@ -10,8 +11,8 @@ android {
         minSdk 21
         targetSdk 33
         //2023/11/13 API33 メディアアクセス権限対応
-        versionCode 6
-        versionName "5.1"
+        versionCode 7           // 2023/11/27 ライセンス表記
+        versionName "5.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -75,4 +76,6 @@ dependencies {
     //picasso
     implementation 'com.squareup.picasso:picasso:2.8'
 
+    //oss licenses
+    implementation("com.google.android.gms:play-services-oss-licenses:17.0.1")
 }
