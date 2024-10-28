@@ -486,6 +486,7 @@ public class PictureGalleryActivity extends AppCompatActivity implements Picture
         return super.onSupportNavigateUp();
     }
 
+
     /*
      * 選択中の写真をリストで取得
      */
