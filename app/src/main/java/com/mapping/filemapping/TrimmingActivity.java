@@ -3,7 +3,7 @@ package com.mapping.filemapping;
 import static android.media.ExifInterface.ORIENTATION_NORMAL;
 import static android.media.ExifInterface.ORIENTATION_ROTATE_90;
 
-import static com.isseiaoki.simplecropview.CropImageView.RotateDegrees.ROTATE_90D;
+//import static com.isseiaoki.simplecropview.CropImageView.RotateDegrees.ROTATE_90D;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -41,7 +41,7 @@ import android.widget.TextView;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.shape.ShapeAppearanceModel;
-import com.isseiaoki.simplecropview.CropImageView;
+//import com.isseiaoki.simplecropview.CropImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -310,38 +310,27 @@ public class TrimmingActivity extends AppCompatActivity {
      */
     private void setCroppedPicture(boolean immediately) {
 
-        //トリミング結果を反映
-        ImageView iv_toThumbnail = findViewById(R.id.iv_toThumbnail);
-        CropImageView iv_cropSource = findViewById(R.id.iv_cropSource);
-
-        if (immediately) {
-            //即設定
-            iv_toThumbnail.setImageBitmap(iv_cropSource.getCroppedBitmap());
-        } else {
-            //※画面向き変更時の画面再生成等、Crop範囲を取得すると取れないタイミングがあるため、本対応を入れている
-
-            iv_cropSource.post(() -> {
-
-                try {
-                    iv_toThumbnail.setImageBitmap(iv_cropSource.getCroppedBitmap());
-                } catch (RuntimeException e) {
-                    Log.i("bitmapサイズエラー", "RuntimeException");
-                    throw new RuntimeException( "エラー発生" );
-                }
-            });
-/*            ViewTreeObserver observer = iv_cropSource.getViewTreeObserver();
-            observer.addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        //iv_toThumbnail.setImageBitmap(iv_cropSource.getCroppedBitmap());
-                        //レイアウト確定後は、不要なので本リスナー削除
-                        iv_cropSource.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    }
-                }
-            );*/
-
-        }
+        // CropImageView 使用不可対応
+//        //トリミング結果を反映
+//        ImageView iv_toThumbnail = findViewById(R.id.iv_toThumbnail);
+//        CropImageView iv_cropSource = findViewById(R.id.iv_cropSource);
+//
+//        if (immediately) {
+//            //即設定
+//            iv_toThumbnail.setImageBitmap(iv_cropSource.getCroppedBitmap());
+//        } else {
+//            //※画面向き変更時の画面再生成等、Crop範囲を取得すると取れないタイミングがあるため、本対応を入れている
+//
+//            iv_cropSource.post(() -> {
+//
+//                try {
+//                    iv_toThumbnail.setImageBitmap(iv_cropSource.getCroppedBitmap());
+//                } catch (RuntimeException e) {
+//                    Log.i("bitmapサイズエラー", "RuntimeException");
+//                    throw new RuntimeException( "エラー発生" );
+//                }
+//            });
+//        }
 
         /*-- Picassoは使わない --*/
         /*-- ・Bitmapがキャッシュに格納されてしまうため、同じ画像だとTrancelate()がコールされない --*/
@@ -385,7 +374,8 @@ public class TrimmingActivity extends AppCompatActivity {
             Log.e(e.toString(), "ExifInterface Error");
         }
 
-        //トリミング対象の画像
+        // CropImageView 使用不可対応
+ /*       //トリミング対象の画像
         //※画像の割り当て完了後、画像の向きに合わせた回転を行う
         final CropImageView iv_cropSource = findViewById(R.id.iv_cropSource);
 
@@ -394,14 +384,16 @@ public class TrimmingActivity extends AppCompatActivity {
                 .load(mUri)
                 .fit().centerInside()                       //画像サイズが大きい場合、これがないと落ちるため注意
                 .error(R.drawable.baseline_no_image)
-                .into(iv_cropSource, new PicassoCallback(orientation));
+                .into(iv_cropSource, new PicassoCallback(orientation));*/
     }
 
     /*
      * 画像回転処理
      */
     private void setRotateImage(){
-        //画像を回転
+
+        // CropImageView 使用不可対応
+/*        //画像を回転
         final CropImageView iv_cropSource = findViewById(R.id.iv_cropSource);
 
         //回転時のアニメーション時間をなしにする
@@ -421,7 +413,7 @@ public class TrimmingActivity extends AppCompatActivity {
                 .show();
 
         //メッセージ文は、Styleのフォントが適用されないため個別に設定
-        ((TextView)dialog.findViewById(android.R.id.message)).setTypeface( Typeface.SERIF );
+        ((TextView)dialog.findViewById(android.R.id.message)).setTypeface( Typeface.SERIF );*/
     }
 
     /*
@@ -435,34 +427,35 @@ public class TrimmingActivity extends AppCompatActivity {
             return;
         }
 
-        //トリミング範囲の反映処理
-        //※画像が回転しているかどうかで、反映タイミングを分ける
-        //　回転させた画像に対して随時反映は重過ぎるため
-        final CropImageView iv_cropSource = findViewById(R.id.iv_cropSource);
-        iv_cropSource.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                if (mIsRotate) {
-                    //画像が回転されていれば、タッチが離れたタイミングでトリミング結果を反映させる
-                    //※タッチ中常に反映するのは、重すぎるため
-                    if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                        //トリミング結果を反映
-                        setCroppedPicture(true);
-                    }
-                } else {
-                    //画像未回転なら、随時反映
-
-                    //トリミング結果を反映
-                    setCroppedPicture(true);
-                }
-
-                return false;
-            }
-        });
-
-        //レイアウト設定完了
-        mIsLayout = true;
+        // CropImageView 使用不可対応
+//        //トリミング範囲の反映処理
+//        //※画像が回転しているかどうかで、反映タイミングを分ける
+//        //　回転させた画像に対して随時反映は重過ぎるため
+//        final CropImageView iv_cropSource = findViewById(R.id.iv_cropSource);
+//        iv_cropSource.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//
+//                if (mIsRotate) {
+//                    //画像が回転されていれば、タッチが離れたタイミングでトリミング結果を反映させる
+//                    //※タッチ中常に反映するのは、重すぎるため
+//                    if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+//                        //トリミング結果を反映
+//                        setCroppedPicture(true);
+//                    }
+//                } else {
+//                    //画像未回転なら、随時反映
+//
+//                    //トリミング結果を反映
+//                    setCroppedPicture(true);
+//                }
+//
+//                return false;
+//            }
+//        });
+//
+//        //レイアウト設定完了
+//        mIsLayout = true;
     }
 
     /*
@@ -533,27 +526,17 @@ public class TrimmingActivity extends AppCompatActivity {
         //影の有無を設定
         newNode.setShadow(map.isShadow());
 
-        //トリミング情報
-        final CropImageView iv_cropSource = findViewById(R.id.iv_cropSource);
-        RectF rectInfo = iv_cropSource.getActualCropRect();
-
-        //Bitmap bmp = getBitmapFromUri(mUri);
-        Bitmap bmp = iv_cropSource.getImageBitmap();
-        //Log.i("トリミング問題", "生成　bmp.getWidth=" + bmp.getWidth());
-        //Log.i("トリミング問題", "生成　bmp.getHeight=" + bmp.getHeight());
-        //Log.i("トリミング問題", "生成　rectInfo.left=" + rectInfo.left);
-        //Log.i("トリミング問題", "生成　rectInfo.top=" + rectInfo.top);
-        //Log.i("トリミング問題", "生成　rectInfo.width()=" + rectInfo.width());
-        //Log.i("トリミング問題", "生成　rectInfo.height()=" + rectInfo.height());
-        //Log.i("トリミング問題", "生成(調整)　rectInfo.left=" + rectInfo.left/mSample);
-        //Log.i("トリミング問題", "生成(調整)　rectInfo.top=" + rectInfo.top/mSample);
-        //Log.i("トリミング問題", "生成(調整)　rectInfo.width()=" + rectInfo.width()/mSample);
-        //Log.i("トリミング問題", "生成(調整)　rectInfo.height()=" + rectInfo.height()/mSample);
-        //Log.i("トリミング問題", "生成(調整)　mSample=" + mSample);
-
-        //画像が回転している場合は、縦横のサイズは反対になる
-        int width = ((mIsRotate) ? bmp.getHeight() : bmp.getWidth());
-        int height = ((mIsRotate) ? bmp.getWidth() : bmp.getHeight());
+        // CropImageView 使用不可対応
+//        //トリミング情報
+//        final CropImageView iv_cropSource = findViewById(R.id.iv_cropSource);
+//        RectF rectInfo = iv_cropSource.getActualCropRect();
+//
+//        //Bitmap bmp = getBitmapFromUri(mUri);
+//        Bitmap bmp = iv_cropSource.getImageBitmap();
+//
+//        //画像が回転している場合は、縦横のサイズは反対になる
+//        int width = ((mIsRotate) ? bmp.getHeight() : bmp.getWidth());
+//        int height = ((mIsRotate) ? bmp.getWidth() : bmp.getHeight());
 
         //ピクチャ情報を生成
         //※本ノード自体のpidはこの時点では確定していないため、DB処理完了後に設定
@@ -561,8 +544,8 @@ public class TrimmingActivity extends AppCompatActivity {
                 mapPid,
                 PictureTable.UNKNOWN,   //ピクチャノードのpidも未確定
                 mPath);
-        //トリミング情報を設定
-        picture.setTrimmingInfo(rectInfo, width, height);
+//        //トリミング情報を設定
+//        picture.setTrimmingInfo(rectInfo, width, height);
 
         //DB保存処理
         AsyncCreatePictureNode db = new AsyncCreatePictureNode(this, newNode, picture, new AsyncCreatePictureNode.OnFinishListener() {
@@ -585,10 +568,6 @@ public class TrimmingActivity extends AppCompatActivity {
 
         //非同期処理開始
         db.execute();
-
-        //Log.i("TrimmingActivity", "rectInfo.top=" + rectInfo.top + " rectInfo.bottom=" + rectInfo.bottom + " rectInfo.right=" + rectInfo.right + " rectInfo.left=" + rectInfo.left);
-        //Log.i("TrimmingActivity", "uri=" + uri);
-        //Log.i("TrimmingActivity", "uri identify=" + bb[1]);
     }
 
     /*
@@ -709,14 +688,15 @@ public class TrimmingActivity extends AppCompatActivity {
         NodeTable pictureNode = mapCommonData.getNodes().getNode( pictureNodePid );
         pictureNode.setNodeShape( mShape );
 
-        //トリミング情報
-        final CropImageView iv_cropSource = findViewById(R.id.iv_cropSource);
-        RectF rectInfo = iv_cropSource.getActualCropRect();
-
-        //画像が回転している場合は、縦横のサイズは反対になる
-        Bitmap bmp = iv_cropSource.getImageBitmap();
-        int width  = ((mIsRotate) ? bmp.getHeight() : bmp.getWidth());
-        int height = ((mIsRotate) ? bmp.getWidth()  : bmp.getHeight());
+        // CropImageView 使用不可対応
+//        //トリミング情報
+//        final CropImageView iv_cropSource = findViewById(R.id.iv_cropSource);
+//        RectF rectInfo = iv_cropSource.getActualCropRect();
+//
+//        //画像が回転している場合は、縦横のサイズは反対になる
+//        Bitmap bmp = iv_cropSource.getImageBitmap();
+//        int width  = ((mIsRotate) ? bmp.getHeight() : bmp.getWidth());
+//        int height = ((mIsRotate) ? bmp.getWidth()  : bmp.getHeight());
 
         //ピクチャ情報を生成
         //※本ノード自体のpidはこの時点では確定していないため、DB処理完了後に設定
@@ -724,8 +704,9 @@ public class TrimmingActivity extends AppCompatActivity {
                 mapPid,
                 pictureNodePid,
                 mPath);
-        //トリミング情報を設定
-        picture.setTrimmingInfo(rectInfo, width, height);
+        // CropImageView 使用不可対応
+//        //トリミング情報を設定
+//        picture.setTrimmingInfo(rectInfo, width, height);
 
         //DB保存処理
         AsyncUpdateThumbnail db = new AsyncUpdateThumbnail(this, pictureNode, picture, new AsyncUpdateThumbnail.OnFinishListener() {
@@ -769,11 +750,12 @@ public class TrimmingActivity extends AppCompatActivity {
         if (path == null) {
             //パスが生成できないなら、端末から削除されたとみなす
 
-            //設定中の画像を無効化
-            ImageView iv_toThumbnail = findViewById(R.id.iv_toThumbnail);
-            CropImageView iv_cropSource = findViewById(R.id.iv_cropSource);
-            iv_toThumbnail.setImageResource(R.drawable.baseline_no_image);
-            iv_cropSource.setImageBitmap(null);
+            // CropImageView 使用不可対応
+//            //設定中の画像を無効化
+//            ImageView iv_toThumbnail = findViewById(R.id.iv_toThumbnail);
+//            CropImageView iv_cropSource = findViewById(R.id.iv_cropSource);
+//            iv_toThumbnail.setImageResource(R.drawable.baseline_no_image);
+//            iv_cropSource.setImageBitmap(null);
 
             //メッセージを表示
             confirmOpenStorage(ERROR_KIND_REMOVED);
@@ -922,27 +904,29 @@ public class TrimmingActivity extends AppCompatActivity {
          * 画像回転処理
          */
         private void setRotateImage(){
-            //画像を回転
-            final CropImageView iv_cropSource = findViewById(R.id.iv_cropSource);
-
-            //回転時のアニメーション時間をなしにする
-            //※アニメーション時間をなしにしないと、トリミング結果の反映の方が先に処理されるため
-            int ROTATE_ANIMATION = 0;
-            iv_cropSource.setAnimationDuration(ROTATE_ANIMATION);
-            iv_cropSource.rotateImage( ROTATE_90D );
+            // CropImageView 使用不可対応
+//            //画像を回転
+//            final CropImageView iv_cropSource = findViewById(R.id.iv_cropSource);
+//
+//            //回転時のアニメーション時間をなしにする
+//            //※アニメーション時間をなしにしないと、トリミング結果の反映の方が先に処理されるため
+//            int ROTATE_ANIMATION = 0;
+//            iv_cropSource.setAnimationDuration(ROTATE_ANIMATION);
+//            iv_cropSource.rotateImage( ROTATE_90D );
 
             //トリミング範囲を反映
             setCroppedPicture( true );
 
-            //トリミング範囲が反映されるタイミングが変わることをダイアログで表示
-            AlertDialog dialog = new AlertDialog.Builder(iv_cropSource.getContext())
-                    .setTitle( getString(R.string.alert_trimming_ui_title) )
-                    .setMessage( getString(R.string.alert_trimming_ui_message) )
-                    .setPositiveButton( getString(android.R.string.ok), null)
-                    .show();
-
-            //メッセージ文は、Styleのフォントが適用されないため個別に設定
-            ((TextView)dialog.findViewById(android.R.id.message)).setTypeface( Typeface.SERIF );
+            // CropImageView 使用不可対応
+//            //トリミング範囲が反映されるタイミングが変わることをダイアログで表示
+//            AlertDialog dialog = new AlertDialog.Builder(iv_cropSource.getContext())
+//                    .setTitle( getString(R.string.alert_trimming_ui_title) )
+//                    .setMessage( getString(R.string.alert_trimming_ui_message) )
+//                    .setPositiveButton( getString(android.R.string.ok), null)
+//                    .show();
+//
+//            //メッセージ文は、Styleのフォントが適用されないため個別に設定
+//            ((TextView)dialog.findViewById(android.R.id.message)).setTypeface( Typeface.SERIF );
         }
 
     }
