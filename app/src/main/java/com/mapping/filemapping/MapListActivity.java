@@ -6,8 +6,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +18,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -29,6 +26,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 import com.mapping.filemapping.permission.PermissonManager;
 
 import java.util.ArrayList;
@@ -364,5 +362,13 @@ public class MapListActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    /*
+     * licenses押下時処理
+     */
+    public void onLicensesClicked(View view) {
+        Intent intent = new Intent(this, OssLicensesMenuActivity.class);
+        startActivity(intent);
     }
 }

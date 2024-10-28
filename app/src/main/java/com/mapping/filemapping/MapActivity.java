@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -146,10 +147,14 @@ public class MapActivity extends AppCompatActivity {
         //※画面の向きを変えた時など、再度onCreate()されるときがあるため、このタイミングで必ず初期化すること
         mapCommonData.initInMap();
 
+        //-------------------------------
         //ツールバー設定
+        //-------------------------------
         initToolBar();
 
+        //-------------------------------
         //最大マップ移動距離の設定
+        //-------------------------------
         setMapScalevalue();
 
         //フリング用スクロール生成
@@ -177,36 +182,14 @@ public class MapActivity extends AppCompatActivity {
         int screenHeight = ResourceManager.getScreenHeight(this);
         mTopScreanY = (int) (screenHeight * (1f - ResourceManager.NODE_DESIGN_DIALOG_RATIO)) / 2;
 
-        //Log.d("移動", "mTopScreanX=" + mTopScreanX);
-        //Log.d("移動", "mTopScreanY=" + mTopScreanY);
+        //-------------------------------
+        // Nodeツリー階層表示viewの初期化
+        //-------------------------------
+        initNodeTreeHierarchy();
 
-        //アクティビティ
-        Activity activity = this;
-
-        //DrawerLayout
-        DrawerLayout dl_map = findViewById(R.id.dl_map);
-        dl_map.addDrawerListener(new MapDrawerListener());
-        //※アクティビティにタッチ処理を渡す設定
-        //※LOCK_MODE_LOCKED_OPNEではダメ
-        dl_map.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                if (mDrawerIsOpen) {
-                    //Drawerが開いているなら、Drawerを閉じる
-                    return false;
-
-                } else {
-                    //Drawerが閉じているなら、アクティビティにタッチ処理を渡す
-                    activity.onTouchEvent(motionEvent);
-                    return true;
-                }
-            }
-        });
-        //スライドでは閉じないようにする
-        dl_map.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-
+        //----------------
         //DBからデータを取得
+        //----------------
         AsyncReadNodes db = new AsyncReadNodes(this, mMap.getPid(), new AsyncReadNodes.OnReadListener() {
 
             //DB読み取り完了
@@ -233,14 +216,17 @@ public class MapActivity extends AppCompatActivity {
                 mEnableDrawNode = true;
             }
         });
-
         //非同期処理開始
         db.execute();
 
+        //----------------
         //マップ色設定
+        //----------------
         initMapColor();
 
+        //----------------
         //ルートノード
+        //----------------
         RootNodeView v_rootnode = findViewById(R.id.v_rootnode);
 
         ViewTreeObserver observer = v_rootnode.getViewTreeObserver();
@@ -329,8 +315,8 @@ public class MapActivity extends AppCompatActivity {
         fl_map.post(() -> {
             //エフェクトをマップに描画
             int effect = mMap.getEffect();
-            EffectManager effectManager = new EffectManager( fl_map );
-            effectManager.startEffect( effect );
+            EffectManager effectManager = new EffectManager(fl_map);
+            effectManager.startEffect(effect);
 
             //Log.i("値の確認", "effect=" + effect);
         });
@@ -342,6 +328,38 @@ public class MapActivity extends AppCompatActivity {
     private void initMapColor() {
         //マップ色初期設定
         setMapColor(MAP_COLOR_PTN_INIT, mMap.getMapColor(), MapTable.GRNDIR_KEEPING);
+    }
+
+
+    /*
+     * Nodeツリー階層表示viewの初期化
+     */
+    private void initNodeTreeHierarchy() {
+
+        //--------------------
+        // DrawerLayout
+        //--------------------
+        DrawerLayout dl_map = findViewById(R.id.dl_map);
+        dl_map.addDrawerListener(new MapDrawerListener());
+        //※アクティビティにタッチ処理を渡す設定
+        //※LOCK_MODE_LOCKED_OPENではダメ
+        dl_map.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if (mDrawerIsOpen) {
+                    //Drawerが開いているなら、Drawerを閉じる
+                    return false;
+
+                } else {
+                    //Drawerが閉じているなら、アクティビティにタッチ処理を渡す
+                    onTouchEvent(motionEvent);
+                    return true;
+                }
+            }
+        });
+        //スライドでは閉じないようにする
+        dl_map.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     /*
@@ -1432,16 +1450,18 @@ public class MapActivity extends AppCompatActivity {
 
         @Override
         public void onDrawerOpened(@NonNull View drawerView) {
-            Log.i("DrawerListener", "onDrawerOpened");
+//            Log.i("DrawerListener", "onDrawerOpened");
             mDrawerIsOpen = true;
 
-            //ノードを階層化して表示
+            //--------------------
+            // ノードを階層化して表示
+            //--------------------
             setNodeHierarchy();
         }
 
         @Override
         public void onDrawerClosed(@NonNull View drawerView) {
-            Log.i("DrawerListener", "onDrawerClosed");
+//            Log.i("DrawerListener", "onDrawerClosed");
 
             mDrawerIsOpen = false;
 

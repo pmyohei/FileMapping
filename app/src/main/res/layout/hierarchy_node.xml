@@ -8,9 +8,10 @@
     android:background="@color/transparent_navi">
 
     <TextView
+        android:id="@+id/tv_nodeTreeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="40dp"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="4dp"
         android:text="@string/tree_title"

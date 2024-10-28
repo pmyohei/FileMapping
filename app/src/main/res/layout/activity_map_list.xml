@@ -20,14 +20,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_create" />
 
-    <ImageView
-        android:id="@+id/next"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:layout_gravity="top|center_horizontal"
-        android:background="@color/transparent_65_white"
-        app:srcCompat="@drawable/ic_maps" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/mapListTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="0dp"
+            android:layout_gravity="top|center_horizontal"
+            android:background="@color/transparent_65_white"
+            app:srcCompat="@drawable/ic_maps"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_marginEnd="12dp"
+            android:onClick="onLicensesClicked"
+            app:srcCompat="@drawable/baseline_licenses_24"
+            app:layout_constraintTop_toTopOf="@+id/mapListTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/mapListTitle"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tv_create"
